@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ConsultFlow - Modern B2B Solutions</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Scripts for Shader and 3D Scene -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error-container": "#ffdad6",
+                      "on-secondary-container": "#fffbff",
+                      "on-primary-container": "#f5fff7",
+                      "on-tertiary-container": "#fefcff",
+                      "on-surface": "#191c1e",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "surface-container-highest": "#e0e3e5",
+                      "outline-variant": "#bccac0",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#2d3133",
+                      "secondary-fixed": "#e2dfff",
+                      "on-primary-fixed": "#002114",
+                      "inverse-primary": "#68dba9",
+                      "surface-container-high": "#e6e8ea",
+                      "on-tertiary-fixed": "#131b2e",
+                      "on-tertiary": "#ffffff",
+                      "surface-bright": "#f7f9fb",
+                      "primary-fixed": "#85f8c4",
+                      "tertiary-fixed": "#dae2fd",
+                      "outline": "#6d7a72",
+                      "surface-container": "#eceef0",
+                      "surface": "#f7f9fb",
+                      "secondary-container": "#645efb",
+                      "primary-fixed-dim": "#68dba9",
+                      "on-error-container": "#93000a",
+                      "inverse-on-surface": "#eff1f3",
+                      "primary-container": "#00855d",
+                      "on-secondary-fixed": "#0f0069",
+                      "surface-tint": "#006c4a",
+                      "error": "#ba1a1a",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "primary": "#006948",
+                      "on-secondary": "#ffffff",
+                      "secondary-fixed-dim": "#c3c0ff",
+                      "on-surface-variant": "#3d4a42",
+                      "on-primary-fixed-variant": "#005137",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#d8dadc",
+                      "on-background": "#191c1e",
+                      "background": "#f7f9fb",
+                      "on-secondary-fixed-variant": "#3323cc",
+                      "surface-container-low": "#f2f4f6",
+                      "secondary": "#4b41e1",
+                      "tertiary-container": "#6c748b",
+                      "tertiary": "#545c72",
+                      "surface-variant": "#e0e3e5",
+                      "on-primary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "4px",
+                      "2xl": "48px",
+                      "margin-mobile": "16px",
+                      "container-max": "1280px",
+                      "3xl": "64px",
+                      "lg": "24px",
+                      "md": "16px",
+                      "gutter": "24px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        /* Smooth transitions for interactive elements */
+        .interactive-element {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Subtle glow for bento cards */
+        .bento-glow:hover {
+            box-shadow: 0 10px 40px -10px rgba(0, 105, 72, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Fade-in animation for stats and cards */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .animate-fade-in-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .animate-fade-up {
+            animation: fadeUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface/80 backdrop-blur-md border-b border-outline-variant shadow-sm sticky top-0 z-50">
+<div class="flex justify-between items-center w-full px-lg py-sm max-w-container-max mx-auto">
+<!-- Left Side: Logo & Search (as per JSON search_bar: on_left constraint, implied layout) -->
+<div class="flex items-center gap-lg">
+<a class="font-headline-md text-headline-md font-bold text-primary flex items-center gap-sm" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dataset</span>
+                    ConsultFlow
+                </a>
+<button class="hidden md:flex items-center gap-sm px-md py-sm bg-surface-container-low text-on-surface-variant rounded-full hover:bg-surface-container transition-colors border border-transparent hover:border-outline-variant">
+<span class="material-symbols-outlined text-[20px]">search</span>
+<span class="font-body-sm text-body-sm">Search experts...</span>
+</button>
+</div>
+<!-- Middle: Navigation Links -->
+<nav class="hidden md:flex items-center gap-lg">
+<!-- Active Item -->
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md hover:text-primary transition-colors flex flex-col" href="#">Explore</a>
+<!-- Inactive Items -->
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors" href="#">How it works</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors" href="#">Enterprise</a>
+</nav>
+<!-- Right Side: Actions -->
+<div class="flex items-center gap-md">
+<button aria-label="Notifications" class="text-on-surface-variant hover:text-primary transition-colors interactive-element hidden sm:block">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<a class="font-label-md text-label-md text-on-surface hover:text-primary transition-colors px-sm py-xs" href="#">Login</a>
+<a class="font-label-md text-label-md bg-primary text-on-primary px-md py-sm rounded-lg hover:brightness-90 interactive-element shadow-sm" href="#">Sign Up</a>
+<!-- Mobile Menu Toggle -->
+<button class="md:hidden text-on-surface p-sm">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative pt-3xl pb-2xl px-margin-mobile md:px-gutter overflow-hidden flex flex-col items-center justify-center text-center text-white">
+<!-- Shader Background Container -->
+<canvas class="absolute inset-0 w-full h-full -z-20 object-cover" id="hero-shader-canvas"></canvas>
+<!-- Overlay to ensure text readability -->
+<div class="absolute inset-0 bg-black/20 -z-10"></div>
+<div class="max-w-[800px] mx-auto z-10 flex flex-col items-center relative">
+<!-- 3D Crystal Scene Container -->
+<div class="absolute -right-12 -top-12 md:-right-24 md:-top-16 w-32 h-32 md:w-48 md:h-48 -z-10 pointer-events-none" id="hero-crystal-container"></div>
+<div class="inline-flex items-center gap-sm px-md py-xs bg-surface-container-low/20 backdrop-blur-sm border border-white/20 rounded-full mb-lg text-white">
+<span class="w-2 h-2 rounded-full bg-primary-fixed animate-pulse"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">New Platform Features Available</span>
+</div>
+<h1 class="font-display-lg text-display-lg mb-lg md:text-[56px] md:leading-[64px] md:-tracking-[0.03em] animate-fade-in-up">
+                    Find the right <span class="text-primary-fixed relative inline-block">expertise
+                        <svg class="absolute w-full h-3 -bottom-1 left-0 text-primary-fixed-dim/60" preserveaspectratio="none" viewbox="0 0 100 10">
+<path d="M0 5 Q 50 10 100 5" fill="transparent" stroke="currentColor" stroke-width="4"></path>
+</svg>
+</span> to scale your growth.
+                </h1>
+<p class="font-body-lg text-body-lg max-w-[600px] mb-xl text-white/90 animate-fade-in-up">
+                    Connect with top-tier consultants and industry leaders instantly. Streamline your workflow, manage bookings, and accelerate your business objectives.
+                </p>
+<!-- Dynamic Search Bar in Hero -->
+<div class="w-full max-w-[640px] bg-white p-sm rounded-full border border-transparent shadow-xl flex items-center focus-within:ring-2 focus-within:ring-primary-fixed transition-all animate-fade-in-up text-on-surface">
+<div class="pl-md text-on-surface-variant flex items-center">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="flex-grow bg-transparent border-none focus:ring-0 font-body-md text-body-md text-on-surface px-md placeholder:text-on-surface-variant/60 outline-none" placeholder="What kind of consultant do you need?" type="text"/>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-lg py-sm rounded-full hover:brightness-90 transition-all flex items-center gap-sm shadow-sm whitespace-nowrap">
+                        Find Experts
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Hero Image Asset -->
+<div class="w-full max-w-container-max mx-auto mt-2xl rounded-2xl overflow-hidden border border-white/20 shadow-2xl relative bg-black/40 h-[400px] md:h-[500px] animate-fade-in-up">
+<div class="absolute inset-0 bg-cover bg-center opacity-80 mix-blend-overlay" data-alt="A highly polished, abstract 3D visualization representing business growth and connectivity." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCtHPZjGaNvl3ooLVJuQqZKmK09VANuq1IRk9QtobaVh-vXE4Th2oid9Cj6KNdKZFVyZv1qfCWzDxP1kG1jqBHruFHR1bKB-QHmuGNUEBuJ5DiVV99AOaILVbHRtC89YEb1K_8ThDl_S9tIqISrHJG2RCZYG4JrKc2SkPcaNk0benvfFNnmiI_8LW2RC1USwJLFI76oUPPoWFG19eSubFJb7FaXN-KtGtTnfI0-mvtGhm8PqUUzyUIg1w')"></div>
+<!-- Glassmorphism floating UI element over the image to show 'dynamic' nature -->
+<div class="absolute bottom-lg right-lg bg-surface-container-lowest/80 backdrop-blur-md border border-white/30 p-md rounded-xl shadow-lg flex items-center gap-md text-on-surface">
+<div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant uppercase">Conversion Rate</div>
+<div class="font-headline-md text-headline-md text-on-surface">+24.8%</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Social Proof & Logos -->
+<section class="py-xl border-y border-outline-variant bg-surface-container-low px-margin-mobile md:px-gutter">
+<div class="max-w-container-max mx-auto">
+<p class="text-center font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-lg animate-fade-in-up">Trusted by innovative teams worldwide</p>
+<div class="flex flex-wrap justify-center items-center gap-xl md:gap-3xl opacity-60 grayscale hover:grayscale-0 transition-all duration-500 animate-fade-in-up">
+<!-- Placeholder Logos using Material Symbols for generic shapes -->
+<div class="flex items-center gap-xs font-headline-md text-on-surface"><span class="material-symbols-outlined text-[32px]">webhook</span> Globex</div>
+<div class="flex items-center gap-xs font-headline-md text-on-surface"><span class="material-symbols-outlined text-[32px]">hub</span> Initech</div>
+<div class="flex items-center gap-xs font-headline-md text-on-surface"><span class="material-symbols-outlined text-[32px]">architecture</span> Acme Corp</div>
+<div class="flex items-center gap-xs font-headline-md text-on-surface"><span class="material-symbols-outlined text-[32px]">stream</span> Soylent</div>
+<div class="flex items-center gap-xs font-headline-md text-on-surface"><span class="material-symbols-outlined text-[32px]">all_inclusive</span> Massive Dynamic</div>
+</div>
+</div>
+</section>
+<!-- Animated Metrics (Bento Grid Style) -->
+<section class="py-3xl px-margin-mobile md:px-gutter max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-lg items-center">
+<div class="md:col-span-5 mb-xl md:mb-0">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-md animate-fade-in-up">Measurable impact from day one.</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-lg animate-fade-in-up">Our platform isn't just about making connections; it's about delivering tangible results that drive your business forward. Track progress, manage engagements, and watch your metrics climb.</p>
+<a class="inline-flex items-center gap-sm font-label-md text-label-md text-primary hover:text-primary-container transition-colors animate-fade-in-up" href="#">
+                        Read our case studies
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<div class="md:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-md">
+<!-- Metric Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-xl shadow-sm bento-glow interactive-element animate-fade-in-up" style="transition-delay: 0.1s;">
+<div class="w-10 h-10 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center mb-md">
+<span class="material-symbols-outlined">schedule</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface mb-xs stat-counter" data-target="85">0</div>
+<div class="font-label-md text-label-md text-on-surface-variant">% Faster Bookings</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-xl shadow-sm bento-glow interactive-element animate-fade-in-up" style="transition-delay: 0.2s;">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center mb-md">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<div class="font-display-lg text-display-lg text-on-surface mb-xs flex items-center"><span class="stat-counter" data-target="10">0</span>k+</div>
+<div class="font-label-md text-label-md text-on-surface-variant">Active Experts</div>
+</div>
+<!-- Metric Card 3 (Spans full width on mobile, 2 cols on small tablet, then part of grid) -->
+<div class="sm:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-2xl p-xl shadow-sm bento-glow interactive-element flex flex-col sm:flex-row items-start sm:items-center justify-between animate-fade-in-up" style="transition-delay: 0.3s;">
+<div>
+<div class="font-display-lg text-display-lg text-on-surface mb-xs flex items-center">$<span class="stat-counter" data-target="50">0</span>M+</div>
+<div class="font-label-md text-label-md text-on-surface-variant">Value Generated for Clients</div>
+</div>
+<div class="mt-md sm:mt-0 w-12 h-12 rounded-full border-2 border-primary text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">payments</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works (3-Step Grid) -->
+<section class="py-3xl px-margin-mobile md:px-gutter bg-surface-bright">
+<div class="max-w-container-max mx-auto text-center mb-2xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-sm animate-fade-in-up">Streamlined for Success</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[500px] mx-auto animate-fade-in-up">Get started in minutes and experience a frictionless workflow designed for modern professionals.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-lg max-w-container-max mx-auto relative">
+<!-- Connecting Line (Desktop Only) -->
+<div class="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-[1px] bg-outline-variant border-t border-dashed -translate-y-1/2 z-0"></div>
+<!-- Step 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-xl shadow-sm relative z-10 flex flex-col items-center text-center interactive-element hover:-translate-y-1 animate-fade-in-up" style="transition-delay: 0.1s;">
+<div class="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-on-primary mb-lg shadow-sm">
+<span class="material-symbols-outlined text-[32px]">person_search</span>
+</div>
+<div class="font-label-sm text-label-sm text-primary mb-xs uppercase tracking-wider">Step 1</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm">Discover</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Use our AI-driven dynamic search to pinpoint the exact expertise required for your unique challenge.</p>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-xl shadow-sm relative z-10 flex flex-col items-center text-center interactive-element hover:-translate-y-1 animate-fade-in-up" style="transition-delay: 0.2s;">
+<div class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container mb-lg shadow-sm">
+<span class="material-symbols-outlined text-[32px]">calendar_add_on</span>
+</div>
+<div class="font-label-sm text-label-sm text-secondary mb-xs uppercase tracking-wider">Step 2</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm">Connect &amp; Book</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Review detailed profiles, check real-time availability, and secure a consultation block instantly.</p>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl p-xl shadow-sm relative z-10 flex flex-col items-center text-center interactive-element hover:-translate-y-1 animate-fade-in-up" style="transition-delay: 0.3s;">
+<div class="w-16 h-16 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container mb-lg shadow-sm">
+<span class="material-symbols-outlined text-[32px]">rocket_launch</span>
+</div>
+<div class="font-label-sm text-label-sm text-tertiary mb-xs uppercase tracking-wider">Step 3</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-sm">Execute</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Collaborate via our secure video workspace, manage documents, and drive your project to completion.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Mega Footer -->
+<footer class="bg-inverse-surface text-inverse-on-surface pt-3xl pb-xl px-margin-mobile md:px-gutter">
+<div class="max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-xl mb-2xl">
+<!-- Brand Column -->
+<div class="lg:col-span-2">
+<a class="font-headline-md text-headline-md font-bold text-inverse-primary flex items-center gap-sm mb-md animate-fade-in-up" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dataset</span>
+                        ConsultFlow
+                    </a>
+<p class="font-body-sm text-body-sm text-surface-dim max-w-[300px] mb-lg animate-fade-in-up">
+                        The modern operating system for professional expertise. Built for high-performing teams and independent consultants alike.
+                    </p>
+<!-- Language Selector (Simple dropdown styled as text) -->
+<div class="inline-flex items-center gap-xs px-sm py-xs bg-on-surface/10 rounded-lg cursor-pointer hover:bg-on-surface/20 transition-colors animate-fade-in-up">
+<span class="material-symbols-outlined text-[18px]">language</span>
+<span class="font-label-md text-label-md">English (US)</span>
+<span class="material-symbols-outlined text-[18px]">expand_more</span>
+</div>
+</div>
+<!-- Links Columns -->
+<div>
+<h4 class="font-label-md text-label-md text-surface-container-highest uppercase tracking-wider mb-md animate-fade-in-up">Product</h4>
+<ul class="flex flex-col gap-sm">
+<li class="animate-fade-in-up" style="transition-delay: 0.1s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Features</a></li>
+<li class="animate-fade-in-up" style="transition-delay: 0.15s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Pricing</a></li>
+<li class="animate-fade-in-up" style="transition-delay: 0.2s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Enterprise</a></li>
+<li class="animate-fade-in-up" style="transition-delay: 0.25s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Security</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-surface-container-highest uppercase tracking-wider mb-md animate-fade-in-up">Resources</h4>
+<ul class="flex flex-col gap-sm">
+<li class="animate-fade-in-up" style="transition-delay: 0.1s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Documentation</a></li>
+<li class="animate-fade-in-up" style="transition-delay: 0.15s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">API Reference</a></li>
+<li class="animate-fade-in-up" style="transition-delay: 0.2s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Blog</a></li>
+<li class="animate-fade-in-up" style="transition-delay: 0.25s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Community</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-md text-label-md text-surface-container-highest uppercase tracking-wider mb-md animate-fade-in-up">Company</h4>
+<ul class="flex flex-col gap-sm">
+<li class="animate-fade-in-up" style="transition-delay: 0.1s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">About Us</a></li>
+<li class="animate-fade-in-up" style="transition-delay: 0.15s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Careers</a></li>
+<li class="animate-fade-in-up" style="transition-delay: 0.2s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Contact</a></li>
+<li class="animate-fade-in-up" style="transition-delay: 0.25s;"><a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Partners</a></li>
+</ul>
+</div>
+</div>
+<!-- Bottom Bar -->
+<div class="pt-lg border-t border-outline/30 flex flex-col md:flex-row justify-between items-center gap-md animate-fade-in-up">
+<p class="font-body-sm text-body-sm text-surface-dim">© 2024 ConsultFlow Inc. All rights reserved.</p>
+<div class="flex items-center gap-lg">
+<a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body-sm text-body-sm text-surface-dim hover:text-inverse-primary transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- Inline Scripts -->
+<script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // --- Counters Animation ---
+            const counters = document.querySelectorAll('.stat-counter');
+            const speed = 200; // The lower the slower
+
+            const animateCounters = () => {
+                counters.forEach(counter => {
+                    const updateCount = () => {
+                        const target = +counter.getAttribute('data-target');
+                        const count = +counter.innerText;
+                        const inc = target / speed;
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count + inc);
+                            setTimeout(updateCount, 10);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    updateCount();
+                });
+            };
+
+            // --- Scroll Reveal Animation ---
+            const revealElements = document.querySelectorAll('.animate-fade-in-up');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.target.classList.contains('stat-counter') || entry.target.querySelector('.stat-counter')) {
+                             animateCounters();
+                        }
+                        entry.target.classList.add('is-visible');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            revealElements.forEach(el => observer.observe(el));
+            
+            // Also observe stats section specifically just in case
+            const statsSection = document.querySelector('.stat-counter')?.closest('section');
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+
+            // --- WebGL Background Shader ---
+            const canvas = document.getElementById('hero-shader-canvas');
+            if (canvas && window.THREE) {
+                const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+                const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+                const scene = new THREE.Scene();
+                const geometry = new THREE.PlaneGeometry(2, 2);
+                
+                const fragmentShader = `
+                precision highp float;
+                uniform float u_time;
+                uniform vec2 u_resolution;
+                varying vec2 v_texCoord;
+
+                void main() {
+                    vec2 uv = v_texCoord;
+                    
+                    // Create a flowing, organic gradient effect using sine waves
+                    float noise = sin(uv.x * 10.0 + u_time * 0.5) * 0.1 + sin(uv.y * 12.0 + u_time * 0.3) * 0.1;
+                    
+                    // Emerald green (#059669) mixed with deep slate/navy
+                    vec3 color1 = vec3(0.02, 0.58, 0.41); // emerald-600
+                    vec3 color2 = vec3(0.06, 0.09, 0.15); // slate-900
+                    
+                    float mixFactor = uv.y + noise;
+                    vec3 finalColor = mix(color2, color1 * 0.4, mixFactor);
+                    
+                    gl_FragColor = vec4(finalColor, 1.0);
+                }
+                `;
+                
+                const vertexShader = `
+                varying vec2 v_texCoord;
+                void main() {
+                    v_texCoord = uv;
+                    gl_Position = vec4(position, 1.0);
+                }
+                `;
+                
+                const material = new THREE.ShaderMaterial({
+                    vertexShader,
+                    fragmentShader,
+                    uniforms: {
+                        u_time: { value: 0 },
+                        u_resolution: { value: new THREE.Vector2() }
+                    }
+                });
+                
+                const mesh = new THREE.Mesh(geometry, material);
+                scene.add(mesh);
+                
+                const resize = () => {
+                    const width = canvas.clientWidth;
+                    const height = canvas.clientHeight;
+                    renderer.setSize(width, height, false);
+                    material.uniforms.u_resolution.value.set(width, height);
+                };
+                window.addEventListener('resize', resize);
+                resize();
+                
+                const clock = new THREE.Clock();
+                const animateShader = () => {
+                    requestAnimationFrame(animateShader);
+                    material.uniforms.u_time.value = clock.getElapsedTime();
+                    renderer.render(scene, camera);
+                };
+                animateShader();
+            }
+
+            // --- 3D Crystal Scene ---
+            const container = document.getElementById('hero-crystal-container');
+            if (container && window.THREE) {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                container.appendChild(renderer.domElement);
+
+                // Create a glowing, rotating "expertise" crystal
+                const geometry = new THREE.OctahedronGeometry(1.5, 0);
+                const material = new THREE.MeshPhongMaterial({
+                    color: 0x059669,
+                    emissive: 0x059669,
+                    emissiveIntensity: 0.5,
+                    shininess: 100,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const crystal = new THREE.Mesh(geometry, material);
+                scene.add(crystal);
+
+                // Add some wireframe detail
+                const wireframe = new THREE.Mesh(
+                    geometry,
+                    new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.2 })
+                );
+                crystal.add(wireframe);
+
+                const light = new THREE.PointLight(0xffffff, 1, 100);
+                light.position.set(5, 5, 5);
+                scene.add(light);
+                scene.add(new THREE.AmbientLight(0x404040));
+
+                camera.position.z = 5;
+
+                function animate() {
+                    requestAnimationFrame(animate);
+                    crystal.rotation.y += 0.01;
+                    crystal.rotation.x += 0.005;
+                    renderer.render(scene, camera);
+                }
+                animate();
+
+                window.addEventListener('resize', () => {
+                    if(!container) return;
+                    const width = container.clientWidth;
+                    const height = container.clientHeight;
+                    renderer.setSize(width, height);
+                    camera.aspect = width / height;
+                    camera.updateProjectionMatrix();
+                });
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ConsultFlow - Chat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error-container": "#ffdad6",
+                      "on-secondary-container": "#fffbff",
+                      "on-primary-container": "#f5fff7",
+                      "on-tertiary-container": "#fefcff",
+                      "on-surface": "#191c1e",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "surface-container-highest": "#e0e3e5",
+                      "outline-variant": "#bccac0",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#2d3133",
+                      "secondary-fixed": "#e2dfff",
+                      "on-primary-fixed": "#002114",
+                      "inverse-primary": "#68dba9",
+                      "surface-container-high": "#e6e8ea",
+                      "on-tertiary-fixed": "#131b2e",
+                      "on-tertiary": "#ffffff",
+                      "surface-bright": "#f7f9fb",
+                      "primary-fixed": "#85f8c4",
+                      "tertiary-fixed": "#dae2fd",
+                      "outline": "#6d7a72",
+                      "surface-container": "#eceef0",
+                      "surface": "#f7f9fb",
+                      "secondary-container": "#645efb",
+                      "primary-fixed-dim": "#68dba9",
+                      "on-error-container": "#93000a",
+                      "inverse-on-surface": "#eff1f3",
+                      "primary-container": "#00855d",
+                      "on-secondary-fixed": "#0f0069",
+                      "surface-tint": "#006c4a",
+                      "error": "#ba1a1a",
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "primary": "#006948",
+                      "on-secondary": "#ffffff",
+                      "secondary-fixed-dim": "#c3c0ff",
+                      "on-surface-variant": "#3d4a42",
+                      "on-primary-fixed-variant": "#005137",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-dim": "#d8dadc",
+                      "on-background": "#191c1e",
+                      "background": "#f7f9fb",
+                      "on-secondary-fixed-variant": "#3323cc",
+                      "surface-container-low": "#f2f4f6",
+                      "secondary": "#4b41e1",
+                      "tertiary-container": "#6c748b",
+                      "tertiary": "#545c72",
+                      "surface-variant": "#e0e3e5",
+                      "on-primary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "base": "4px",
+                      "2xl": "48px",
+                      "margin-mobile": "16px",
+                      "container-max": "1280px",
+                      "3xl": "64px",
+                      "lg": "24px",
+                      "md": "16px",
+                      "gutter": "24px",
+                      "xs": "4px",
+                      "xl": "32px",
+                      "sm": "8px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #bccac0; /* outline-variant */
+            border-radius: 20px;
+        }
+        .message-bubble-in {
+            border-bottom-left-radius: 2px;
+        }
+        .message-bubble-out {
+            border-bottom-right-radius: 2px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background h-screen flex flex-col overflow-hidden font-body-md">
+<!-- TopNavBar -->
+<header class="bg-surface border-b border-outline-variant shadow-sm sticky top-0 z-50 flex justify-between items-center w-full px-lg py-sm">
+<div class="flex items-center gap-md">
+<a class="font-headline-md text-headline-md font-bold text-primary" href="#">ConsultFlow</a>
+</div>
+<nav class="hidden md:flex gap-lg items-center">
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors" href="#">Explore</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors" href="#">How it works</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors" href="#">Enterprise</a>
+</nav>
+<div class="flex items-center gap-md">
+<button aria-label="Notifications" class="p-xs text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="hidden md:flex gap-sm">
+<button class="px-md py-sm rounded-lg border border-outline-variant text-on-surface bg-surface-container-lowest font-label-md text-label-md hover:bg-surface-variant transition-colors">Login</button>
+<button class="px-md py-sm rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors">Sign Up</button>
+</div>
+<img alt="User profile with availability toggle" class="w-10 h-10 rounded-full object-cover border-2 border-surface-container-highest cursor-pointer md:hidden" data-alt="A professional headshot of a user profile picture, modern lighting, clear background, high quality, suitable for a B2B SaaS platform avatar." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5wieTnk2HKEGeWlCQOlMbzBxGGcCUfBgSYAlgjM03aQtZKljisn17Zd4ZuUAjemAsykaHt4bkScCdqHUwATTPwE218f7p5kuPa4GZ7eaNkPmhdJK6AQdxZKPFEf7h6DbqswdWOy64Vw3EtSHwHqqhdY4_vbKPKnwF0BYTUdVIFc2Ofg6-yMzzxbkVvdRycQlYXs-JuuzbCWQEANqdY8G-EuvdCjDZWFwcLtuBlPP26Ng33HlPfp4TPw"/>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar (Left Column) -->
+<aside class="hidden md:flex flex-col w-80 bg-surface-container-low border-r border-outline-variant h-full flex-shrink-0">
+<!-- Header/Search in Sidebar -->
+<div class="p-md border-b border-outline-variant bg-surface-container-lowest">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline" data-icon="search">search</span>
+<input class="w-full pl-10 pr-sm py-sm rounded-lg border border-outline-variant bg-surface text-on-surface font-body-sm text-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-shadow" placeholder="Search messages..." type="text"/>
+</div>
+</div>
+<!-- Chat List -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-sm">
+<!-- Chat Item 1 (Active) -->
+<div class="flex items-center gap-md p-sm rounded-lg bg-secondary-container text-on-secondary-container cursor-pointer transition-colors mb-xs">
+<div class="relative">
+<img alt="Sarah Jenkins" class="w-12 h-12 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a female consultant in her 30s, warm smile, wearing a blazer, bright office background, high resolution, soft lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASgNxN21hJ7cUb5iqqvD4r5dmakrp4TccnyAQemocBHyUTd3ZQjRKDejzitS8fndnm8JLgtOoqP6gm6o6R0VVDeCGYgRO5J5dBgbv2HeTpbnT1ux8mArzm9UmFed5U8oRE6RGS68xOVGWNTlswl_JUOsayZmHIZCeIowQ26CFBhElnqnI8f30P2alUz65dRYzAoj5fFmUf22AxSMXZ2Nt0wWKqBHoxfu_3Dts_Zg8Wn85NPUJ7xQ3oDg"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-secondary-container"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<h3 class="font-label-md text-label-md font-bold truncate">Sarah Jenkins</h3>
+<span class="font-label-sm text-label-sm text-on-secondary-container opacity-80">10:42 AM</span>
+</div>
+<p class="font-body-sm text-body-sm truncate opacity-90">Yes, the Q3 projections look solid. Let's discuss tomorrow.</p>
+</div>
+</div>
+<!-- Chat Item 2 (Unread) -->
+<div class="flex items-center gap-md p-sm rounded-lg hover:bg-surface-variant cursor-pointer transition-colors mb-xs group">
+<div class="relative">
+<img alt="Marcus Chen" class="w-12 h-12 rounded-full object-cover border border-outline-variant group-hover:border-outline transition-colors" data-alt="A professional headshot of a male technical advisor, serious expression, wearing glasses and a dark shirt, blurred tech background, cinematic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkMN0fWQVDC8D5LIDN8_qKphYZ_tkvsh1i_iaY7nLyvQJfK3ggwSAUrPnqVYzygCHkUleUH8qJWC0V0L0wpYM2FC9Cdubrpy5kAAJAPrIuYehNjh8KPQI4OBi64YwYjhySpPBjq62jfePpBgtyNYL7X9njEY957pXQlhXwcgFf8IPZXXpCbBbXAqDrqpg3CnOEgXaHFj1FvCOOn0nQBvJSiZBVYhAxwlIj1uNO6USq8BtGXn-xe8zUGg"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-primary rounded-full border-2 border-surface-container-low group-hover:border-surface-variant"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<h3 class="font-label-md text-label-md font-semibold text-on-surface truncate">Marcus Chen</h3>
+<span class="font-label-sm text-label-sm text-primary font-bold">09:15 AM</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant font-medium truncate">I've uploaded the new API documentation for your review.</p>
+</div>
+<div class="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
+<span class="font-label-sm text-[10px] text-on-primary font-bold leading-none">2</span>
+</div>
+</div>
+<!-- Chat Item 3 (Offline) -->
+<div class="flex items-center gap-md p-sm rounded-lg hover:bg-surface-variant cursor-pointer transition-colors mb-xs group">
+<div class="relative">
+<img alt="Jordan Lee" class="w-12 h-12 rounded-full object-cover border border-outline-variant group-hover:border-outline transition-colors grayscale" data-alt="A professional headshot of a non-binary creative director, creative colorful attire, abstract studio background, vibrant lighting, modern corporate portrait." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq5BPMVajU0x-3d3ljKjN8DYYW_IgRBJWF97ZYf85ndesSIes3ul8FAKxF02jLiKofgjM-1Dyyuvq0kaD_WPeSJZcR93idA0iyyByXgzuNIat2zSZ4y3hUFnecKrjWv0jsQ0F6zS5vWGEMlarVMQJ1riPMErJY6oDoNbRDuaf1dac9iZINWEhxdMgd_5DN43FzA3b30OJlSCNgKl8zUhd6w2Na6Iy1eQSh-JfHdu7RfK0YeobM0BnlkA"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-outline rounded-full border-2 border-surface-container-low group-hover:border-surface-variant"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<h3 class="font-label-md text-label-md text-on-surface truncate">Jordan Lee</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Yesterday</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Thanks for the quick turnaround on those design assets.</p>
+</div>
+</div>
+<!-- Chat Item 4 -->
+<div class="flex items-center gap-md p-sm rounded-lg hover:bg-surface-variant cursor-pointer transition-colors mb-xs group">
+<div class="relative">
+<img alt="Elena Rodriguez" class="w-12 h-12 rounded-full object-cover border border-outline-variant group-hover:border-outline transition-colors" data-alt="A professional headshot of an older female executive, silver hair, elegant suit, neutral gray background, soft studio lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXyNZmuevC4xUgGrNnOXgbEi8r-5bNs2oMbPJLd2vGN1LzQ-BPmM2BG8d-l7R9zWG7ajMJbZhTBaW0VX3egpovQ9QIt77y6anfz9fHSUYwswmTmHesaK0XHv28_okyHQbwiw3nH8fhkMTza6vtSlScgTej1FeylYRPBtf5GvHXWGExZJQINDDZOwLAR9O8OTK_OKN13vQRu1cF9TpuJqKS5EAi27UOhyMoRozeJkZxlMrP5AGoDEsO-g"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-baseline mb-xs">
+<h3 class="font-label-md text-label-md text-on-surface truncate">Elena Rodriguez</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Mon</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">We need to align on the strategic goals before the board meeting.</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Chat Window (Right Column) -->
+<main class="flex-1 flex flex-col bg-surface-container-lowest h-full relative">
+<!-- Chat Header -->
+<div class="flex items-center justify-between p-md border-b border-outline-variant bg-surface-container-lowest sticky top-0 z-10 shadow-sm">
+<div class="flex items-center gap-md">
+<!-- Mobile back button -->
+<button aria-label="Back to chat list" class="md:hidden p-xs text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<div class="relative">
+<img alt="Sarah Jenkins" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A professional headshot of a female consultant in her 30s, warm smile, wearing a blazer, bright office background, high resolution, soft lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoOaLiHG63RPFlXVp5oObhHeFUBJBDxqIDqYZkXW2-No5cEUkh4atEbcjxc-X2DexC731969g6o5bGeIf-zCkKDtYoxWV22cCwsXNQEnEvlY32TY4PGCqdnszWEzmXqVOWFp25CJ4NZl6WT9_MOJ--ERUjMn278KJKQkYfZlXt-6EDQPkvCwNIZwCYpVeAcD3xdXoDDcWuElxcLP6lsTX3XK1zmUsD_UST3Xh8Ejbg0bNraau2xgQvzg"/>
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-primary rounded-full border border-surface-container-lowest"></div>
+</div>
+<div>
+<h2 class="font-label-md text-label-md font-bold text-on-surface">Sarah Jenkins</h2>
+<p class="font-label-sm text-label-sm text-primary">Financial Advisor • Online</p>
+</div>
+</div>
+<div class="flex items-center gap-sm">
+<button aria-label="Audio Call" class="p-sm text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="call">call</span>
+</button>
+<button aria-label="Video Call" class="p-sm text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="videocam">videocam</span>
+</button>
+<button aria-label="More options" class="p-sm text-on-surface-variant hover:text-primary hover:bg-surface-variant rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Chat Messages Area -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-lg flex flex-col gap-md bg-surface-bright">
+<!-- Date Divider -->
+<div class="flex justify-center my-sm">
+<span class="px-sm py-xs bg-surface-container-highest text-on-surface-variant font-label-sm text-label-sm rounded-full">Today</span>
+</div>
+<!-- Message Received -->
+<div class="flex items-end gap-sm max-w-[85%] md:max-w-[70%]">
+<img alt="Sarah Jenkins" class="w-8 h-8 rounded-full object-cover border border-outline-variant mb-1" data-alt="A professional headshot of a female consultant in her 30s, warm smile, wearing a blazer, bright office background, high resolution, soft lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALNHWFFT0w3XMu7Llma1-H4Mf4OMrPU1IEtFuUeqtQnr6N3sKBbyFQ3xufH9SHr3fX5qIuNzbYl8m6rEDLK0SDXez581XzvOqDXFI1oJiXNI_jQYdsqjQFQQ4g_GtKIR27UuHS3N5XxyskLvfaoa6gt5TiOB59MtbC3BEGRd_65LTbeh8mdch1CRpXuGwQZNTtI03mFtArbgdTdye1MyCLU3nkMgzds3RwN_ejxXsuCbaxWpppmLDyHQ"/>
+<div class="flex flex-col gap-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-1">Sarah Jenkins • 10:30 AM</span>
+<div class="bg-surface-container p-sm rounded-xl message-bubble-in text-on-surface font-body-md text-body-md shadow-sm border border-outline-variant">
+                            Hi there! I've reviewed the preliminary Q3 figures you sent over.
+                        </div>
+</div>
+</div>
+<!-- Message Received -->
+<div class="flex items-end gap-sm max-w-[85%] md:max-w-[70%] mt-[-8px]">
+<div class="w-8 h-8 rounded-full opacity-0"></div> <!-- Spacer -->
+<div class="flex flex-col gap-xs w-full">
+<div class="bg-surface-container p-sm rounded-xl message-bubble-in text-on-surface font-body-md text-body-md shadow-sm border border-outline-variant">
+                            Overall, they look very promising, especially the growth in the Enterprise segment.
+                        </div>
+</div>
+</div>
+<!-- Message Sent -->
+<div class="flex items-end justify-end gap-sm max-w-[85%] md:max-w-[70%] self-end mt-sm">
+<div class="flex flex-col gap-xs items-end w-full">
+<span class="font-label-sm text-label-sm text-on-surface-variant mr-1">You • 10:35 AM</span>
+<div class="bg-primary text-on-primary p-sm rounded-xl message-bubble-out font-body-md text-body-md shadow-sm">
+                            That's great to hear! We put a lot of effort into targeting that segment this quarter. Did you notice any areas of concern?
+                        </div>
+</div>
+</div>
+<!-- Message Received (with attachment) -->
+<div class="flex items-end gap-sm max-w-[85%] md:max-w-[70%] mt-sm">
+<img alt="Sarah Jenkins" class="w-8 h-8 rounded-full object-cover border border-outline-variant mb-1" data-alt="A professional headshot of a female consultant in her 30s, warm smile, wearing a blazer, bright office background, high resolution, soft lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAHit5toAsnmzt3ZJ5SQlCTo7q-bWvb_WVcoHZjUqL4TbVVxg43rs49p-8SJgpJIC7k7Te7VGHd-9JhjP8Kmmth9MQaYvO32TZKpwCzNEKjG2Fn-e2fVLx5Eq0T8DE59GSVigsGyXdkxI1Bm7oOTD472-aHg1IMydryTbD16icdBH4tsanh9SsWySKJSdTTQRnU5ATl41B3i_2Z7f7PD0Md98_H97Ezf_kh70fOjSB99pDFUPyN_azxA"/>
+<div class="flex flex-col gap-xs w-full">
+<span class="font-label-sm text-label-sm text-on-surface-variant ml-1">Sarah Jenkins • 10:42 AM</span>
+<div class="bg-surface-container p-sm rounded-xl message-bubble-in text-on-surface font-body-md text-body-md shadow-sm border border-outline-variant">
+                            Yes, the Q3 projections look solid. Let's discuss tomorrow.
+                        </div>
+<div class="bg-surface-container-high p-sm rounded-xl border border-outline-variant flex items-center gap-sm mt-1 max-w-sm hover:bg-surface-variant cursor-pointer transition-colors shadow-sm">
+<div class="p-sm bg-surface-container-highest rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="font-label-md text-label-md text-on-surface truncate">Q3_Projections_Draft.pdf</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">2.4 MB</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant hover:text-primary transition-colors" data-icon="download">download</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Input Area -->
+<div class="p-md bg-surface-container-lowest border-t border-outline-variant">
+<div class="flex items-end gap-sm bg-surface rounded-xl border border-outline-variant focus-within:border-primary focus-within:ring-1 focus-within:ring-primary p-xs transition-shadow">
+<button aria-label="Add attachment" class="p-sm text-outline hover:text-primary transition-colors flex-shrink-0 mb-1">
+<span class="material-symbols-outlined" data-icon="attach_file">attach_file</span>
+</button>
+<textarea class="flex-1 max-h-32 min-h-[44px] py-sm bg-transparent border-none focus:ring-0 resize-none font-body-md text-body-md text-on-surface placeholder:text-outline-variant custom-scrollbar outline-none" placeholder="Type a message..." rows="1"></textarea>
+<div class="flex items-center gap-xs flex-shrink-0 mb-1">
+<button aria-label="Insert emoji" class="p-sm text-outline hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="sentiment_satisfied">sentiment_satisfied</span>
+</button>
+<button aria-label="Send message" class="p-sm bg-primary text-on-primary rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

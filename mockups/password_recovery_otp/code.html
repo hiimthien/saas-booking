@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Password Recovery - ConsultFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#fffbff",
+                        "on-primary-container": "#f5fff7",
+                        "on-tertiary-container": "#fefcff",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#e0e3e5",
+                        "outline-variant": "#bccac0",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "secondary-fixed": "#e2dfff",
+                        "on-primary-fixed": "#002114",
+                        "inverse-primary": "#68dba9",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "primary-fixed": "#85f8c4",
+                        "tertiary-fixed": "#dae2fd",
+                        "outline": "#6d7a72",
+                        "surface-container": "#eceef0",
+                        "surface": "#f7f9fb",
+                        "secondary-container": "#645efb",
+                        "primary-fixed-dim": "#68dba9",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-container": "#00855d",
+                        "on-secondary-fixed": "#0f0069",
+                        "surface-tint": "#006c4a",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "primary": "#006948",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "on-surface-variant": "#3d4a42",
+                        "on-primary-fixed-variant": "#005137",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "on-background": "#191c1e",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#4b41e1",
+                        "tertiary-container": "#6c748b",
+                        "tertiary": "#545c72",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "2xl": "48px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "3xl": "64px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="h-full bg-background font-body-md text-on-background flex flex-col antialiased">
+<!-- Note: TopNavBar and SideNavBar are SUPPRESSED based on the 'Semantic Shell' mandate (Linear/Transactional page). -->
+<main class="flex-grow flex items-center justify-center p-margin-mobile md:p-lg relative overflow-hidden">
+<!-- Abstract Background Decoration -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden z-0 flex items-center justify-center opacity-40">
+<div class="w-[800px] h-[800px] bg-primary-fixed-dim rounded-full blur-[120px] mix-blend-multiply opacity-20 transform -translate-x-1/2 -translate-y-1/2 absolute top-1/4 left-1/4"></div>
+<div class="w-[600px] h-[600px] bg-secondary-fixed rounded-full blur-[100px] mix-blend-multiply opacity-20 transform translate-x-1/3 translate-y-1/3 absolute bottom-1/4 right-1/4"></div>
+</div>
+<div class="w-full max-w-md relative z-10">
+<!-- Brand Header -->
+<div class="text-center mb-xl">
+<div class="inline-flex items-center justify-center w-12 h-12 bg-primary-container text-on-primary-container rounded-xl mb-sm shadow-sm">
+<span class="material-symbols-outlined text-[24px]">vpn_key</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-background">ConsultFlow</h1>
+</div>
+<!-- Recovery Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant p-lg md:p-xl transition-all duration-300 relative overflow-hidden" id="recovery-card">
+<!-- State 1: Enter Email (Default Visible) -->
+<div class="transition-opacity duration-300 opacity-100" id="state-email">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">Forgot Password?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl">Enter the email address associated with your account, and we'll send you a 6-digit recovery code.</p>
+<form class="space-y-lg" onsubmit="event.preventDefault(); switchState('state-otp');">
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-xs" for="email">Email Address</label>
+<input class="w-full px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" id="email" placeholder="name@company.com" required="" type="email"/>
+</div>
+<button class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-surface-tint focus:ring-2 focus:ring-secondary focus:ring-offset-2 transition-all shadow-sm" type="submit">
+                            Send Recovery Code
+                        </button>
+</form>
+<div class="mt-lg text-center">
+<a class="font-body-sm text-body-sm text-secondary hover:text-on-secondary-fixed-variant transition-colors flex items-center justify-center gap-xs" href="#">
+<span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                            Back to Login
+                        </a>
+</div>
+</div>
+<!-- State 2: OTP Verification (Hidden by default) -->
+<div class="hidden opacity-0 transition-opacity duration-300 absolute top-0 left-0 w-full h-full p-lg md:p-xl bg-surface-container-lowest z-10" id="state-otp">
+<div class="flex items-center gap-sm mb-sm text-primary">
+<button class="hover:bg-surface-container rounded-full p-1 transition-colors -ml-2" onclick="switchState('state-email')">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h2 class="font-headline-md text-headline-md text-on-surface">Enter Code</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl">We sent a 6-digit code to <strong>user@company.com</strong>. Please enter it below.</p>
+<form class="space-y-xl" onsubmit="event.preventDefault(); switchState('state-new-password');">
+<div class="flex justify-between gap-sm">
+<input aria-label="Digit 1" autofocus="" class="w-12 h-14 text-center text-headline-lg font-headline-lg bg-surface-container-lowest border border-outline-variant rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" maxlength="1" type="text"/>
+<input aria-label="Digit 2" class="w-12 h-14 text-center text-headline-lg font-headline-lg bg-surface-container-lowest border border-outline-variant rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" maxlength="1" type="text"/>
+<input aria-label="Digit 3" class="w-12 h-14 text-center text-headline-lg font-headline-lg bg-surface-container-lowest border border-outline-variant rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" maxlength="1" type="text"/>
+<input aria-label="Digit 4" class="w-12 h-14 text-center text-headline-lg font-headline-lg bg-surface-container-lowest border border-outline-variant rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" maxlength="1" type="text"/>
+<input aria-label="Digit 5" class="w-12 h-14 text-center text-headline-lg font-headline-lg bg-surface-container-lowest border border-outline-variant rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" maxlength="1" type="text"/>
+<input aria-label="Digit 6" class="w-12 h-14 text-center text-headline-lg font-headline-lg bg-surface-container-lowest border border-outline-variant rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" maxlength="1" type="text"/>
+</div>
+<div class="space-y-md">
+<button class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-surface-tint focus:ring-2 focus:ring-secondary focus:ring-offset-2 transition-all shadow-sm" type="submit">
+                                Verify Code
+                            </button>
+<p class="text-center font-body-sm text-body-sm text-on-surface-variant">
+                                Didn't receive code? <button class="text-secondary font-label-md text-label-md hover:underline ml-1" type="button">Resend in 0:59</button>
+</p>
+</div>
+</form>
+</div>
+<!-- State 3: New Password (Hidden by default) -->
+<div class="hidden opacity-0 transition-opacity duration-300 absolute top-0 left-0 w-full h-full p-lg md:p-xl bg-surface-container-lowest z-20" id="state-new-password">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-sm">Create New Password</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl">Your identity has been verified. Please set a new, strong password for your account.</p>
+<form class="space-y-lg" onsubmit="event.preventDefault(); alert('Password successfully reset!');">
+<div class="space-y-xs">
+<label class="block font-label-md text-label-md text-on-surface" for="new-password">New Password</label>
+<div class="relative">
+<input class="w-full px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" id="new-password" oninput="updateStrength(this.value)" placeholder="••••••••" required="" type="password"/>
+<button class="absolute right-3 top-1/2 transform -translate-y-1/2 text-on-surface-variant hover:text-on-surface" type="button">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+</button>
+</div>
+<!-- Strength Meter -->
+<div class="mt-sm">
+<div class="flex gap-xs mb-1 h-1">
+<div class="flex-1 rounded-full bg-surface-container-high transition-colors duration-300" id="strength-1"></div>
+<div class="flex-1 rounded-full bg-surface-container-high transition-colors duration-300" id="strength-2"></div>
+<div class="flex-1 rounded-full bg-surface-container-high transition-colors duration-300" id="strength-3"></div>
+<div class="flex-1 rounded-full bg-surface-container-high transition-colors duration-300" id="strength-4"></div>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant text-right" id="strength-text">Password strength</p>
+</div>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-on-surface mb-xs" for="confirm-password">Confirm Password</label>
+<input class="w-full px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" id="confirm-password" placeholder="••••••••" required="" type="password"/>
+</div>
+<div class="pt-sm">
+<button class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-surface-tint focus:ring-2 focus:ring-secondary focus:ring-offset-2 transition-all shadow-sm" type="submit">
+                                Reset Password
+                            </button>
+</div>
+</form>
+</div>
+</div>
+<div class="mt-xl text-center">
+<p class="font-body-sm text-body-sm text-on-surface-variant opacity-70">
+                    Secure connection • ConsultFlow B2B Standard
+                </p>
+</div>
+</div>
+</main>
+<script>
+        // Simple state switching logic for demonstration
+        function switchState(targetId) {
+            const states = ['state-email', 'state-otp', 'state-new-password'];
+            
+            states.forEach(id => {
+                const el = document.getElementById(id);
+                if (id === targetId) {
+                    el.classList.remove('hidden');
+                    // Slight delay to allow display:block to apply before animating opacity
+                    setTimeout(() => el.classList.remove('opacity-0'), 50);
+                } else {
+                    el.classList.add('opacity-0');
+                    setTimeout(() => el.classList.add('hidden'), 300);
+                }
+            });
+
+            // Specific initialization logic per state
+            if (targetId === 'state-otp') {
+                setTimeout(() => {
+                    const inputs = document.getElementById('state-otp').querySelectorAll('input[type="text"]');
+                    if(inputs.length > 0) inputs[0].focus();
+                }, 350);
+            }
+        }
+
+        // OTP Input Auto-advance logic
+        document.querySelectorAll('#state-otp input[type="text"]').forEach((input, index, inputs) => {
+            input.addEventListener('input', function() {
+                if (this.value.length === 1 && index < inputs.length - 1) {
+                    inputs[index + 1].focus();
+                }
+            });
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value.length === 0 && index > 0) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+
+        // Basic Password Strength Meter
+        function updateStrength(password) {
+            let strength = 0;
+            if (password.length > 5) strength += 1;
+            if (password.length > 8) strength += 1;
+            if (/[A-Z]/.test(password) && /[0-9]/.test(password)) strength += 1;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+
+            const bars = [
+                document.getElementById('strength-1'),
+                document.getElementById('strength-2'),
+                document.getElementById('strength-3'),
+                document.getElementById('strength-4')
+            ];
+            
+            const textEl = document.getElementById('strength-text');
+
+            // Reset all
+            bars.forEach(b => b.className = 'flex-1 rounded-full bg-surface-container-high transition-colors duration-300');
+
+            if (strength === 0 && password.length > 0) strength = 1; // Show at least weak if typing
+
+            if (strength >= 1) bars[0].classList.replace('bg-surface-container-high', 'bg-error');
+            if (strength >= 2) {
+                bars[0].classList.replace('bg-error', 'bg-[#eab308]'); // yellow
+                bars[1].classList.replace('bg-surface-container-high', 'bg-[#eab308]');
+            }
+            if (strength >= 3) {
+                bars[0].classList.replace('bg-[#eab308]', 'bg-primary-fixed-dim');
+                bars[1].classList.replace('bg-[#eab308]', 'bg-primary-fixed-dim');
+                bars[2].classList.replace('bg-surface-container-high', 'bg-primary-fixed-dim');
+            }
+            if (strength >= 4) {
+                bars[0].classList.replace('bg-primary-fixed-dim', 'bg-primary');
+                bars[1].classList.replace('bg-primary-fixed-dim', 'bg-primary');
+                bars[2].classList.replace('bg-primary-fixed-dim', 'bg-primary');
+                bars[3].classList.replace('bg-surface-container-high', 'bg-primary');
+            }
+
+            const texts = ["Password strength", "Weak", "Fair", "Good", "Strong"];
+            if(password.length > 0) {
+                 textEl.textContent = texts[Math.min(strength, 4)];
+                 textEl.classList.remove('text-on-surface-variant');
+                 
+                 if(strength <= 1) textEl.classList.add('text-error');
+                 else if(strength == 2) textEl.className = 'font-body-sm text-[11px] text-right text-[#eab308]'; // inline style for tailwind missing arbitrary
+                 else textEl.className = 'font-body-sm text-[11px] text-right text-primary';
+
+            } else {
+                textEl.textContent = "Password strength";
+                textEl.className = 'font-body-sm text-[11px] text-on-surface-variant text-right';
+            }
+        }
+    </script>
+</body></html>

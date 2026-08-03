@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Bookings - ConsultFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                            "error-container": "#ffdad6",
+                            "on-secondary-container": "#fffbff",
+                            "on-primary-container": "#f5fff7",
+                            "on-tertiary-container": "#fefcff",
+                            "on-surface": "#191c1e",
+                            "tertiary-fixed-dim": "#bec6e0",
+                            "surface-container-highest": "#e0e3e5",
+                            "outline-variant": "#bccac0",
+                            "on-error": "#ffffff",
+                            "inverse-surface": "#2d3133",
+                            "secondary-fixed": "#e2dfff",
+                            "on-primary-fixed": "#002114",
+                            "inverse-primary": "#68dba9",
+                            "surface-container-high": "#e6e8ea",
+                            "on-tertiary-fixed": "#131b2e",
+                            "on-tertiary": "#ffffff",
+                            "surface-bright": "#f7f9fb",
+                            "primary-fixed": "#85f8c4",
+                            "tertiary-fixed": "#dae2fd",
+                            "outline": "#6d7a72",
+                            "surface-container": "#eceef0",
+                            "surface": "#f7f9fb",
+                            "secondary-container": "#645efb",
+                            "primary-fixed-dim": "#68dba9",
+                            "on-error-container": "#93000a",
+                            "inverse-on-surface": "#eff1f3",
+                            "primary-container": "#00855d",
+                            "on-secondary-fixed": "#0f0069",
+                            "surface-tint": "#006c4a",
+                            "error": "#ba1a1a",
+                            "on-tertiary-fixed-variant": "#3f465c",
+                            "primary": "#006948",
+                            "on-secondary": "#ffffff",
+                            "secondary-fixed-dim": "#c3c0ff",
+                            "on-surface-variant": "#3d4a42",
+                            "on-primary-fixed-variant": "#005137",
+                            "surface-container-lowest": "#ffffff",
+                            "surface-dim": "#d8dadc",
+                            "on-background": "#191c1e",
+                            "background": "#f7f9fb",
+                            "on-secondary-fixed-variant": "#3323cc",
+                            "surface-container-low": "#f2f4f6",
+                            "secondary": "#4b41e1",
+                            "tertiary-container": "#6c748b",
+                            "tertiary": "#545c72",
+                            "surface-variant": "#e0e3e5",
+                            "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                            "DEFAULT": "0.25rem",
+                            "lg": "0.5rem",
+                            "xl": "0.75rem",
+                            "full": "9999px"
+                    },
+                    "spacing": {
+                            "base": "4px",
+                            "2xl": "48px",
+                            "margin-mobile": "16px",
+                            "container-max": "1280px",
+                            "3xl": "64px",
+                            "lg": "24px",
+                            "md": "16px",
+                            "gutter": "24px",
+                            "xs": "4px",
+                            "xl": "32px",
+                            "sm": "8px"
+                    },
+                    "fontFamily": {
+                            "body-md": ["Inter"],
+                            "headline-md": ["Inter"],
+                            "headline-lg": ["Inter"],
+                            "display-lg": ["Inter"],
+                            "body-sm": ["Inter"],
+                            "label-sm": ["Inter"],
+                            "headline-lg-mobile": ["Inter"],
+                            "label-md": ["Inter"],
+                            "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                            "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                            "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                            "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                            "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                            "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                            "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                            "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                            "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                            "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md">
+<!-- TopNavBar -->
+<nav class="bg-surface dark:bg-inverse-surface docked full-width top-0 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline shadow-sm dark:shadow-none sticky top-0 z-50 flex justify-between items-center w-full px-lg py-sm max-w-container-max mx-auto hidden md:flex">
+<div class="flex items-center gap-md">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed">ConsultFlow</span>
+<div class="relative ml-lg">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="bg-surface-container-low border border-outline-variant rounded-lg pl-xl pr-sm py-xs text-body-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none" placeholder="Search..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex gap-md">
+<a class="text-on-surface-variant dark:text-surface-variant font-body-md hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Explore</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-md hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">How it works</a>
+<a class="text-on-surface-variant dark:text-surface-variant font-body-md hover:text-primary dark:hover:text-primary-fixed transition-colors" href="#">Enterprise</a>
+</div>
+<div class="flex items-center gap-sm">
+<button class="p-xs text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="font-label-md text-label-md px-md py-xs rounded-lg border border-outline-variant text-on-surface hover:bg-surface-variant transition-colors">Login</button>
+<button class="font-label-md text-label-md px-md py-xs rounded-lg bg-primary text-on-primary hover:bg-primary-container hover:text-on-primary-container transition-colors">Sign Up</button>
+</div>
+<img alt="User profile with availability toggle" class="w-8 h-8 rounded-full border border-outline-variant cursor-pointer object-cover" data-alt="A small circular profile picture of a young professional woman smiling. The lighting is soft and natural, suggesting a modern corporate environment. The aesthetic is clean and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC4fiHqEcQiHcGZxoBy_BlB1ZeTJ4NFUtPZSWc9l7G9VpjVekcnHooiPcQquXWuT5WTZTmFVmwUxOBg4IRZvo3UM3hnIHMLcRb8pSFkpJ8DGk6zuhLfW80125K3L2x3i2Ws-D8YMcV6ZAJqBN69eLQ3fEVILavwBTuZ8wN5lwrBmPUFoewMAzWqVjbkWj_SzOawSs_K6C0fU9XkVePyVnsg5WYcvl-UWUG8DJQ1uVCv492l_EfJNHReQ"/>
+</div>
+</nav>
+<div class="flex h-[calc(100vh-65px)] overflow-hidden hidden md:flex">
+<!-- SideNavBar -->
+<aside class="bg-surface-container-low dark:bg-surface-container-highest bg-surface-container-low dark:bg-surface-container-highest border-r border-outline-variant flat no shadows h-full w-64 flex flex-col h-full p-md gap-sm transition-transform duration-200 ease-in-out shrink-0">
+<div class="flex items-center gap-sm mb-lg px-sm">
+<img alt="Provider Workspace" class="w-10 h-10 rounded-lg object-cover" data-alt="A small square abstract logo featuring a stylized leaf in emerald green and deep slate tones, set against a pristine white background. The design is geometric and minimalist, evoking expertise and growth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0ZH-gU3cKx0FAnmKy-zbz3QwCimINTfp2fLyWGcGCs7Sdav-ayVzij8ifHSUkwge1PU3EWEcwVjIlGsseT08cnL5i6InDy-6xf0w2RbnL1THSiscp-4uvuogyY2tCFLQT5OpQ6xUmvxv7ggCNioYPhv92-aLkbLBKaWXNbAvzU7LbJjWyRbu8wFoIZQMd8qT_0xVjdap7jbEr5xuNkzbcGILctJ0Dnp_vlpm_gZUS1VGBKIN9YQsBbA"/>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary text-base leading-tight font-semibold">Provider Hub</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant text-xs">Manage Consultations</p>
+</div>
+</div>
+<nav class="flex flex-col gap-xs flex-1">
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-sm px-sm py-sm bg-secondary-container dark:bg-secondary text-on-secondary-container dark:text-on-secondary rounded-lg font-bold font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+                    Calendar
+                </a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+                    Services
+                </a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+                    Earnings
+                </a>
+<a class="flex items-center gap-sm px-sm py-sm text-on-surface-variant dark:text-surface-variant hover:bg-surface-variant dark:hover:bg-inverse-surface rounded-lg transition-all font-label-md text-label-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    Settings
+                </a>
+</nav>
+<div class="mt-auto pt-md">
+<button class="w-full font-label-md text-label-md bg-primary text-on-primary py-sm rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors flex items-center justify-center gap-xs">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+                    Book New Service
+                </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 overflow-y-auto p-lg md:p-xl bg-surface-bright">
+<div class="max-w-container-max mx-auto">
+<header class="mb-xl flex flex-col md:flex-row md:items-end justify-between gap-md">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-xs">My Bookings</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage your upcoming consultations and review past sessions.</p>
+</div>
+<!-- Tabs -->
+<div class="flex bg-surface-container-low rounded-lg p-xs border border-outline-variant/30">
+<button class="px-md py-sm rounded-md bg-surface text-primary shadow-sm font-label-md text-label-md transition-all">Upcoming</button>
+<button class="px-md py-sm rounded-md text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all">Past</button>
+<button class="px-md py-sm rounded-md text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all">Canceled</button>
+</div>
+</header>
+<!-- Bookings Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-md md:gap-lg">
+<!-- Booking Card 1 -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-md shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="absolute top-0 left-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-sm">
+<img alt="Consultant avatar" class="w-12 h-12 rounded-full object-cover border border-outline-variant/50" data-alt="A professional headshot of a middle-aged male financial consultant with glasses, wearing a sharp navy suit against a soft grey background. The lighting is bright and clear, conveying trust and expertise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiIrJx-Qa60StBXED6LDQSrbHuXQqMeQoJzAQb_DuHphGxSXjCYVUhSoG_GgJeEJ8isbbMpIGg7TLj18_csow3s9rN_m2CaxIJ4a0qoPjWPNLrb56i4TlFgvko5JW6VpyELW8ZxQ0L39WV6ZoiAL3ycgMuj0PTC5qx-aTGktWVx5_oIcgtPfyrb5EZxsUOY3x1bCjD7eqU1w1bPQdRWu9-48Zd1b9ez_ad4wRc245dAtM23lytF7AX7Q"/>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Dr. Marcus Chen</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Financial Strategy</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2 py-1 rounded bg-primary-container/20 text-primary-container font-label-sm text-label-sm">Confirmed</span>
+</div>
+<div class="flex flex-col gap-xs py-sm border-y border-outline-variant/30">
+<div class="flex items-center gap-sm text-on-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="event">event</span>
+<span class="font-body-sm text-body-sm">Oct 24, 2023 • 10:00 AM EST</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="videocam">videocam</span>
+<span class="font-body-sm text-body-sm">Zoom Video Call</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="timer">timer</span>
+<span class="font-body-sm text-body-sm">45 Minutes</span>
+</div>
+</div>
+<div class="flex gap-sm mt-auto pt-xs">
+<button class="flex-1 bg-primary text-on-primary font-label-md text-label-md py-sm rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors flex justify-center items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]" data-icon="video_call">video_call</span>
+                                Join Call
+                            </button>
+<button class="p-sm border border-outline-variant rounded-lg text-on-surface-variant hover:text-primary hover:border-primary transition-colors" title="Reschedule">
+<span class="material-symbols-outlined" data-icon="edit_calendar">edit_calendar</span>
+</button>
+<button class="p-sm border border-outline-variant rounded-lg text-on-surface-variant hover:text-error hover:border-error transition-colors" title="Cancel">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+</article>
+<!-- Booking Card 2 -->
+<article class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-md shadow-sm hover:shadow-md transition-shadow relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-secondary"></div>
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-sm">
+<img alt="Consultant avatar" class="w-12 h-12 rounded-full object-cover border border-outline-variant/50" data-alt="A portrait of a young female UX designer with short dark hair, smiling warmly. She is in a bright, modern studio setting with soft natural light highlighting her creative and approachable demeanor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuPDCl-ee0R63wukZuX82o-wdqEALB2Xq9M8ozwuT5_GcRlLfYLrBxcBiq36Z_t27ioUSfWitWi-7gyKPPkaI_rHcsmtTKAHFRNHzDGpfYn6hybf5NmemTQL58kKNqMBE_2Hu6GqKPQBLY6p7W1RYqpwkeTA-6KJfV_vDVjvXBWXbxzH1D6eLPRm_af19RBdC8CnjrhyPdzAHC_cWUf_tBndc94IIPZz8p1VvKKdEvKe96o0taMj-8Fg"/>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface">Sarah Jenkins</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">UX Portfolio Review</p>
+</div>
+</div>
+<span class="inline-flex items-center px-2 py-1 rounded bg-secondary-container/20 text-secondary font-label-sm text-label-sm">Pending</span>
+</div>
+<div class="flex flex-col gap-xs py-sm border-y border-outline-variant/30">
+<div class="flex items-center gap-sm text-on-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="event">event</span>
+<span class="font-body-sm text-body-sm">Oct 26, 2023 • 2:30 PM EST</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="link">link</span>
+<span class="font-body-sm text-body-sm">Google Meet</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="timer">timer</span>
+<span class="font-body-sm text-body-sm">60 Minutes</span>
+</div>
+</div>
+<div class="flex gap-sm mt-auto pt-xs">
+<button class="flex-1 bg-surface-container-highest text-on-surface font-label-md text-label-md py-sm rounded-lg opacity-50 cursor-not-allowed flex justify-center items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]" data-icon="schedule">schedule</span>
+                                Awaiting Confirmation
+                            </button>
+<button class="p-sm border border-outline-variant rounded-lg text-on-surface-variant hover:text-primary hover:border-primary transition-colors" title="Reschedule">
+<span class="material-symbols-outlined" data-icon="edit_calendar">edit_calendar</span>
+</button>
+</div>
+</article>
+</div>
+</div>
+</main>
+</div>
+</body></html>

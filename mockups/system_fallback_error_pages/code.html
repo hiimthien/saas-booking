@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>404 - Page Not Found</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#fffbff",
+                        "on-primary-container": "#f5fff7",
+                        "on-tertiary-container": "#fefcff",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#e0e3e5",
+                        "outline-variant": "#bccac0",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "secondary-fixed": "#e2dfff",
+                        "on-primary-fixed": "#002114",
+                        "inverse-primary": "#68dba9",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "primary-fixed": "#85f8c4",
+                        "tertiary-fixed": "#dae2fd",
+                        "outline": "#6d7a72",
+                        "surface-container": "#eceef0",
+                        "surface": "#f7f9fb",
+                        "secondary-container": "#645efb",
+                        "primary-fixed-dim": "#68dba9",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-container": "#00855d",
+                        "on-secondary-fixed": "#0f0069",
+                        "surface-tint": "#006c4a",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "primary": "#006948",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "on-surface-variant": "#3d4a42",
+                        "on-primary-fixed-variant": "#005137",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "on-background": "#191c1e",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#4b41e1",
+                        "tertiary-container": "#6c748b",
+                        "tertiary": "#545c72",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "2xl": "48px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "3xl": "64px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["14px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background min-h-screen flex items-center justify-center p-margin-mobile md:p-gutter">
+<!-- Main Content Canvas - No Navigation Shell as per rules for Error/Dead End pages -->
+<main class="w-full max-w-container-max mx-auto flex flex-col items-center justify-center text-center">
+<!-- Illustration -->
+<div class="mb-xl relative">
+<div class="absolute inset-0 bg-primary opacity-5 rounded-full blur-3xl scale-150 -z-10"></div>
+<img alt="404 Illustration" class="w-64 h-64 md:w-96 md:h-96 object-contain drop-shadow-sm" data-alt="A friendly, minimalist digital illustration depicting a stylized, abstract empty state or a lost concept, suitable for a 404 error page. The artwork features clean geometric shapes, perhaps a subtle disconnected path or an empty folder icon, rendered in soft, high-key lighting. The color palette relies heavily on crisp whites and slate grays, with vibrant accents of deep emerald green to signify a path forward. The overall mood is modern, professional, yet approachable, avoiding any sense of alarm. The style is flat and vector-like, perfectly integrating with a clean B2B SaaS interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzs1Usmx9hnZPCas8Zg8zN4Ll0IefbKsAdilzSYerHdSz3H-Yg_sFDYp55JiyQCoTyTxM_ZRi7Ye-UkO1fmCE7KUSt4Z3ePAoAuUF894ptc7A7J1HA7hjY8GNDDJ7dDPcH2YRTaXDm7mdo_oRD3DZ-zkG_W-vRug5CAxmRMqBMIuJLdTlPliApHD5DmxyA3FIW_eFgPsM09DUptthRHNr2vkI2_CxcAKsv30R4KzrY-mBKF0aXDSyUXw"/>
+</div>
+<!-- Typography -->
+<h1 class="font-display-lg text-display-lg text-on-background mb-md">
+            Page Not Found
+        </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-xl mx-auto">
+            Oops! It seems you've wandered off the expected path. The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+        </p>
+<!-- Actions -->
+<div class="flex flex-col sm:flex-row items-center gap-md">
+<button class="bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md px-lg py-md rounded-lg flex items-center gap-sm transition-colors shadow-sm w-full sm:w-auto justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+                Back to Home
+            </button>
+<button class="bg-surface hover:bg-surface-variant text-on-surface font-label-md text-label-md px-lg py-md rounded-lg flex items-center gap-sm border border-outline-variant transition-colors w-full sm:w-auto justify-center">
+<span class="material-symbols-outlined">help</span>
+                Contact Support
+            </button>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Secure Checkout - ConsultFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary-fixed-variant": "#3f465c",
+                      "surface-bright": "#f7f9fb",
+                      "surface": "#f7f9fb",
+                      "inverse-on-surface": "#eff1f3",
+                      "surface-container": "#eceef0",
+                      "tertiary-container": "#6c748b",
+                      "on-tertiary-fixed": "#131b2e",
+                      "error": "#ba1a1a",
+                      "surface-variant": "#e0e3e5",
+                      "secondary-fixed": "#e2dfff",
+                      "on-secondary-fixed": "#0f0069",
+                      "on-primary-fixed-variant": "#005137",
+                      "on-primary-container": "#f5fff7",
+                      "surface-container-highest": "#e0e3e5",
+                      "tertiary-fixed-dim": "#bec6e0",
+                      "on-secondary-container": "#fffbff",
+                      "secondary-container": "#645efb",
+                      "on-primary-fixed": "#002114",
+                      "background": "#f7f9fb",
+                      "primary-fixed": "#85f8c4",
+                      "on-tertiary-container": "#fefcff",
+                      "error-container": "#ffdad6",
+                      "on-error": "#ffffff",
+                      "primary-fixed-dim": "#68dba9",
+                      "outline": "#6d7a72",
+                      "primary-container": "#00855d",
+                      "surface-container-high": "#e6e8ea",
+                      "on-surface": "#191c1e",
+                      "on-primary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#3323cc",
+                      "surface-container-low": "#f2f4f6",
+                      "tertiary": "#545c72",
+                      "surface-tint": "#006c4a",
+                      "secondary-fixed-dim": "#c3c0ff",
+                      "secondary": "#4b41e1",
+                      "inverse-primary": "#68dba9",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed": "#dae2fd",
+                      "on-tertiary": "#ffffff",
+                      "outline-variant": "#bccac0",
+                      "on-background": "#191c1e",
+                      "surface-container-lowest": "#ffffff",
+                      "primary": "#006948",
+                      "inverse-surface": "#2d3133",
+                      "on-surface-variant": "#3d4a42",
+                      "surface-dim": "#d8dadc"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "3xl": "64px",
+                      "md": "16px",
+                      "xs": "4px",
+                      "base": "4px",
+                      "xl": "32px",
+                      "2xl": "48px",
+                      "margin-mobile": "16px",
+                      "lg": "24px",
+                      "sm": "8px",
+                      "gutter": "24px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "Inter"
+                      ],
+                      "label-sm": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen">
+<!-- Header -->
+<header class="bg-surface-container-lowest border-b border-outline-variant py-md px-lg flex items-center shadow-sm">
+<a aria-label="Go back" class="flex items-center gap-sm text-primary hover:text-primary-container transition-colors" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_back</span>
+<span class="font-label-md text-label-md">Back to booking</span>
+</a>
+<div class="mx-auto font-headline-md text-headline-md text-on-surface font-semibold tracking-tight">Secure Checkout</div>
+</header>
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-gutter py-xl md:py-2xl">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Left Column: Payment & Billing (Main Canvas) -->
+<div class="lg:col-span-7 xl:col-span-8 flex flex-col gap-xl">
+<!-- Payment Method Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-lg md:p-xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-md">Payment Method</h2>
+<div class="flex flex-col gap-sm">
+<!-- Credit Card Option (Selected) -->
+<label class="relative flex cursor-pointer rounded-lg border border-primary bg-primary-fixed/10 p-md focus:outline-none">
+<input checked="" class="peer sr-only" name="payment-method" type="radio" value="credit-card"/>
+<span class="flex w-full items-center justify-between">
+<span class="flex items-center gap-md">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">credit_card</span>
+<span class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Credit or Debit Card</span>
+</span>
+</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</span>
+</label>
+<!-- Expanded Card Form (conditionally shown if above is selected) -->
+<div class="pl-md md:pl-2xl pr-md pb-md flex flex-col gap-md">
+<div class="relative">
+<label class="sr-only" for="card-number">Card Number</label>
+<input aria-label="Card Number" class="block w-full rounded-lg border-outline-variant py-sm pl-sm pr-sm text-on-surface focus:border-primary focus:ring-primary font-body-md text-body-md placeholder-on-surface-variant bg-surface" id="card-number" placeholder="Card number" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="relative">
+<label class="sr-only" for="expiry-date">Expiration Date</label>
+<input aria-label="Expiration Date" class="block w-full rounded-lg border-outline-variant py-sm pl-sm pr-sm text-on-surface focus:border-primary focus:ring-primary font-body-md text-body-md placeholder-on-surface-variant bg-surface" id="expiry-date" placeholder="MM / YY" type="text"/>
+</div>
+<div class="relative">
+<label class="sr-only" for="cvc">CVC</label>
+<input aria-label="Security Code" class="block w-full rounded-lg border-outline-variant py-sm pl-sm pr-sm text-on-surface focus:border-primary focus:ring-primary font-body-md text-body-md placeholder-on-surface-variant bg-surface" id="cvc" placeholder="CVC" type="text"/>
+</div>
+</div>
+<div class="relative">
+<label class="sr-only" for="card-name">Name on Card</label>
+<input aria-label="Name on Card" class="block w-full rounded-lg border-outline-variant py-sm pl-sm pr-sm text-on-surface focus:border-primary focus:ring-primary font-body-md text-body-md placeholder-on-surface-variant bg-surface" id="card-name" placeholder="Name on card" type="text"/>
+</div>
+</div>
+<!-- PayOS Option -->
+<label class="relative flex cursor-pointer rounded-lg border border-outline-variant bg-surface p-md hover:bg-surface-variant transition-colors focus:outline-none">
+<input class="peer sr-only" name="payment-method" type="radio" value="payos"/>
+<span class="flex w-full items-center justify-between">
+<span class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">account_balance</span>
+<span class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">PayOS (Bank Transfer)</span>
+</span>
+</span>
+</span>
+</label>
+<!-- VNPay Option -->
+<label class="relative flex cursor-pointer rounded-lg border border-outline-variant bg-surface p-md hover:bg-surface-variant transition-colors focus:outline-none">
+<input class="peer sr-only" name="payment-method" type="radio" value="vnpay"/>
+<span class="flex w-full items-center justify-between">
+<span class="flex items-center gap-md">
+<span class="material-symbols-outlined text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">qr_code_scanner</span>
+<span class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">VNPay</span>
+</span>
+</span>
+</span>
+</label>
+</div>
+</section>
+<!-- Billing Information Section -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-lg md:p-xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-md">Billing Information</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+<div class="relative md:col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs" for="billing-email">Email Address</label>
+<input class="block w-full rounded-lg border-outline-variant py-sm pl-sm pr-sm text-on-surface focus:border-primary focus:ring-primary font-body-md text-body-md bg-surface" id="billing-email" type="email" value="alex.client@example.com"/>
+</div>
+<div class="relative md:col-span-2">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs" for="billing-address">Street Address</label>
+<input class="block w-full rounded-lg border-outline-variant py-sm pl-sm pr-sm text-on-surface focus:border-primary focus:ring-primary font-body-md text-body-md placeholder-on-surface-variant bg-surface" id="billing-address" placeholder="123 Financial District Ave" type="text"/>
+</div>
+<div class="relative">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs" for="billing-city">City</label>
+<input class="block w-full rounded-lg border-outline-variant py-sm pl-sm pr-sm text-on-surface focus:border-primary focus:ring-primary font-body-md text-body-md placeholder-on-surface-variant bg-surface" id="billing-city" placeholder="New York" type="text"/>
+</div>
+<div class="relative">
+<label class="block font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-xs" for="billing-zip">Postal Code</label>
+<input class="block w-full rounded-lg border-outline-variant py-sm pl-sm pr-sm text-on-surface focus:border-primary focus:ring-primary font-body-md text-body-md placeholder-on-surface-variant bg-surface" id="billing-zip" placeholder="10004" type="text"/>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Order Summary (Sticky Sidebar) -->
+<div class="lg:col-span-5 xl:col-span-4">
+<div class="sticky top-xl bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-lg flex flex-col gap-md">
+<h2 class="font-headline-md text-headline-md text-on-surface pb-sm border-b border-outline-variant">Booking Summary</h2>
+<!-- Consultant Details -->
+<div class="flex items-start gap-md py-sm">
+<img class="w-16 h-16 rounded-full object-cover border border-outline-variant" data-alt="Professional headshot of a financial consultant wearing a navy suit against a clean, bright white background. Soft, flattering studio lighting with a modern corporate aesthetic. High resolution, shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPbBwAgMWYWKLdzHvJKbSfltautaq8UR7dpunnZlBXVExYfpGJp8KBE17ZLKxn7rxFqFS3xGVpjMygB6YvCd_bYpmrv8PGmV1yZySwdTsuci6ayKFDupeeU4sCa3ZkDn3v0kvCs_mF4vLXQlRlkCAaJaLuqdK6bj1Zp20ihe4QDvQar-0sKkbpb5FS32zECkKG6cSJRhCjGOf9G4zsKHXG4ApKcRl5GoRfN2qRZdTl1rtyLqXKoC1TaQ"/>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Strategic Tax Planning Session</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">with Sarah Jenkins, CPA</span>
+</div>
+</div>
+<!-- Date & Time -->
+<div class="bg-surface-container rounded-lg p-sm flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 0;">event</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface">Oct 24, 2024</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">2:00 PM - 3:00 PM EST</span>
+</div>
+</div>
+<div class="border-t border-outline-variant my-xs"></div>
+<!-- Cost Breakdown -->
+<div class="flex flex-col gap-sm font-body-sm text-body-sm">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span>Consultation Fee (1 hr)</span>
+<span>$250.00</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span>Platform Fee</span>
+<span>$12.50</span>
+</div>
+<div class="flex justify-between items-center font-label-md text-label-md text-on-surface pt-sm">
+<span>Total Due</span>
+<span class="text-primary font-bold text-lg">$262.50</span>
+</div>
+</div>
+<!-- CTA -->
+<button class="mt-md w-full bg-primary hover:bg-on-primary-fixed-variant text-on-primary font-label-md text-label-md py-md rounded-lg flex items-center justify-center gap-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">lock</span>
+                        Confirm &amp; Pay $262.50
+                    </button>
+<!-- Trust Badges -->
+<div class="flex items-center justify-center gap-xs mt-sm text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span>Secure encrypted transaction</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

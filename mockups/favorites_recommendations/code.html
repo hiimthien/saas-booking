@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Favorites &amp; Recommendations - ConsultFlow</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#fffbff",
+                    "on-primary-container": "#f5fff7",
+                    "on-tertiary-container": "#fefcff",
+                    "on-surface": "#191c1e",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "surface-container-highest": "#e0e3e5",
+                    "outline-variant": "#bccac0",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#2d3133",
+                    "secondary-fixed": "#e2dfff",
+                    "on-primary-fixed": "#002114",
+                    "inverse-primary": "#68dba9",
+                    "surface-container-high": "#e6e8ea",
+                    "on-tertiary-fixed": "#131b2e",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#f7f9fb",
+                    "primary-fixed": "#85f8c4",
+                    "tertiary-fixed": "#dae2fd",
+                    "outline": "#6d7a72",
+                    "surface-container": "#eceef0",
+                    "surface": "#f7f9fb",
+                    "secondary-container": "#645efb",
+                    "primary-fixed-dim": "#68dba9",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#eff1f3",
+                    "primary-container": "#00855d",
+                    "on-secondary-fixed": "#0f0069",
+                    "surface-tint": "#006c4a",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "primary": "#006948",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed-dim": "#c3c0ff",
+                    "on-surface-variant": "#3d4a42",
+                    "on-primary-fixed-variant": "#005137",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-dim": "#d8dadc",
+                    "on-background": "#191c1e",
+                    "background": "#f7f9fb",
+                    "on-secondary-fixed-variant": "#3323cc",
+                    "surface-container-low": "#f2f4f6",
+                    "secondary": "#4b41e1",
+                    "tertiary-container": "#6c748b",
+                    "tertiary": "#545c72",
+                    "surface-variant": "#e0e3e5",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "2xl": "48px",
+                    "margin-mobile": "16px",
+                    "container-max": "1280px",
+                    "3xl": "64px",
+                    "lg": "24px",
+                    "md": "16px",
+                    "gutter": "24px",
+                    "xs": "4px",
+                    "xl": "32px",
+                    "sm": "8px"
+            },
+            "fontFamily": {
+                    "body-md": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "headline-lg": [
+                            "Inter"
+                    ],
+                    "display-lg": [
+                            "Inter"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "label-sm": [
+                            "Inter"
+                    ],
+                    "headline-lg-mobile": [
+                            "Inter"
+                    ],
+                    "label-md": [
+                            "Inter"
+                    ],
+                    "body-lg": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-lg": [
+                            "32px",
+                            {
+                                    "lineHeight": "40px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "48px",
+                            {
+                                    "lineHeight": "56px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-sm": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "14px",
+                                    "letterSpacing": "0.02em",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-lg-mobile": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col">
+<!-- Top Navigation Bar -->
+<header class="bg-surface border-b border-outline-variant shadow-sm docked full-width top-0 sticky z-50 flex justify-between items-center w-full px-lg py-sm max-w-container-max mx-auto">
+<!-- Logo -->
+<div class="flex items-center gap-md">
+<span class="text-headline-md font-headline-md font-bold text-primary">ConsultFlow</span>
+</div>
+<!-- Navigation Links -->
+<nav class="hidden md:flex items-center gap-lg">
+<!-- Active link matching "Favorites" implicitly mapping to Explore since no direct match, but Explore is closest to browsing profiles -->
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">Explore</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors font-label-md text-label-md" href="#">How it works</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors font-label-md text-label-md" href="#">Enterprise</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-md">
+<button class="text-on-surface-variant hover:text-primary transition-colors p-sm rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="hidden md:block text-on-surface hover:text-primary font-label-md text-label-md transition-colors px-md py-sm">Login</button>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-md py-sm rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm">Sign Up</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border border-outline-variant ml-sm cursor-pointer">
+<img alt="User profile with availability toggle" class="w-full h-full object-cover" data-alt="A small circular avatar image of a professional woman with brown hair, smiling gently. The background is a soft, light green gradient consistent with the light-mode UI palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1TFKzEWDMG3ROF5PBSBWQrt59zmpsO0EWT9xqYkWsGcaY2cAVeLZbC1R3WMH3_XbsRgVCNKgZvfK6vIF1WMlsmxgt_dAAAhZC8aj9iDy9LOHWkybaAO8JQVph-Ndnw9Clo5ty7gXgXa-y47AHj413TtH88oskdJh7D1xQQqFSUFU482VHtKVGIkK1oULKnwsVoPHNB4iShtq054gRWHczDUEUBliJ-Iz2SjanJnLbyfFUBOlXmaQ17g"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-gutter py-xl flex flex-col gap-3xl">
+<!-- Header Section -->
+<div class="flex flex-col gap-sm">
+<h1 class="font-display-lg text-display-lg text-on-background">Your network, curated.</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">Access your saved consultants and discover new experts tailored to your recent projects and booking history.</p>
+</div>
+<!-- Recommended Carousel (Bento-style horizontal scroll) -->
+<section class="flex flex-col gap-lg">
+<div class="flex justify-between items-end">
+<div class="flex flex-col gap-xs">
+<h2 class="font-headline-md text-headline-md text-on-background flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                        Recommended for you
+                    </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Based on your recent strategy bookings</p>
+</div>
+<div class="flex gap-sm">
+<button class="w-10 h-10 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center text-on-surface-variant hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Carousel Container -->
+<div class="flex gap-lg overflow-x-auto hide-scrollbar pb-sm snap-x snap-mandatory">
+<!-- Recommendation Card 1 (Glassmorphism inspired) -->
+<div class="snap-start shrink-0 w-80 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="h-24 bg-tertiary-fixed w-full absolute top-0 left-0 -z-10 group-hover:bg-tertiary-fixed-dim transition-colors"></div>
+<div class="p-md pt-xl flex flex-col items-center text-center gap-sm mt-md relative">
+<button class="absolute top-md right-md text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark_add</span>
+</button>
+<div class="w-20 h-20 rounded-full border-4 border-surface-container-lowest overflow-hidden shadow-sm">
+<img alt="Dr. Wei Chen" class="w-full h-full object-cover" data-alt="A professional headshot of an Asian man in his 40s wearing a sharp navy suit and light blue shirt. He is looking confident against a clean, light studio background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAcrZJ74-RzlgZ1o0ejykkFFGPuYU1FmbJSZa09mq6XrfpDx3z21pISa0zyC0RSBmWtDTqEX9syCl7MbUHw8lPFgmbp_QQpOvpE2S38sPvyh1CBuvlxOZ-r41-gxbY5aghc_v3bDO2dKayoc9jCvD2NotrCBjahnv3516jPaVbYeNnX_ZNSY8caY6CKKtrQxRShbODKaVnBGr5McanJ58s7HB8FMudWG7CpBY5aTLVkbKqfE_2JGUBfZQ"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-md text-on-surface">Dr. Wei Chen</h3>
+<p class="font-body-sm text-body-sm text-primary font-medium">Enterprise Architect</p>
+</div>
+<div class="flex gap-sm justify-center flex-wrap mt-xs">
+<span class="px-sm py-xs bg-surface-container rounded-sm font-label-sm text-label-sm text-on-surface-variant">Cloud</span>
+<span class="px-sm py-xs bg-surface-container rounded-sm font-label-sm text-label-sm text-on-surface-variant">Security</span>
+</div>
+<div class="w-full flex justify-between items-center mt-md pt-md border-t border-outline-variant">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" style="font-size: 16px;">star</span>
+<span class="font-label-sm text-label-sm">4.9 (120)</span>
+</div>
+<button class="font-label-md text-label-md text-primary hover:text-primary-container transition-colors">View Profile</button>
+</div>
+</div>
+</div>
+<!-- Recommendation Card 2 -->
+<div class="snap-start shrink-0 w-80 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="h-24 bg-secondary-fixed w-full absolute top-0 left-0 -z-10 group-hover:bg-secondary-fixed-dim transition-colors"></div>
+<div class="p-md pt-xl flex flex-col items-center text-center gap-sm mt-md relative">
+<button class="absolute top-md right-md text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark_add</span>
+</button>
+<div class="w-20 h-20 rounded-full border-4 border-surface-container-lowest overflow-hidden shadow-sm">
+<img alt="Sarah Jenkins" class="w-full h-full object-cover" data-alt="A professional headshot of a Black woman in her 30s with natural hair, wearing a stylish beige blazer. She is smiling warmly against a bright, minimalist office background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsc5GE3caiwX5qUWPQtOP_Y98N4-zG3YNYIXhmqIwrJtJD61chW_znin1DUYTvALU4IdmqVW92qws0ELTEU4PKoSk1fnLPYCaEBrF4m7CDCRFmTmVwMX20hIDTYK4_BO41sola2aCqz_64iKcOt3p0cDQEbmwCQruuv4IzmTTm8Icywhm-UHWH5MbTnt08A0a65Ss8hjcfhuyx_Z36QwOiAkREw0H13NphpU9L9EERZTXvsssCAeKBLg"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-md text-on-surface">Sarah Jenkins</h3>
+<p class="font-body-sm text-body-sm text-secondary font-medium">Growth Strategist</p>
+</div>
+<div class="flex gap-sm justify-center flex-wrap mt-xs">
+<span class="px-sm py-xs bg-surface-container rounded-sm font-label-sm text-label-sm text-on-surface-variant">B2B</span>
+<span class="px-sm py-xs bg-surface-container rounded-sm font-label-sm text-label-sm text-on-surface-variant">SaaS</span>
+</div>
+<div class="w-full flex justify-between items-center mt-md pt-md border-t border-outline-variant">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" style="font-size: 16px;">star</span>
+<span class="font-label-sm text-label-sm">5.0 (85)</span>
+</div>
+<button class="font-label-md text-label-md text-primary hover:text-primary-container transition-colors">View Profile</button>
+</div>
+</div>
+</div>
+<!-- Recommendation Card 3 -->
+<div class="snap-start shrink-0 w-80 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+<div class="h-24 bg-primary-fixed w-full absolute top-0 left-0 -z-10 group-hover:bg-primary-fixed-dim transition-colors"></div>
+<div class="p-md pt-xl flex flex-col items-center text-center gap-sm mt-md relative">
+<button class="absolute top-md right-md text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">bookmark_add</span>
+</button>
+<div class="w-20 h-20 rounded-full border-4 border-surface-container-lowest overflow-hidden shadow-sm">
+<img alt="Marcus Cole" class="w-full h-full object-cover" data-alt="A professional headshot of a white man in his 50s with grey hair and glasses, wearing a casual grey sweater. The background is a clean, well-lit white studio setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBN3PQPP63A888gGaS9cb52_r5eCgPNHVaNGzLgW26u9lrchxvf2oXC63swoqHwExaTHwudgGAMOuJR6gJdMy-LFTX6M2_z0TprHVMBsWX6batSqj0pYwBJEvmwhnmiSC3rqUuNP94EOBoGinr-KOT8BY0LrZ8tvp5gS1UIGmj1N2X1juo724lz4R5RTsXFrug0kf3fVHUaIW6nuZDqfdLrnleseQLxuPTms9_y8l1ZBbi7zb5vevTC8Q"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-md text-on-surface">Marcus Cole</h3>
+<p class="font-body-sm text-body-sm text-primary-container font-medium">Financial Modeler</p>
+</div>
+<div class="flex gap-sm justify-center flex-wrap mt-xs">
+<span class="px-sm py-xs bg-surface-container rounded-sm font-label-sm text-label-sm text-on-surface-variant">M&amp;A</span>
+<span class="px-sm py-xs bg-surface-container rounded-sm font-label-sm text-label-sm text-on-surface-variant">Fintech</span>
+</div>
+<div class="w-full flex justify-between items-center mt-md pt-md border-t border-outline-variant">
+<div class="flex items-center gap-xs text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" style="font-size: 16px;">star</span>
+<span class="font-label-sm text-label-sm">4.8 (210)</span>
+</div>
+<button class="font-label-md text-label-md text-primary hover:text-primary-container transition-colors">View Profile</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Saved Consultants Grid (Bento Grid Style) -->
+<section class="flex flex-col gap-lg pb-xl">
+<div class="flex justify-between items-end border-b border-outline-variant pb-sm">
+<div class="flex flex-col gap-xs">
+<h2 class="font-headline-md text-headline-md text-on-background flex items-center gap-sm">
+<span class="material-symbols-outlined text-tertiary" style="font-variation-settings: 'FILL' 1;">bookmarks</span>
+                        Saved Consultants
+                    </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Your bookmarked experts for quick access.</p>
+</div>
+<!-- Filter/Sort -->
+<div class="flex gap-sm">
+<button class="flex items-center gap-xs px-md py-sm bg-surface-container-low border border-outline-variant rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">filter_list</span>
+                        Filter
+                    </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
+<!-- Saved Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col gap-md shadow-sm hover:border-primary transition-colors group">
+<div class="flex justify-between items-start">
+<div class="flex gap-md items-center">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Elena Rodriguez" class="w-full h-full object-cover" data-alt="A professional headshot of a Hispanic woman in her late 20s, smiling brightly. She is wearing a dark green blouse. The background is slightly blurred, showing a modern office interior with ample natural light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJ8K-wad8myeXfPmnDBMsVaOuDj-STYn2D2fcAPOaoL3JbAD-xgXjChXQQMQCc2Rs0UadAnMXaOXS7PLk_xQmVTnk8zv--PAAOojncZgLhh-OwhEouEFWrWcjNYid-ySI5AEo6IYLRICyqWxmtXTWieX43DSYYCX_E748-Z0Xke5SVmm4si15ob6Mo79fdDZ_3dwfig_xE5G0e-v33whNi4remDPtDygxdgPRhD4xRnSbwnvnQGlG5gw"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-md text-on-surface group-hover:text-primary transition-colors">Elena Rodriguez</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">UX Research Lead</p>
+</div>
+</div>
+<button class="text-primary p-xs hover:bg-primary-fixed rounded-full transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-2">Specializing in generative user research and qualitative analysis for early-stage B2B SaaS startups.</p>
+<div class="mt-auto pt-md flex justify-between items-center">
+<div class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined" style="font-size: 16px;">schedule</span>
+                            Available next week
+                        </div>
+<button class="bg-surface-container hover:bg-surface-variant text-on-surface font-label-md text-label-md px-md py-sm rounded-lg transition-colors border border-outline-variant">Book Now</button>
+</div>
+</div>
+<!-- Saved Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col gap-md shadow-sm hover:border-primary transition-colors group">
+<div class="flex justify-between items-start">
+<div class="flex gap-md items-center">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Rajiv Patel" class="w-full h-full object-cover" data-alt="A professional headshot of an older Indian man with a neat beard, wearing a light blue dress shirt and a grey blazer. He exudes authority and warmth against a clean, light grey studio background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPqL1tkNz6ECDy3xMAI8OYpaWcpGdik0rg3_YSxI4fCkuLBBmx5cpxfuWqb2r89UYYlsOrP8kVIXJE0eG903kNkmcppA3-zZrByNvoMdfPYPmJc-SRpOtymJv0mktveEFXKvql9xCBs8544Ywe76OWqQUnHdrjLrh1QPgBOIMMfEAXAiTrn0fZpW6OIHiZYzMWTrxrIfbUQ1nf0qr5SzxzFYZXfx4xUDtJK-4Fi1CgK6DpMPvq7MUoEw"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-md text-on-surface group-hover:text-primary transition-colors">Rajiv Patel</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Supply Chain Analyst</p>
+</div>
+</div>
+<button class="text-primary p-xs hover:bg-primary-fixed rounded-full transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-2">Optimizing global logistics and reducing operational overhead for manufacturing enterprises.</p>
+<div class="mt-auto pt-md flex justify-between items-center">
+<div class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined" style="font-size: 16px;">schedule</span>
+                            Available tmrw
+                        </div>
+<button class="bg-surface-container hover:bg-surface-variant text-on-surface font-label-md text-label-md px-md py-sm rounded-lg transition-colors border border-outline-variant">Book Now</button>
+</div>
+</div>
+<!-- Saved Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col gap-md shadow-sm hover:border-primary transition-colors group">
+<div class="flex justify-between items-start">
+<div class="flex gap-md items-center">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Dr. Amanda Vance" class="w-full h-full object-cover" data-alt="A professional headshot of a white woman in her 40s with short blonde hair, wearing a black turtleneck. She looks thoughtful and experienced. The background is a bright, minimalist white space." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCmXhzZYrlvz5yTJo-Eok0Eql7tETP6-l-fm1MC3Hy1ItKaYmJLgKc5tuMI3fdprKZ2u39Vecph8PplzK0iq4OzMsZDtdZ6ttwXjOVYWaZP1vVVDsY-n0vuyua9E6PDFgdJy8nN-hxDkaLXpdyf5cU4wxn5sWZXelOgEJCP0xfQsEq187xQFb7VPxeZS9GcGsD94-zmU6sgzy1MiT9Cw6-csvrSvDpANeTJOBjMmjwLU3NqfTaZF-MKpg"/>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-md text-on-surface group-hover:text-primary transition-colors">Dr. Amanda Vance</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Data Privacy Expert</p>
+</div>
+</div>
+<button class="text-primary p-xs hover:bg-primary-fixed rounded-full transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-2">Guiding companies through GDPR compliance, data audits, and privacy-first architecture design.</p>
+<div class="mt-auto pt-md flex justify-between items-center">
+<div class="font-label-sm text-label-sm text-error flex items-center gap-xs">
+<span class="material-symbols-outlined" style="font-size: 16px;">event_busy</span>
+                            Booked until Nov
+                        </div>
+<button class="bg-surface-container hover:bg-surface-variant text-on-surface font-label-md text-label-md px-md py-sm rounded-lg transition-colors border border-outline-variant">View Profile</button>
+</div>
+</div>
+<!-- Saved Card 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg flex flex-col gap-md shadow-sm hover:border-primary transition-colors group">
+<div class="flex justify-between items-start">
+<div class="flex gap-md items-center">
+<div class="w-16 h-16 rounded-full overflow-hidden border border-outline-variant">
+<div class="w-full h-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-headline-md text-headline-md">
+                                    TS
+                                </div>
+</div>
+<div>
+<h3 class="font-headline-sm text-headline-md text-on-surface group-hover:text-primary transition-colors">Thomas Stone</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Agile Coach</p>
+</div>
+</div>
+<button class="text-primary p-xs hover:bg-primary-fixed rounded-full transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface line-clamp-2">Scaling engineering teams and implementing SAFe methodologies for mid-market tech firms.</p>
+<div class="mt-auto pt-md flex justify-between items-center">
+<div class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined" style="font-size: 16px;">schedule</span>
+                            Available today
+                        </div>
+<button class="bg-surface-container hover:bg-surface-variant text-on-surface font-label-md text-label-md px-md py-sm rounded-lg transition-colors border border-outline-variant">Book Now</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

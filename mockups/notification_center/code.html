@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notification Center - ConsultFlow</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#fffbff",
+                        "on-primary-container": "#f5fff7",
+                        "on-tertiary-container": "#fefcff",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "surface-container-highest": "#e0e3e5",
+                        "outline-variant": "#bccac0",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "secondary-fixed": "#e2dfff",
+                        "on-primary-fixed": "#002114",
+                        "inverse-primary": "#68dba9",
+                        "surface-container-high": "#e6e8ea",
+                        "on-tertiary-fixed": "#131b2e",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "primary-fixed": "#85f8c4",
+                        "tertiary-fixed": "#dae2fd",
+                        "outline": "#6d7a72",
+                        "surface-container": "#eceef0",
+                        "surface": "#f7f9fb",
+                        "secondary-container": "#645efb",
+                        "primary-fixed-dim": "#68dba9",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-container": "#00855d",
+                        "on-secondary-fixed": "#0f0069",
+                        "surface-tint": "#006c4a",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "primary": "#006948",
+                        "on-secondary": "#ffffff",
+                        "secondary-fixed-dim": "#c3c0ff",
+                        "on-surface-variant": "#3d4a42",
+                        "on-primary-fixed-variant": "#005137",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#d8dadc",
+                        "on-background": "#191c1e",
+                        "background": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#3323cc",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary": "#4b41e1",
+                        "tertiary-container": "#6c748b",
+                        "tertiary": "#545c72",
+                        "surface-variant": "#e0e3e5",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "2xl": "48px",
+                        "margin-mobile": "16px",
+                        "container-max": "1280px",
+                        "3xl": "64px",
+                        "lg": "24px",
+                        "md": "16px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            }
+            .icon-filled {
+                font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md flex min-h-screen">
+<!-- Shared Component: SideNavBar -->
+<nav class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant flex flex-col p-md gap-sm hidden md:flex z-50">
+<!-- Header -->
+<div class="mb-lg px-sm">
+<h1 class="font-headline-md text-headline-md text-primary">Provider Hub</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Manage Consultations</p>
+</div>
+<!-- Navigation Links (No active state forced as this is a utility destination) -->
+<div class="flex flex-col gap-xs flex-1">
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+<span class="font-label-md text-label-md">Calendar</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">category</span>
+<span class="font-label-md text-label-md">Services</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200 ease-in-out" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-label-md text-label-md">Earnings</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200 ease-in-out mt-auto" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</div>
+<!-- CTA -->
+<button class="mt-md w-full bg-primary text-on-primary font-label-md text-label-md py-sm rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm">
+            Book New Service
+        </button>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 p-margin-mobile md:p-xl flex flex-col gap-lg md:gap-xl max-w-container-max mx-auto w-full">
+<!-- Page Header -->
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-md border-b border-outline-variant pb-md">
+<div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Notifications</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-xs">You have 3 unread messages.</p>
+</div>
+<button class="self-start md:self-auto flex items-center gap-sm px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-variant transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+                Mark all as read
+            </button>
+</header>
+<!-- Filters -->
+<div class="flex gap-sm overflow-x-auto pb-sm scrollbar-hide">
+<button class="whitespace-nowrap px-md py-sm bg-primary text-on-primary font-label-md text-label-md rounded-full shadow-sm">All Activity</button>
+<button class="whitespace-nowrap px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-surface-variant font-label-md text-label-md rounded-full transition-colors">Booking Updates</button>
+<button class="whitespace-nowrap px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-surface-variant font-label-md text-label-md rounded-full transition-colors">Payments</button>
+<button class="whitespace-nowrap px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface-variant hover:bg-surface-variant font-label-md text-label-md rounded-full transition-colors">System</button>
+</div>
+<!-- Notifications Feed (Rich Cards) -->
+<div class="flex flex-col gap-md">
+<!-- Unread: Booking Update -->
+<div class="relative flex flex-col md:flex-row gap-md p-md md:p-lg bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden group hover:shadow-md transition-shadow">
+<!-- Unread Indicator Line -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex-shrink-0 w-12 h-12 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a female executive in her 30s, wearing a smart grey blazer over a white blouse. She has short dark hair and a confident, welcoming smile. The background is a brightly lit, modern office environment with subtle architectural details. The lighting is soft and flattering, creating a high-end corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaVwsl3csCPHgt2jcZ4IHRK7O2lUZO4Ft2tu42KKeRbnzIy6l9lSUnOweFoow1SKcr4_WSkyIq0ey03dI2zXvi6ewY5MCBwh8XzrbCGW1djJ60Ucr_2YGkRKE5gUPHgGayVh-sBMzapPs-47AHHdUfKBW30U-pRUZIFXkM4KZpKI1BliUyTZ3_55de9frwylgpT3dbfMDMsvE-4kZEwvJ_mENQB_gZ97PuFROuwqa9Fyjb_oZbCNriFQ"/>
+</div>
+<div class="flex-1 flex flex-col gap-xs">
+<div class="flex flex-col md:flex-row md:justify-between md:items-start gap-xs">
+<div>
+<span class="inline-block px-sm py-xs bg-secondary-container text-on-secondary-container font-label-sm text-label-sm rounded uppercase tracking-wider mb-xs">Booking Request</span>
+<h3 class="font-label-md text-label-md text-on-surface">Sarah Jenkins requested a 1-hour Strategy Session</h3>
+</div>
+<div class="flex items-center gap-xs text-primary font-label-sm text-label-sm">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+                            2 mins ago
+                        </div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Requested time: Thursday, Oct 24th at 2:00 PM EST. Please review and confirm the availability.</p>
+<div class="flex gap-sm mt-sm">
+<button class="px-md py-sm bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors">Accept</button>
+<button class="px-md py-sm bg-surface-container-lowest border border-outline-variant text-on-surface font-label-md text-label-md rounded-lg hover:bg-surface-variant transition-colors">Decline</button>
+</div>
+</div>
+</div>
+<!-- Unread: Payment -->
+<div class="relative flex flex-col md:flex-row gap-md p-md md:p-lg bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden group hover:shadow-md transition-shadow">
+<!-- Unread Indicator Line -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined icon-filled">payments</span>
+</div>
+<div class="flex-1 flex flex-col gap-xs">
+<div class="flex flex-col md:flex-row md:justify-between md:items-start gap-xs">
+<div>
+<span class="inline-block px-sm py-xs bg-surface-variant text-on-surface-variant font-label-sm text-label-sm rounded uppercase tracking-wider mb-xs">Payment Cleared</span>
+<h3 class="font-label-md text-label-md text-on-surface">Payout of $450.00 processed</h3>
+</div>
+<div class="flex items-center gap-xs text-primary font-label-sm text-label-sm">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+                            45 mins ago
+                        </div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Funds have been successfully transferred to your connected bank account ending in **4921.</p>
+<div class="flex mt-sm">
+<button class="text-primary font-label-md text-label-md hover:underline flex items-center gap-xs">
+                            View Receipt <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Unread: System -->
+<div class="relative flex flex-col md:flex-row gap-md p-md md:p-lg bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant overflow-hidden group hover:shadow-md transition-shadow">
+<!-- Unread Indicator Line -->
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined">security_update_good</span>
+</div>
+<div class="flex-1 flex flex-col gap-xs">
+<div class="flex flex-col md:flex-row md:justify-between md:items-start gap-xs">
+<div>
+<span class="inline-block px-sm py-xs bg-surface-variant text-on-surface-variant font-label-sm text-label-sm rounded uppercase tracking-wider mb-xs">System Alert</span>
+<h3 class="font-label-md text-label-md text-on-surface">Security Policy Update</h3>
+</div>
+<div class="flex items-center gap-xs text-primary font-label-sm text-label-sm">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+                            2 hours ago
+                        </div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">We have updated our Terms of Service and Privacy Policy to enhance data protection compliance. No action is required on your part.</p>
+</div>
+</div>
+<!-- Read: Booking Update (Dimmed state) -->
+<div class="flex flex-col md:flex-row gap-md p-md md:p-lg bg-surface-container rounded-xl border border-outline-variant/50 overflow-hidden opacity-80 hover:opacity-100 transition-opacity">
+<div class="flex-shrink-0 w-12 h-12 rounded-full overflow-hidden bg-surface-variant flex items-center justify-center">
+<img class="w-full h-full object-cover grayscale opacity-70" data-alt="A professional portrait of a middle-aged male client with glasses and a neat beard, wearing a casual navy blue sweater. He looks attentive and professional. The background is a subtly blurred home office setting with a plant and bookshelf visible. The lighting is natural and even, reflecting a high-quality modern video call aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbsw-Im-pLG4iktPTm-gHubQ-GkktL_kAngVkTkU8LtS41i7sa9CVT824Zg0JYKw_HtGiAdL8Vtr3mIki6dXjmrhZeJsFxoLDSqVC02d4WYyZryOduiB6jOC3n45DxZZwUcr4EWEwPM881eyC3gZS9-sEvVqgQpev2tinvcvvbuDAZUY0fdDg9Oi87SMGQbvQYetvlmTJtQxhiG6zZXrE68Rce3cldviDUk95so9lMicol-Wn4oPF70Q"/>
+</div>
+<div class="flex-1 flex flex-col gap-xs">
+<div class="flex flex-col md:flex-row md:justify-between md:items-start gap-xs">
+<div>
+<span class="inline-block px-sm py-xs bg-surface-variant text-on-surface-variant font-label-sm text-label-sm rounded uppercase tracking-wider mb-xs">Booking Confirmed</span>
+<h3 class="font-label-md text-label-md text-on-surface">Consultation with David Chen completed</h3>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant font-label-sm text-label-sm">
+                            Yesterday, 4:30 PM
+                        </div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">The 30-minute introductory call was successfully completed. Client feedback is pending.</p>
+</div>
+</div>
+</div>
+<!-- Loading More / End State -->
+<div class="text-center mt-lg py-lg text-on-surface-variant font-body-sm text-body-sm border-t border-outline-variant/30">
+            You're all caught up for the last 30 days.
+        </div>
+</main>
+</body></html>
