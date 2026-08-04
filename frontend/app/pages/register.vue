@@ -20,41 +20,56 @@
           </div>
           
           <!-- Form -->
-          <form class="space-y-lg" @submit.prevent="handleRegister">
+          <form class="space-y-lg" @submit.prevent="onSubmit">
+            <div v-if="errorMsg" class="p-md bg-error-container text-on-error-container rounded-lg font-body-sm text-center">
+              {{ errorMsg }}
+            </div>
             
-            <UiInput
-              id="fullname"
-              v-model="fullname"
-              type="text"
-              label="Full Name"
-              floating
-              required
-            />
+            <div>
+              <UiInput
+                id="fullname"
+                v-model="fullname"
+                v-bind="fullnameProps"
+                type="text"
+                label="Full Name"
+                floating
+              />
+              <span v-if="errors.fullname" class="text-error font-body-sm mt-1 inline-block">{{ errors.fullname }}</span>
+            </div>
 
-            <UiInput
-              id="email"
-              v-model="email"
-              type="email"
-              label="Email address"
-              floating
-              required
-            />
+            <div>
+              <UiInput
+                id="email"
+                v-model="email"
+                v-bind="emailProps"
+                type="email"
+                label="Email address"
+                floating
+              />
+              <span v-if="errors.email" class="text-error font-body-sm mt-1 inline-block">{{ errors.email }}</span>
+            </div>
             
-            <UiInput
-              id="password"
-              v-model="password"
-              type="password"
-              label="Password"
-              floating
-              required
-            />
+            <div>
+              <UiInput
+                id="password"
+                v-model="password"
+                v-bind="passwordProps"
+                type="password"
+                label="Password"
+                floating
+              />
+              <span v-if="errors.password" class="text-error font-body-sm mt-1 inline-block">{{ errors.password }}</span>
+            </div>
             
             <!-- Actions Row -->
-            <div class="flex items-center mt-sm mb-lg">
-              <input id="terms" name="terms" type="checkbox" required class="h-4 w-4 rounded border-outline-variant text-primary focus:ring-secondary bg-surface-container-lowest transition-colors cursor-pointer" >
-              <label for="terms" class="ml-sm block font-body-sm text-body-sm text-on-surface-variant cursor-pointer">
-                I agree to the <a href="#" class="text-secondary hover:underline">Terms of Service</a> and <a href="#" class="text-secondary hover:underline">Privacy Policy</a>
-              </label>
+            <div>
+              <div class="flex items-center mt-sm mb-lg">
+                <input id="terms" v-model="terms" v-bind="termsProps" name="terms" type="checkbox" class="h-4 w-4 rounded border-outline-variant text-primary focus:ring-secondary bg-surface-container-lowest transition-colors cursor-pointer" >
+                <label for="terms" class="ml-sm block font-body-sm text-body-sm text-on-surface-variant cursor-pointer">
+                  I agree to the <a href="#" class="text-secondary hover:underline">Terms of Service</a> and <a href="#" class="text-secondary hover:underline">Privacy Policy</a>
+                </label>
+              </div>
+              <span v-if="errors.terms" class="text-error font-body-sm mt-1 inline-block">{{ errors.terms }}</span>
             </div>
             
             <!-- Submit Button -->
@@ -149,16 +164,43 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '~/stores/auth'
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
+import { registerSchema } from '~/utils/validations'
 
 definePageMeta({
   layout: false
 })
 
 const router = useRouter()
-const email = ref('')
-const password = ref('')
+const authStore = useAuthStore()
+const errorMsg = ref('')
+const loading = ref(false)
 
-const handleRegister = () => {
-  router.push('/onboarding')
-}
+const { handleSubmit, errors, defineField } = useForm({
+  validationSchema: toTypedSchema(registerSchema),
+})
+
+const [fullname, fullnameProps] = defineField('fullname')
+const [email, emailProps] = defineField('email')
+const [password, passwordProps] = defineField('password')
+const [terms, termsProps] = defineField('terms')
+
+const onSubmit = handleSubmit(async (values) => {
+  errorMsg.value = ''
+  loading.value = true
+  try {
+    await authStore.register({ 
+      name: values.fullname, 
+      email: values.email, 
+      password: values.password,
+      password_confirmation: values.password 
+    })
+  } catch (e: any) {
+    errorMsg.value = e
+  } finally {
+    loading.value = false
+  }
+})
 </script>

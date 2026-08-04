@@ -27,10 +27,14 @@
           <span>Earnings</span>
         </NuxtLink>
       </nav>
-      <div class="mt-auto">
+      <div class="mt-auto flex flex-col gap-sm">
         <button class="w-full bg-primary hover:bg-primary-container text-on-primary hover:text-on-primary-container font-label-md text-label-md py-sm rounded-lg shadow-sm transition-colors flex items-center justify-center gap-sm">
           <span class="material-symbols-outlined">add</span>
           Book New Service
+        </button>
+        <button @click="handleLogout" class="w-full flex items-center justify-center gap-md px-md py-sm rounded-lg font-label-md text-label-md text-error hover:bg-error-container hover:text-on-error-container transition-colors">
+          <span class="material-symbols-outlined">logout</span>
+          Logout
         </button>
       </div>
     </aside>
@@ -79,5 +83,11 @@
 </template>
 
 <script setup lang="ts">
-// Provider Layout Logic
+import { useAuthStore } from '~/stores/auth'
+
+const authStore = useAuthStore()
+
+const handleLogout = async () => {
+  await authStore.logout()
+}
 </script>

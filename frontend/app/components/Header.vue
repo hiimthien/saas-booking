@@ -8,18 +8,32 @@
       </nav>
     </div>
     <div class="flex items-center gap-md">
-      <NuxtLink to="/login" class="hidden md:block border border-outline-variant rounded px-md py-sm font-label-md text-label-md text-on-surface hover:bg-surface-variant transition-colors">Login</NuxtLink>
-      <NuxtLink to="/register" class="bg-primary text-on-primary rounded px-md py-sm font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors">Sign Up</NuxtLink>
-      <button class="p-xs text-on-surface-variant hover:text-primary transition-colors">
-        <Component :is="Bell" class="w-6 h-6" />
-      </button>
-      <NuxtLink to="/provider/dashboard">
-        <img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant ml-sm hover:ring-2 hover:ring-primary transition-all" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80" >
-      </NuxtLink>
+      <template v-if="!authStore.user">
+        <NuxtLink to="/login" class="hidden md:block border border-outline-variant rounded px-md py-sm font-label-md text-label-md text-on-surface hover:bg-surface-variant transition-colors">Login</NuxtLink>
+        <NuxtLink to="/register" class="bg-primary text-on-primary rounded px-md py-sm font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors">Sign Up</NuxtLink>
+      </template>
+      <template v-else>
+        <button class="p-xs text-on-surface-variant hover:text-primary transition-colors">
+          <Component :is="Bell" class="w-6 h-6" />
+        </button>
+        <NuxtLink :to="authStore.user.role === 'admin' ? '/admin/dashboard' : (authStore.user.role === 'consultant' ? '/provider/dashboard' : '/client/dashboard')">
+          <img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant ml-sm hover:ring-2 hover:ring-primary transition-all" :src="authStore.user.avatar_url || 'https://ui-avatars.com/api/?name=' + authStore.user.name" >
+        </NuxtLink>
+        <button @click="handleLogout" class="p-xs text-on-surface-variant hover:text-error transition-colors ml-sm" title="Logout">
+          <Component :is="LogOut" class="w-5 h-5" />
+        </button>
+      </template>
     </div>
   </header>
 </template>
 
 <script setup lang="ts">
-import { Bell } from 'lucide-vue-next'
+import { Bell, LogOut } from 'lucide-vue-next'
+import { useAuthStore } from '~/stores/auth'
+
+const authStore = useAuthStore()
+
+const handleLogout = async () => {
+  await authStore.logout()
+}
 </script>

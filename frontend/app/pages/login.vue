@@ -20,26 +20,36 @@
           </div>
           
           <!-- Form -->
-          <form class="space-y-lg" @submit.prevent="handleLogin">
+          <form class="space-y-lg" @submit.prevent="onSubmit">
+            <div v-if="errorMsg" class="p-md bg-error-container text-on-error-container rounded-lg font-body-sm text-center">
+              {{ errorMsg }}
+            </div>
+            
             <!-- Floating Label Email -->
-            <UiInput
-              id="email"
-              v-model="email"
-              type="email"
-              label="Email address"
-              floating
-              required
-            />
+            <div>
+              <UiInput
+                id="email"
+                v-model="email"
+                v-bind="emailProps"
+                type="email"
+                label="Email address"
+                floating
+              />
+              <span v-if="errors.email" class="text-error font-body-sm mt-1 inline-block">{{ errors.email }}</span>
+            </div>
             
             <!-- Floating Label Password -->
-            <UiInput
-              id="password"
-              v-model="password"
-              type="password"
-              label="Password"
-              floating
-              required
-            />
+            <div>
+              <UiInput
+                id="password"
+                v-model="password"
+                v-bind="passwordProps"
+                type="password"
+                label="Password"
+                floating
+              />
+              <span v-if="errors.password" class="text-error font-body-sm mt-1 inline-block">{{ errors.password }}</span>
+            </div>
             
 
             
@@ -150,22 +160,36 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '~/stores/auth'
+import { useForm } from 'vee-validate'
+import { toTypedSchema } from '@vee-validate/zod'
+import { loginSchema } from '~/utils/validations'
 
 definePageMeta({
   layout: false
 })
 
 const router = useRouter()
-const email = ref('')
-const password = ref('')
+const authStore = useAuthStore()
+const errorMsg = ref('')
+const loading = ref(false)
 
-const handleLogin = () => {
-  if (email.value === 'admin@example.com') {
-    router.push('/admin/dashboard')
-  } else if (email.value === 'provider@example.com') {
-    router.push('/provider/dashboard')
-  } else {
-    router.push('/client/dashboard')
+const { handleSubmit, errors, defineField } = useForm({
+  validationSchema: toTypedSchema(loginSchema),
+})
+
+const [email, emailProps] = defineField('email')
+const [password, passwordProps] = defineField('password')
+
+const onSubmit = handleSubmit(async (values) => {
+  errorMsg.value = ''
+  loading.value = true
+  try {
+    await authStore.login({ email: values.email, password: values.password })
+  } catch (e: any) {
+    errorMsg.value = e
+  } finally {
+    loading.value = false
   }
-}
+})
 </script>

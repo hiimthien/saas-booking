@@ -1,6 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   srcDir: 'app/',
+  runtimeConfig: {
+    apiBaseUrl: process.env.NUXT_API_BASE_URL || 'http://backend:8000/api',
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || 'http://localhost:8000/api',
+    }
+  },
   app: {
     head: {
       link: [
@@ -17,6 +23,9 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@nuxt/eslint'
   ],
+  build: {
+    transpile: ['vee-validate']
+  },
   css: ['~/assets/css/main.css'],
   postcss: {
     plugins: {

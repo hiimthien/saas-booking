@@ -1,10 +1,11 @@
 import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt(
-  // Your custom ESLint config here
+  // Your custom ESLint rules
   {
     rules: {
-      'vue/multi-word-component-names': 'off'
+      'vue/multi-word-component-names': 'off',
+      '@typescript-eslint/no-explicit-any': 'off'
     }
   }
 )

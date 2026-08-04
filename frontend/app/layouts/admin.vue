@@ -30,7 +30,7 @@
         </NuxtLink>
       </nav>
       <div class="mt-auto pt-md border-t border-outline-variant">
-        <button class="w-full flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-error-container hover:text-on-error-container transition-colors">
+        <button @click="handleLogout" class="w-full flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md text-error hover:bg-error-container hover:text-on-error-container transition-colors">
           <span class="material-symbols-outlined">logout</span>
           Logout
         </button>
@@ -72,5 +72,11 @@
 </template>
 
 <script setup lang="ts">
-// Admin Layout
+import { useAuthStore } from '~/stores/auth'
+
+const authStore = useAuthStore()
+
+const handleLogout = async () => {
+  await authStore.logout()
+}
 </script>

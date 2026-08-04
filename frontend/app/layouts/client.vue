@@ -30,11 +30,15 @@
         </NuxtLink>
       </nav>
       
-      <div class="mt-auto pt-md">
+      <div class="mt-auto pt-md flex flex-col gap-sm">
         <UiButton to="/" block variant="primary">
           <span class="material-symbols-outlined text-sm">search</span>
           Find Experts
         </UiButton>
+        <button @click="handleLogout" class="flex items-center justify-center gap-sm px-sm py-sm text-error hover:bg-error-container hover:text-on-error-container rounded-lg transition-all font-label-md w-full">
+          <span class="material-symbols-outlined">logout</span>
+          Logout
+        </button>
       </div>
     </nav>
 
@@ -57,6 +61,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useAuthStore } from '~/stores/auth'
 
 const isMobileMenuOpen = ref(false)
+const authStore = useAuthStore()
+
+const handleLogout = async () => {
+  await authStore.logout()
+}
 </script>
