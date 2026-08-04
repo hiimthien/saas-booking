@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  frontend-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+          
+      - name: Install Dependencies
+        working-directory: ./frontend
+        run: npm install
+        
+      - name: Type Check & Lint (Optional)
+        working-directory: ./frontend
+        run: |
+          if npm run | grep -q 'lint'; then npm run lint; fi
+        continue-on-error: true
+        
+      - name: Build Project
+        working-directory: ./frontend
+        run: npm run build
+
+  backend-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2, pint
+          coverage: none
+          
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+        
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('backend/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+            
+      - name: Install Dependencies
+        working-directory: ./backend
+        run: composer install --prefer-dist --no-interaction --no-progress --no-scripts
+        
+      - name: Prepare Laravel Environment
+        working-directory: ./backend
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          
+      - name: Run Laravel Pint (Code Style)
+        working-directory: ./backend
+        run: pint --test
+        continue-on-error: true
+        
+      - name: Execute tests
+        working-directory: ./backend
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+        run: php artisan test
