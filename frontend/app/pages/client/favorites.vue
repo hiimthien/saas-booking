@@ -29,7 +29,7 @@
       <!-- Carousel Container -->
       <div class="flex gap-lg overflow-x-auto hide-scrollbar pb-sm snap-x snap-mandatory">
         <!-- Recommendation Card 1 -->
-        <UiCard class="snap-start shrink-0 w-80 relative overflow-hidden group p-0">
+        <UiBaseCard class="snap-start shrink-0 w-80 relative overflow-hidden group p-0">
           <div class="h-24 bg-tertiary-fixed w-full absolute top-0 left-0 -z-10 group-hover:bg-tertiary-fixed-dim transition-colors"/>
           <div class="p-md pt-xl flex flex-col items-center text-center gap-sm mt-md relative">
             <button class="absolute top-md right-md text-on-surface-variant hover:text-primary transition-colors">
@@ -43,8 +43,8 @@
               <p class="font-body-sm text-primary font-medium">Enterprise Architect</p>
             </div>
             <div class="flex gap-sm justify-center flex-wrap mt-xs">
-              <UiBadge variant="neutral">Cloud</UiBadge>
-              <UiBadge variant="neutral">Security</UiBadge>
+              <UiStatusBadge variant="neutral">Cloud</UiStatusBadge>
+              <UiStatusBadge variant="neutral">Security</UiStatusBadge>
             </div>
             <div class="w-full flex justify-between items-center mt-md pt-md border-t border-outline-variant">
               <div class="flex items-center gap-xs text-on-surface-variant">
@@ -54,10 +54,10 @@
               <button class="font-label-md text-primary hover:text-primary-container transition-colors">View Profile</button>
             </div>
           </div>
-        </UiCard>
+        </UiBaseCard>
 
         <!-- Recommendation Card 2 -->
-        <UiCard class="snap-start shrink-0 w-80 relative overflow-hidden group p-0">
+        <UiBaseCard class="snap-start shrink-0 w-80 relative overflow-hidden group p-0">
           <div class="h-24 bg-secondary-fixed w-full absolute top-0 left-0 -z-10 group-hover:bg-secondary-fixed-dim transition-colors"/>
           <div class="p-md pt-xl flex flex-col items-center text-center gap-sm mt-md relative">
             <button class="absolute top-md right-md text-on-surface-variant hover:text-primary transition-colors">
@@ -71,8 +71,8 @@
               <p class="font-body-sm text-secondary font-medium">Growth Strategist</p>
             </div>
             <div class="flex gap-sm justify-center flex-wrap mt-xs">
-              <UiBadge variant="neutral">B2B</UiBadge>
-              <UiBadge variant="neutral">SaaS</UiBadge>
+              <UiStatusBadge variant="neutral">B2B</UiStatusBadge>
+              <UiStatusBadge variant="neutral">SaaS</UiStatusBadge>
             </div>
             <div class="w-full flex justify-between items-center mt-md pt-md border-t border-outline-variant">
               <div class="flex items-center gap-xs text-on-surface-variant">
@@ -82,7 +82,7 @@
               <button class="font-label-md text-primary hover:text-primary-container transition-colors">View Profile</button>
             </div>
           </div>
-        </UiCard>
+        </UiBaseCard>
       </div>
     </section>
 
@@ -97,16 +97,16 @@
           <p class="font-body-sm text-on-surface-variant">Your bookmarked experts for quick access.</p>
         </div>
         <div class="flex gap-sm">
-          <UiButton variant="outline">
+          <UiBaseButton variant="outline">
             <span class="material-symbols-outlined text-[18px]">filter_list</span>
             Filter
-          </UiButton>
+          </UiBaseButton>
         </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg">
         <!-- Saved Card 1 -->
-        <UiCard class="p-lg flex flex-col gap-md hover:border-primary transition-colors group">
+        <UiBaseCard class="p-lg flex flex-col gap-md hover:border-primary transition-colors group">
           <div class="flex justify-between items-start">
             <div class="flex gap-md items-center">
               <div class="w-16 h-16 rounded-full overflow-hidden border border-outline-variant">
@@ -127,12 +127,12 @@
               <span class="material-symbols-outlined" style="font-size: 16px;">schedule</span>
               Available next week
             </div>
-            <UiButton variant="outline">Book Now</UiButton>
+            <UiBaseButton variant="outline">Book Now</UiBaseButton>
           </div>
-        </UiCard>
+        </UiBaseCard>
         
         <!-- Saved Card 2 -->
-        <UiCard class="p-lg flex flex-col gap-md hover:border-primary transition-colors group">
+        <UiBaseCard class="p-lg flex flex-col gap-md hover:border-primary transition-colors group">
           <div class="flex justify-between items-start">
             <div class="flex gap-md items-center">
               <div class="w-16 h-16 rounded-full overflow-hidden border border-outline-variant">
@@ -153,9 +153,9 @@
               <span class="material-symbols-outlined" style="font-size: 16px;">schedule</span>
               Available tmrw
             </div>
-            <UiButton variant="outline">Book Now</UiButton>
+            <UiBaseButton variant="outline">Book Now</UiBaseButton>
           </div>
-        </UiCard>
+        </UiBaseCard>
       </div>
     </section>
   </div>

@@ -36,7 +36,7 @@
         
         <!-- General Settings Panel -->
         <!-- General Settings Panel -->
-        <UiCard class="p-0">
+        <UiBaseCard class="p-0">
           <div class="p-md border-b border-outline-variant bg-surface">
             <h2 class="font-headline-md text-headline-md text-on-surface">General Configuration</h2>
           </div>
@@ -48,7 +48,7 @@
                 <p class="font-body-sm text-body-sm text-on-surface-variant">Displayed in header and emails.</p>
               </div>
               <div class="md:col-span-2">
-                <UiInput model-value="ConsultFlow" />
+                <UiBaseInput model-value="ConsultFlow" />
               </div>
             </div>
             <hr class="border-outline-variant" >
@@ -59,7 +59,7 @@
                 <p class="font-body-sm text-body-sm text-on-surface-variant">Where users send help requests.</p>
               </div>
               <div class="md:col-span-2">
-                <UiInput type="email" model-value="support@consultflow.com" />
+                <UiBaseInput type="email" model-value="support@consultflow.com" />
               </div>
             </div>
             <hr class="border-outline-variant" >
@@ -70,7 +70,7 @@
                 <p class="font-body-sm text-body-sm text-on-surface-variant">Base timezone for cron jobs.</p>
               </div>
               <div class="md:col-span-2">
-                <UiSelect
+                <UiBaseSelect
 model-value="UTC" :options="[
                   { value: 'UTC', label: 'UTC (Coordinated Universal Time)' },
                   { value: 'America/New_York', label: 'America/New_York (EST)' },
@@ -80,13 +80,13 @@ model-value="UTC" :options="[
             </div>
           </div>
           <div class="p-md border-t border-outline-variant bg-surface flex justify-end">
-            <UiButton variant="primary">Save Changes</UiButton>
+            <UiBaseButton variant="primary">Save Changes</UiBaseButton>
           </div>
-        </UiCard>
+        </UiBaseCard>
 
         <!-- Payments & Fees Panel -->
         <!-- Payments & Fees Panel -->
-        <UiCard class="p-0">
+        <UiBaseCard class="p-0">
           <div class="p-md border-b border-outline-variant bg-surface">
             <h2 class="font-headline-md text-headline-md text-on-surface">Platform Fees</h2>
           </div>
@@ -98,7 +98,7 @@ model-value="UTC" :options="[
                 <p class="font-body-sm text-body-sm text-on-surface-variant">Amount taken from each successful booking.</p>
               </div>
               <div class="md:col-span-2 relative">
-                <UiInput type="number" model-value="15" />
+                <UiBaseInput type="number" model-value="15" />
                 <span class="absolute right-md top-1/2 -translate-y-1/2 text-on-surface-variant font-bold pointer-events-none">%</span>
               </div>
             </div>
@@ -110,15 +110,15 @@ model-value="UTC" :options="[
                 <p class="font-body-sm text-body-sm text-on-surface-variant">Minimum amount required for consultant payouts.</p>
               </div>
               <div class="md:col-span-2 relative">
-                <UiInput type="number" model-value="50.00" class="pl-8" />
+                <UiBaseInput type="number" model-value="50.00" class="pl-8" />
                 <span class="absolute left-md top-1/2 -translate-y-1/2 text-on-surface-variant font-bold z-10 pointer-events-none">$</span>
               </div>
             </div>
           </div>
           <div class="p-md border-t border-outline-variant bg-surface flex justify-end">
-            <UiButton variant="primary">Save Changes</UiButton>
+            <UiBaseButton variant="primary">Save Changes</UiBaseButton>
           </div>
-        </UiCard>
+        </UiBaseCard>
 
       </div>
     </div>

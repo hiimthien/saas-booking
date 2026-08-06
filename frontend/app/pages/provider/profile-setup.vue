@@ -29,30 +29,30 @@
       <!-- Left Column: Main Form -->
       <div class="lg:col-span-8 space-y-lg">
         <!-- Basic Info Card -->
-        <UiCard class="p-lg">
+        <UiBaseCard class="p-lg">
           <h3 class="font-headline-md text-headline-md text-on-surface mb-md">Personal Details</h3>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-md mb-md">
             <div>
               <label class="block font-label-sm text-label-sm text-on-surface-variant uppercase mb-xs">First Name</label>
-              <UiInput placeholder="Jane" />
+              <UiBaseInput placeholder="Jane" />
             </div>
             <div>
               <label class="block font-label-sm text-label-sm text-on-surface-variant uppercase mb-xs">Last Name</label>
-              <UiInput placeholder="Doe" />
+              <UiBaseInput placeholder="Doe" />
             </div>
           </div>
           <div class="mb-md">
             <label class="block font-label-sm text-label-sm text-on-surface-variant uppercase mb-xs">Professional Title</label>
-            <UiInput placeholder="e.g. Senior Business Strategist" />
+            <UiBaseInput placeholder="e.g. Senior Business Strategist" />
           </div>
           <div class="mb-md">
             <label class="block font-label-sm text-label-sm text-on-surface-variant uppercase mb-xs">Bio / Overview</label>
             <textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg p-3 font-body-md text-body-md focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow resize-none" rows="4" placeholder="Briefly describe your expertise and how you help clients..."/>
           </div>
-        </UiCard>
+        </UiBaseCard>
 
         <!-- Availability Configurator Widget -->
-        <UiCard class="p-lg">
+        <UiBaseCard class="p-lg">
           <div class="flex items-center justify-between mb-md">
             <h3 class="font-headline-md text-headline-md text-on-surface">Default Weekly Availability</h3>
             <span class="material-symbols-outlined text-on-surface-variant">schedule</span>
@@ -67,8 +67,8 @@
                 <span class="font-label-md text-label-md text-on-surface">Monday</span>
               </div>
               <div class="flex-1 grid grid-cols-2 gap-sm">
-                <UiInput type="time" model-value="09:00" />
-                <UiInput type="time" model-value="17:00" />
+                <UiBaseInput type="time" model-value="09:00" />
+                <UiBaseInput type="time" model-value="17:00" />
               </div>
               <button class="text-on-surface-variant hover:text-error transition-colors">
                 <span class="material-symbols-outlined text-sm">delete</span>
@@ -82,8 +82,8 @@
                 <span class="font-label-md text-label-md text-on-surface">Tuesday</span>
               </div>
               <div class="flex-1 grid grid-cols-2 gap-sm">
-                <UiInput type="time" model-value="09:00" />
-                <UiInput type="time" model-value="17:00" />
+                <UiBaseInput type="time" model-value="09:00" />
+                <UiBaseInput type="time" model-value="17:00" />
               </div>
               <button class="text-on-surface-variant hover:text-error transition-colors">
                 <span class="material-symbols-outlined text-sm">delete</span>
@@ -101,13 +101,13 @@
               </div>
             </div>
           </div>
-        </UiCard>
+        </UiBaseCard>
       </div>
 
       <!-- Right Column: Profile Preview / Status -->
       <div class="lg:col-span-4 space-y-lg">
         <!-- Profile Photo Upload -->
-        <UiCard class="p-lg flex flex-col items-center text-center">
+        <UiBaseCard class="p-lg flex flex-col items-center text-center">
           <div class="w-32 h-32 rounded-full overflow-hidden mb-md border-4 border-surface-container relative group cursor-pointer">
             <img src="https://ui-avatars.com/api/?name=Provider&background=random" class="w-full h-full object-cover" >
             <div class="absolute inset-0 bg-on-surface/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -116,13 +116,13 @@
           </div>
           <h4 class="font-label-md text-label-md text-on-surface mb-xs">Profile Photo</h4>
           <p class="font-body-sm text-body-sm text-on-surface-variant mb-md">JPG or PNG, max 5MB</p>
-          <UiButton variant="outline">
+          <UiBaseButton variant="outline">
             Upload New
-          </UiButton>
-        </UiCard>
+          </UiBaseButton>
+        </UiBaseCard>
 
         <!-- Profile Completion Stats -->
-        <UiCard class="p-lg">
+        <UiBaseCard class="p-lg">
           <h4 class="font-headline-md text-headline-md text-on-surface mb-md">Profile Strength</h4>
           <div class="mb-sm flex justify-between items-end">
             <span class="font-display-lg text-display-lg text-primary">65%</span>
@@ -145,7 +145,7 @@
               Connect Calendar (+20%)
             </li>
           </ul>
-        </UiCard>
+        </UiBaseCard>
       </div>
     </div>
   </div>

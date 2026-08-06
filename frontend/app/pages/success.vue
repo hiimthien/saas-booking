@@ -34,10 +34,10 @@
 
       <div class="flex w-full gap-md mt-sm">
         <NuxtLink to="/" class="flex-1">
-          <UiButton variant="outline" class="w-full">Back to Home</UiButton>
+          <UiBaseButton variant="outline" class="w-full">Back to Home</UiBaseButton>
         </NuxtLink>
         <NuxtLink to="/provider/dashboard" class="flex-1">
-          <UiButton variant="primary" class="w-full">View Dashboard</UiButton>
+          <UiBaseButton variant="primary" class="w-full">View Dashboard</UiBaseButton>
         </NuxtLink>
       </div>
 

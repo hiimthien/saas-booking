@@ -12,7 +12,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-md xl:gap-lg">
       
       <!-- Profile Form -->
-      <UiCard class="lg:col-span-7 p-lg">
+      <UiBaseCard class="lg:col-span-7 p-lg">
         <h3 class="font-headline-md text-on-surface mb-md">Personal Information</h3>
         <form class="space-y-lg" @submit.prevent>
           <div class="flex items-center gap-lg">
@@ -23,9 +23,9 @@
               </div>
             </div>
             <div>
-              <UiButton variant="outline" type="button">
+              <UiBaseButton variant="outline" type="button">
                 Change Photo
-              </UiButton>
+              </UiBaseButton>
               <p class="font-body-sm text-on-surface-variant mt-xs">JPG, GIF or PNG. Max size of 800K</p>
             </div>
           </div>
@@ -33,36 +33,36 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
             <div class="space-y-xs">
               <label class="font-label-md text-on-surface block">First Name</label>
-              <UiInput model-value="Jane" />
+              <UiBaseInput model-value="Jane" />
             </div>
             <div class="space-y-xs">
               <label class="font-label-md text-on-surface block">Last Name</label>
-              <UiInput model-value="Doe" />
+              <UiBaseInput model-value="Doe" />
             </div>
           </div>
           
           <div class="space-y-xs">
             <label class="font-label-md text-on-surface block">Email Address</label>
-            <UiInput type="email" model-value="jane.doe@example.com" />
+            <UiBaseInput type="email" model-value="jane.doe@example.com" />
           </div>
           
           <div class="space-y-xs">
             <label class="font-label-md text-on-surface block">Timezone</label>
-            <UiSelect :options="[{value:'(GMT-08:00) Pacific Time (US & Canada)', label:'(GMT-08:00) Pacific Time (US & Canada)'},{value:'(GMT-05:00) Eastern Time (US & Canada)', label:'(GMT-05:00) Eastern Time (US & Canada)'},{value:'(GMT+00:00) London', label:'(GMT+00:00) London'}]" model-value="(GMT-08:00) Pacific Time (US & Canada)" />
+            <UiBaseSelect :options="[{value:'(GMT-08:00) Pacific Time (US & Canada)', label:'(GMT-08:00) Pacific Time (US & Canada)'},{value:'(GMT-05:00) Eastern Time (US & Canada)', label:'(GMT-05:00) Eastern Time (US & Canada)'},{value:'(GMT+00:00) London', label:'(GMT+00:00) London'}]" model-value="(GMT-08:00) Pacific Time (US & Canada)" />
           </div>
           
           <div class="pt-sm flex justify-end">
-            <UiButton type="submit" variant="primary">
+            <UiBaseButton type="submit" variant="primary">
               Save Changes
-            </UiButton>
+            </UiBaseButton>
           </div>
         </form>
-      </UiCard>
+      </UiBaseCard>
 
       <!-- Billing & Payment -->
       <div class="lg:col-span-5 flex flex-col gap-md xl:gap-lg">
         <!-- Saved Payment Methods -->
-        <UiCard class="p-lg">
+        <UiBaseCard class="p-lg">
           <div class="flex items-center justify-between mb-md">
             <h3 class="font-headline-md text-on-surface">Payment Methods</h3>
             <button class="text-primary hover:text-primary-container transition-colors font-label-md flex items-center gap-xs">
@@ -86,7 +86,7 @@
                   <span class="material-symbols-outlined">delete</span>
                 </button>
               </div>
-              <UiBadge variant="neutral" class="absolute top-md right-md group-hover:hidden">Default</UiBadge>
+              <UiStatusBadge variant="neutral" class="absolute top-md right-md group-hover:hidden">Default</UiStatusBadge>
             </div>
             
             <div class="flex items-center justify-between p-md border border-outline-variant rounded-lg bg-surface-container-lowest hover:bg-surface transition-colors group">
@@ -107,10 +107,10 @@
               </div>
             </div>
           </div>
-        </UiCard>
+        </UiBaseCard>
 
         <!-- Current Plan -->
-        <UiCard class="p-lg relative overflow-hidden">
+        <UiBaseCard class="p-lg relative overflow-hidden">
           <div class="absolute -right-10 -top-10 w-32 h-32 bg-secondary-container/20 rounded-full blur-2xl"/>
           <h3 class="font-headline-md text-on-surface mb-xs relative z-10">Pro Plan</h3>
           <p class="font-body-sm text-on-surface-variant mb-md relative z-10">$29.00/month</p>
@@ -123,11 +123,11 @@
               Manage Plan
             </button>
           </div>
-        </UiCard>
+        </UiBaseCard>
       </div>
 
       <!-- Invoice History Table -->
-      <UiCard class="lg:col-span-12 mt-md xl:mt-0 overflow-hidden flex flex-col p-0">
+      <UiBaseCard class="lg:col-span-12 mt-md xl:mt-0 overflow-hidden flex flex-col p-0">
         <div class="p-lg border-b border-outline-variant flex justify-between items-center bg-surface-bright">
           <h3 class="font-headline-md text-on-surface">Billing History</h3>
           <button class="text-on-surface-variant hover:text-primary transition-colors">
@@ -151,7 +151,7 @@
                 <td class="py-md px-lg font-body-sm text-on-surface-variant">Oct {{ 15 + i }}, 2023</td>
                 <td class="py-md px-lg font-body-sm text-on-surface">$29.00</td>
                 <td class="py-md px-lg">
-                  <UiBadge variant="primary">Paid</UiBadge>
+                  <UiStatusBadge variant="primary">Paid</UiStatusBadge>
                 </td>
                 <td class="py-md px-lg text-right">
                   <button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100" title="Download Receipt">
@@ -162,7 +162,7 @@
             </tbody>
           </table>
         </div>
-      </UiCard>
+      </UiBaseCard>
     </div>
   </div>
 </template>

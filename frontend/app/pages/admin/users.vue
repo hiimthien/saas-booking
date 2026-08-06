@@ -7,37 +7,37 @@
         <p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Manage all registered users on the platform.</p>
       </div>
       <div class="flex gap-sm">
-        <UiButton variant="outline">
+        <UiBaseButton variant="outline">
           <span class="material-symbols-outlined text-[18px]">download</span>
           Export
-        </UiButton>
-        <UiButton variant="primary">
+        </UiBaseButton>
+        <UiBaseButton variant="primary">
           <span class="material-symbols-outlined text-[18px]">person_add</span>
           Add User
-        </UiButton>
+        </UiBaseButton>
       </div>
     </header>
 
     <!-- Filters & Search -->
-    <UiCard class="p-md mb-lg flex flex-col md:flex-row gap-md items-center justify-between">
+    <UiBaseCard class="p-md mb-lg flex flex-col md:flex-row gap-md items-center justify-between">
       <div class="flex flex-1 w-full gap-md">
         <div class="relative flex-1 max-w-md">
           <span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px] z-10">search</span>
-          <UiInput type="text" placeholder="Search users by name, email, or ID..." class="[&>div>input]:pl-10" />
+          <UiBaseInput type="text" placeholder="Search users by name, email, or ID..." class="[&>div>input]:pl-10" />
         </div>
         <div class="hidden md:flex gap-sm w-full max-w-md">
-          <UiSelect :options="[{value:'All Roles', label:'All Roles'},{value:'Customer', label:'Customer'},{value:'Consultant', label:'Consultant'},{value:'Admin', label:'Admin'}]" model-value="All Roles" class="flex-1" />
-          <UiSelect :options="[{value:'All Statuses', label:'All Statuses'},{value:'Active', label:'Active'},{value:'Inactive', label:'Inactive'},{value:'Suspended', label:'Suspended'}]" model-value="All Statuses" class="flex-1" />
+          <UiBaseSelect :options="[{value:'All Roles', label:'All Roles'},{value:'Customer', label:'Customer'},{value:'Consultant', label:'Consultant'},{value:'Admin', label:'Admin'}]" model-value="All Roles" class="flex-1" />
+          <UiBaseSelect :options="[{value:'All Statuses', label:'All Statuses'},{value:'Active', label:'Active'},{value:'Inactive', label:'Inactive'},{value:'Suspended', label:'Suspended'}]" model-value="All Statuses" class="flex-1" />
         </div>
       </div>
-      <UiButton variant="outline" class="md:hidden w-full flex justify-center items-center gap-xs">
+      <UiBaseButton variant="outline" class="md:hidden w-full flex justify-center items-center gap-xs">
         <span class="material-symbols-outlined text-[18px]">filter_list</span>
         Filters
-      </UiButton>
-    </UiCard>
+      </UiBaseButton>
+    </UiBaseCard>
 
     <!-- Data Table -->
-    <UiCard class="p-0 overflow-hidden flex flex-col">
+    <UiBaseCard class="p-0 overflow-hidden flex flex-col">
       <div class="overflow-x-auto w-full">
         <table class="w-full text-left border-collapse min-w-[800px]">
           <thead class="bg-surface-container-low border-b border-outline-variant">
@@ -68,10 +68,10 @@
                 </div>
               </td>
               <td class="py-md px-md">
-                <UiBadge variant="neutral">Customer</UiBadge>
+                <UiStatusBadge variant="neutral">Customer</UiStatusBadge>
               </td>
               <td class="py-md px-md">
-                <UiBadge variant="success">Active</UiBadge>
+                <UiStatusBadge variant="success">Active</UiStatusBadge>
               </td>
               <td class="py-md px-md text-on-surface-variant">Oct 24, 2023</td>
               <td class="py-md px-md text-right">
@@ -98,10 +98,10 @@
                 </div>
               </td>
               <td class="py-md px-md">
-                <UiBadge variant="primary">Consultant</UiBadge>
+                <UiStatusBadge variant="primary">Consultant</UiStatusBadge>
               </td>
               <td class="py-md px-md">
-                <UiBadge variant="success">Active</UiBadge>
+                <UiStatusBadge variant="success">Active</UiStatusBadge>
               </td>
               <td class="py-md px-md text-on-surface-variant">Sep 12, 2023</td>
               <td class="py-md px-md text-right">
@@ -128,10 +128,10 @@
                 </div>
               </td>
               <td class="py-md px-md">
-                <UiBadge variant="neutral">Customer</UiBadge>
+                <UiStatusBadge variant="neutral">Customer</UiStatusBadge>
               </td>
               <td class="py-md px-md">
-                <UiBadge variant="error">Suspended</UiBadge>
+                <UiStatusBadge variant="error">Suspended</UiStatusBadge>
               </td>
               <td class="py-md px-md text-on-surface-variant">Nov 01, 2023</td>
               <td class="py-md px-md text-right">
@@ -150,18 +150,18 @@
       <div class="border-t border-outline-variant p-md flex items-center justify-between bg-surface-container-lowest">
         <span class="font-body-sm text-body-sm text-on-surface-variant">Showing 1 to 10 of 2,451 entries</span>
         <div class="flex gap-xs">
-          <UiButton variant="outline" class="!p-1" disabled>
+          <UiBaseButton variant="outline" class="!p-1" disabled>
             <span class="material-symbols-outlined">chevron_left</span>
-          </UiButton>
-          <UiButton variant="primary" class="!px-3 !py-1 min-w-[32px]">1</UiButton>
-          <UiButton variant="outline" class="!px-3 !py-1 min-w-[32px]">2</UiButton>
-          <UiButton variant="outline" class="!px-3 !py-1 min-w-[32px]">3</UiButton>
-          <UiButton variant="outline" class="!p-1">
+          </UiBaseButton>
+          <UiBaseButton variant="primary" class="!px-3 !py-1 min-w-[32px]">1</UiBaseButton>
+          <UiBaseButton variant="outline" class="!px-3 !py-1 min-w-[32px]">2</UiBaseButton>
+          <UiBaseButton variant="outline" class="!px-3 !py-1 min-w-[32px]">3</UiBaseButton>
+          <UiBaseButton variant="outline" class="!p-1">
             <span class="material-symbols-outlined">chevron_right</span>
-          </UiButton>
+          </UiBaseButton>
         </div>
       </div>
-    </UiCard>
+    </UiBaseCard>
   </div>
 </template>
 

@@ -56,4 +56,22 @@ class BookingController extends Controller
             ], 400);
         }
     }
+
+    /**
+     * Display the specified booking.
+     */
+    public function show($id): JsonResponse
+    {
+        $consultation = \App\Models\Consultation::with('consultantProfile.user')->findOrFail($id);
+        
+        // Ensure user can only see their own booking (simplified auth check for demo)
+        if ($consultation->customer_id !== auth()->id()) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => new ConsultationResource($consultation)
+        ]);
+    }
 }

@@ -102,6 +102,7 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useConsultantService } from '~/services/consultant.service'
 import { useBookingService } from '~/services/booking.service'
+import { usePaymentService } from '~/services/payment.service'
 
 definePageMeta({ layout: false })
 
@@ -114,6 +115,7 @@ const bookingTime = route.query.time as string
 
 const { getConsultantBySlug } = useConsultantService()
 const { createBooking } = useBookingService()
+const { processPayment } = usePaymentService()
 
 const { data, pending } = await useAsyncData(`checkout-consultant-${consultantSlug}`, () => {
   if (!consultantSlug) return Promise.resolve(null)
@@ -133,6 +135,7 @@ const total = computed(() => {
 
 const isSubmitting = ref(false)
 const errorMsg = ref('')
+const selectedPaymentMethod = ref('credit-card')
 
 const submitBooking = async () => {
   if (!consultant.value || !bookingDate || !bookingTime) {
@@ -144,16 +147,26 @@ const submitBooking = async () => {
     isSubmitting.value = true
     errorMsg.value = ''
     
-    await createBooking({
+    const bookingRes = await createBooking({
       consultant_profile_id: consultant.value.id,
       start_time: `${bookingDate} ${bookingTime}`,
       duration_minutes: 60
     })
 
+    const consultationId = bookingRes.data?.id
+    if (!consultationId) {
+      throw new Error("Failed to retrieve booking ID.")
+    }
+
+    await processPayment({
+      consultation_id: consultationId,
+      payment_method: selectedPaymentMethod.value
+    })
+
     // On success
-    router.push('/client/dashboard')
+    router.push(`/checkout/success?booking_id=${consultationId}`)
   } catch (err: any) {
-    errorMsg.value = err.response?._data?.message || 'Failed to create booking'
+    errorMsg.value = err.response?._data?.message || err.message || 'Failed to process checkout'
   } finally {
     isSubmitting.value = false
   }

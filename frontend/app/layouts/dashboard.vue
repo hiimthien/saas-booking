@@ -49,10 +49,10 @@
         </div>
       </nav>
       <div class="mt-auto">
-        <UiButton block variant="primary">
+        <UiBaseButton block variant="primary">
           <Plus class="w-5 h-5" />
           New Service
-        </UiButton>
+        </UiBaseButton>
       </div>
     </aside>
 

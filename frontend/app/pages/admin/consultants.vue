@@ -20,7 +20,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-lg">
       
       <!-- Application Card 1 -->
-      <UiCard class="p-lg flex flex-col">
+      <UiBaseCard class="p-lg flex flex-col">
         <div class="flex justify-between items-start mb-md">
           <div class="flex gap-md">
             <img src="https://ui-avatars.com/api/?name=Sarah+Jenkins&background=random" class="w-12 h-12 rounded-full object-cover border border-outline-variant" >
@@ -29,7 +29,7 @@
               <p class="font-body-sm text-body-sm text-primary">Senior UX Designer</p>
             </div>
           </div>
-          <UiBadge variant="warning">In Review</UiBadge>
+          <UiStatusBadge variant="warning">In Review</UiStatusBadge>
         </div>
         
         <div class="space-y-sm mb-md flex-1">
@@ -48,13 +48,13 @@
         </div>
         
         <div class="border-t border-outline-variant pt-md flex gap-sm mt-auto">
-          <UiButton variant="outline" class="flex-1 hover:bg-error-container hover:text-on-error-container hover:border-error">Reject</UiButton>
-          <UiButton variant="primary" class="flex-1">Approve</UiButton>
+          <UiBaseButton variant="outline" class="flex-1 hover:bg-error-container hover:text-on-error-container hover:border-error">Reject</UiBaseButton>
+          <UiBaseButton variant="primary" class="flex-1">Approve</UiBaseButton>
         </div>
-      </UiCard>
+      </UiBaseCard>
 
       <!-- Application Card 2 -->
-      <UiCard class="p-lg flex flex-col">
+      <UiBaseCard class="p-lg flex flex-col">
         <div class="flex justify-between items-start mb-md">
           <div class="flex gap-md">
             <img src="https://ui-avatars.com/api/?name=Michael+Chang&background=random" class="w-12 h-12 rounded-full object-cover border border-outline-variant" >
@@ -63,7 +63,7 @@
               <p class="font-body-sm text-body-sm text-primary">Financial Advisor</p>
             </div>
           </div>
-          <UiBadge variant="warning">In Review</UiBadge>
+          <UiStatusBadge variant="warning">In Review</UiStatusBadge>
         </div>
         
         <div class="space-y-sm mb-md flex-1">
@@ -82,10 +82,10 @@
         </div>
         
         <div class="border-t border-outline-variant pt-md flex gap-sm mt-auto">
-          <UiButton variant="outline" class="flex-1 hover:bg-error-container hover:text-on-error-container hover:border-error">Reject</UiButton>
-          <UiButton variant="primary" class="flex-1">Approve</UiButton>
+          <UiBaseButton variant="outline" class="flex-1 hover:bg-error-container hover:text-on-error-container hover:border-error">Reject</UiBaseButton>
+          <UiBaseButton variant="primary" class="flex-1">Approve</UiBaseButton>
         </div>
-      </UiCard>
+      </UiBaseCard>
 
     </div>
   </div>

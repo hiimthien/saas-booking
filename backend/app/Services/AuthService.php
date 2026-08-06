@@ -70,4 +70,35 @@ class AuthService
     {
         $user->tokens()->delete();
     }
+
+    /**
+     * Handle the callback from Google and authenticate the user.
+     *
+     * @param \Laravel\Socialite\Contracts\User $googleUser
+     * @return array
+     */
+    public function handleGoogleCallback(\Laravel\Socialite\Contracts\User $googleUser): array
+    {
+        $user = User::where('email', $googleUser->getEmail())->first();
+
+        if (! $user) {
+            $user = User::create([
+                'name' => $googleUser->getName(),
+                'email' => $googleUser->getEmail(),
+                'password' => Hash::make(\Illuminate\Support\Str::random(16)),
+                'role' => 'customer',
+                'avatar_url' => $googleUser->getAvatar(),
+            ]);
+        } elseif (! $user->avatar_url) {
+            $user->update(['avatar_url' => $googleUser->getAvatar()]);
+        }
+
+        $user->tokens()->delete();
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return [
+            'user' => $user,
+            'token' => $token,
+        ];
+    }
 }

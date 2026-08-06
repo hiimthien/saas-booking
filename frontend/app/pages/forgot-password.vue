@@ -24,13 +24,14 @@
             <div v-if="step === 'email'" class="absolute inset-0 p-lg md:p-xl flex flex-col">
               <h2 class="font-headline-md text-on-surface mb-sm">Forgot Password?</h2>
               <p class="font-body-md text-on-surface-variant mb-xl">Enter the email address associated with your account, and we'll send you a 6-digit recovery code.</p>
-              <form class="space-y-lg flex-1" @submit.prevent="step = 'otp'">
+              <form class="space-y-lg flex-1" @submit.prevent="sendOtp">
                 <div>
                   <label class="block font-label-md text-on-surface mb-xs" for="email">Email Address</label>
                   <input id="email" v-model="email" type="email" placeholder="name@company.com" required class="w-full px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" >
                 </div>
-                <button type="submit" class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-surface-tint transition-all shadow-sm">
-                  Send Recovery Code
+                <div v-if="errorMsg" class="text-error font-body-sm">{{ errorMsg }}</div>
+                <button type="submit" :disabled="isSubmitting" class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-surface-tint transition-all shadow-sm disabled:opacity-50">
+                  {{ isSubmitting ? 'Sending...' : 'Send Recovery Code' }}
                 </button>
               </form>
               <div class="mt-lg text-center">
@@ -52,16 +53,17 @@
                 <h2 class="font-headline-md text-on-surface">Enter Code</h2>
               </div>
               <p class="font-body-md text-on-surface-variant mb-xl">We sent a 6-digit code to <strong>{{ email || 'user@company.com' }}</strong>. Please enter it below.</p>
-              <form class="space-y-xl flex-1" @submit.prevent="step = 'new-password'">
+              <form class="space-y-xl flex-1" @submit.prevent="verifyOtp">
                 <div class="flex justify-between gap-sm">
-                  <input v-for="i in 6" :key="i" type="text" maxlength="1" class="w-12 h-14 text-center text-headline-lg bg-surface-container-lowest border border-outline-variant rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" >
+                  <input v-for="i in 6" :key="i" v-model="otpDigits[i-1]" type="text" maxlength="1" class="w-12 h-14 text-center text-headline-lg bg-surface-container-lowest border border-outline-variant rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" >
                 </div>
                 <div class="space-y-md">
-                  <button type="submit" class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-surface-tint transition-all shadow-sm">
-                    Verify Code
+                  <div v-if="errorMsg" class="text-error font-body-sm text-center">{{ errorMsg }}</div>
+                  <button type="submit" :disabled="isSubmitting" class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-surface-tint transition-all shadow-sm disabled:opacity-50">
+                    {{ isSubmitting ? 'Verifying...' : 'Verify Code' }}
                   </button>
                   <p class="text-center font-body-sm text-on-surface-variant">
-                    Didn't receive code? <button type="button" class="text-secondary font-label-md hover:underline ml-1">Resend in 0:59</button>
+                    Didn't receive code? <button type="button" @click="sendOtp" class="text-secondary font-label-md hover:underline ml-1">Resend</button>
                   </p>
                 </div>
               </form>
@@ -73,7 +75,7 @@
             <div v-if="step === 'new-password'" class="absolute inset-0 p-lg md:p-xl bg-surface-container-lowest flex flex-col">
               <h2 class="font-headline-md text-on-surface mb-sm">Create New Password</h2>
               <p class="font-body-md text-on-surface-variant mb-xl">Your identity has been verified. Please set a new, strong password.</p>
-              <form class="space-y-lg flex-1" @submit.prevent="finish">
+              <form class="space-y-lg flex-1" @submit.prevent="resetPassword">
                 <div class="space-y-xs">
                   <label class="block font-label-md text-on-surface" for="new-password">New Password</label>
                   <div class="relative">
@@ -82,11 +84,12 @@
                 </div>
                 <div>
                   <label class="block font-label-md text-on-surface mb-xs" for="confirm-password">Confirm Password</label>
-                  <input id="confirm-password" type="password" placeholder="••••••••" required class="w-full px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" >
+                  <input id="confirm-password" v-model="confirmPassword" type="password" placeholder="••••••••" required class="w-full px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" >
                 </div>
-                <div class="pt-sm">
-                  <button type="submit" class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-surface-tint transition-all shadow-sm">
-                    Reset Password
+                <div class="pt-sm space-y-md">
+                  <div v-if="errorMsg" class="text-error font-body-sm text-center">{{ errorMsg }}</div>
+                  <button type="submit" :disabled="isSubmitting" class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-surface-tint transition-all shadow-sm disabled:opacity-50">
+                    {{ isSubmitting ? 'Resetting...' : 'Reset Password' }}
                   </button>
                 </div>
               </form>
@@ -106,30 +109,82 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useRuntimeConfig } from '#app'
 
 definePageMeta({ layout: false })
 
 const step = ref<'email' | 'otp' | 'new-password'>('email')
 const email = ref('')
 const newPassword = ref('')
-const router = useRouter()
+const confirmPassword = ref('')
+const otpDigits = ref(['', '', '', '', '', ''])
+const errorMsg = ref('')
+const isSubmitting = ref(false)
 
-const finish = () => {
-  alert('Password successfully reset!')
-  router.push('/login')
+const router = useRouter()
+const config = useRuntimeConfig()
+
+const otpCode = computed(() => otpDigits.value.join(''))
+
+const sendOtp = async () => {
+  if (!email.value) return
+  isSubmitting.value = true
+  errorMsg.value = ''
+  try {
+    await $fetch(`${config.public.apiBase}/forgot-password/send-otp`, {
+      method: 'POST',
+      body: { email: email.value }
+    })
+    step.value = 'otp'
+  } catch (e: any) {
+    errorMsg.value = e.response?._data?.message || 'Failed to send OTP'
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+const verifyOtp = async () => {
+  if (otpCode.value.length < 6) return
+  isSubmitting.value = true
+  errorMsg.value = ''
+  try {
+    await $fetch(`${config.public.apiBase}/forgot-password/verify-otp`, {
+      method: 'POST',
+      body: { email: email.value, otp: otpCode.value }
+    })
+    step.value = 'new-password'
+  } catch (e: any) {
+    errorMsg.value = e.response?._data?.message || 'Invalid or expired OTP'
+  } finally {
+    isSubmitting.value = false
+  }
+}
+
+const resetPassword = async () => {
+  if (newPassword.value !== confirmPassword.value) {
+    errorMsg.value = 'Passwords do not match'
+    return
+  }
+  isSubmitting.value = true
+  errorMsg.value = ''
+  try {
+    await $fetch(`${config.public.apiBase}/forgot-password/reset`, {
+      method: 'POST',
+      body: { 
+        email: email.value, 
+        otp: otpCode.value, 
+        password: newPassword.value,
+        password_confirmation: confirmPassword.value
+      }
+    })
+    alert('Password successfully reset!')
+    router.push('/login')
+  } catch (e: any) {
+    errorMsg.value = e.response?._data?.message || 'Failed to reset password'
+  } finally {
+    isSubmitting.value = false
+  }
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

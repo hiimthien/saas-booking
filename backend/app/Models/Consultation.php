@@ -2,39 +2,30 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Concerns\HasUlids;
 
 class Consultation extends Model
 {
-    use HasUlids;
+    use HasFactory;
 
-    protected $fillable = [
-        'ulid', 'consultant_profile_id', 'customer_id', 'start_time', 'end_time', 'total_price', 'status', 'meeting_link', 'notes'
-    ];
+    protected $guarded = [];
 
-    public function uniqueIds(): array
+    protected function casts(): array
     {
-        return ['ulid'];
+        return [
+            'start_time' => 'datetime',
+            'end_time' => 'datetime',
+            'total_price' => 'decimal:2',
+        ];
     }
 
-    public function getRouteKeyName(): string
-    {
-        return 'ulid';
-    }
-
-    protected $casts = [
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
-    ];
-
-    public function consultantProfile(): BelongsTo
+    public function consultantProfile()
     {
         return $this->belongsTo(ConsultantProfile::class);
     }
 
-    public function customer(): BelongsTo
+    public function customer()
     {
         return $this->belongsTo(User::class, 'customer_id');
     }

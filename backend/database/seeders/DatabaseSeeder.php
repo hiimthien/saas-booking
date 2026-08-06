@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\ConsultantProfile;
-use App\Models\Tag;
 use App\Models\User;
+use App\Models\Tag;
+use App\Models\ConsultantProfile;
 use App\Models\WorkingHour;
+use App\Models\Consultation;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,77 +17,77 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Tags
-        $tags = [
-            'IT & Software', 'Marketing', 'Legal', 'Finance', 'Startup', 
-            'B2B SaaS', 'SEO', 'Leadership', 'Design', 'Data Science'
-        ];
-        
-        $tagModels = [];
-        foreach ($tags as $tagName) {
-            $tagModels[] = Tag::create([
-                'name' => $tagName,
-                'slug' => \Illuminate\Support\Str::slug($tagName)
-            ]);
-        }
-
-        // 2. Admin & Client
-        User::create([
+        // 1. Create Admin User
+        User::factory()->admin()->create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'password' => Hash::make('password'),
-            'role' => 'admin',
         ]);
 
-        User::create([
-            'name' => 'Client User',
-            'email' => 'client@example.com',
-            'password' => Hash::make('password'),
-            'role' => 'client',
-        ]);
+        // 2. Create Tags (generate about 30 tags)
+        $tags = Tag::factory()->count(30)->create();
 
-        // 3. Consultants
-        $consultants = [];
-        for ($i = 1; $i <= 15; $i++) {
-            $consultants[] = User::create([
-                'name' => "Expert $i",
-                'email' => "expert$i@example.com",
-                'password' => Hash::make('password'),
-                'role' => 'consultant',
-                'avatar_url' => "https://ui-avatars.com/api/?name=Expert+$i&background=random"
-            ]);
-        }
+        // 3. Create 400 Customers
+        $customers = User::factory()->customer()->count(400)->create();
 
-        $titles = ['Senior Architect', 'Growth Specialist', 'Tax Consultant', 'Startup Advisor', 'Design Lead'];
+        // 4. Create 100 Consultants with Profiles, Tags, and Working Hours
+        $consultants = User::factory()->consultant()->count(100)->create();
 
         foreach ($consultants as $consultant) {
-            $randomTitle = $titles[array_rand($titles)];
-            $profile = ConsultantProfile::create([
+            $profile = ConsultantProfile::factory()->create([
                 'user_id' => $consultant->id,
-                'slug' => \Illuminate\Support\Str::slug($consultant->name . '-' . $randomTitle),
-                'title' => $randomTitle,
-                'hourly_rate' => rand(50, 250),
-                'bio' => 'Experienced professional with over 10 years of helping clients achieve their goals.',
-                'rating' => rand(40, 50) / 10, // 4.0 to 5.0
-                'reviews_count' => rand(10, 150),
-                'is_active' => true,
             ]);
 
-            // Attach 2-4 random tags
-            $randomTags = collect($tagModels)->random(rand(2, 4))->pluck('id');
-            $profile->tags()->attach($randomTags);
+            // Assign 2-5 random tags to this consultant
+            $profile->tags()->attach(
+                $tags->random(rand(2, 5))->pluck('id')->toArray()
+            );
 
-            // Working hours (Mon-Fri)
-            for ($day = 1; $day <= 5; $day++) {
-                WorkingHour::create([
+            // Create working hours for 7 days
+            for ($day = 1; $day <= 7; $day++) {
+                $isClosed = in_array($day, [6, 7]); // Closed on weekends typically, but sometimes open
+                WorkingHour::factory()->create([
                     'consultant_profile_id' => $profile->id,
                     'day_of_week' => $day,
-                    'start_time' => '09:00:00',
-                    'end_time' => '17:00:00',
-                    'is_closed' => false,
+                    'start_time' => $isClosed ? null : '08:00:00',
+                    'end_time' => $isClosed ? null : '17:00:00',
+                    'is_closed' => $isClosed,
+                ]);
+            }
+
+            // 5. Generate 5-15 Consultations for each profile
+            $numberOfConsultations = rand(5, 15);
+            for ($i = 0; $i < $numberOfConsultations; $i++) {
+                $consultation = Consultation::factory()->create([
+                    'consultant_profile_id' => $profile->id,
+                    'customer_id' => $customers->random()->id,
+                ]);
+
+                // 6. Generate Payment for each consultation
+                \App\Models\Payment::factory()->create([
+                    'consultation_id' => $consultation->id,
+                    'amount' => $consultation->total_price,
+                    'status' => $consultation->status === 'cancelled' ? 'refunded' : ($consultation->status === 'pending' ? 'pending' : 'completed'),
+                ]);
+
+                // 7. Generate Review if consultation is completed (80% chance)
+                if ($consultation->status === 'completed' && rand(1, 100) <= 80) {
+                    \App\Models\Review::factory()->create([
+                        'consultation_id' => $consultation->id,
+                        'customer_id' => $consultation->customer_id,
+                        'consultant_profile_id' => $profile->id,
+                    ]);
+                }
+            }
+
+            // Update profile rating and review count based on reviews
+            $reviews = \App\Models\Review::where('consultant_profile_id', $profile->id)->get();
+            if ($reviews->count() > 0) {
+                $profile->update([
+                    'rating' => $reviews->avg('rating'),
+                    'reviews_count' => $reviews->count(),
                 ]);
             }
         }
     }
 }
-

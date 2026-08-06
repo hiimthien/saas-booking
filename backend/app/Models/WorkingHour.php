@@ -2,16 +2,23 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class WorkingHour extends Model
 {
-    protected $fillable = [
-        'consultant_profile_id', 'day_of_week', 'start_time', 'end_time', 'is_closed'
-    ];
+    use HasFactory;
 
-    public function consultantProfile(): BelongsTo
+    protected $guarded = [];
+
+    protected function casts(): array
+    {
+        return [
+            'is_closed' => 'boolean',
+        ];
+    }
+
+    public function consultantProfile()
     {
         return $this->belongsTo(ConsultantProfile::class);
     }

@@ -108,39 +108,22 @@
           No consultants found matching your filters.
         </div>
         
-        <!-- Consultant Card -->
-        <div v-for="consultant in consultants" :key="consultant.id" class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between group">
-          <div class="flex gap-md mb-md">
-            <div class="w-16 h-16 rounded-full overflow-hidden border-2 border-surface-container flex-shrink-0">
-              <img :src="consultant.user.avatar_url || `https://ui-avatars.com/api/?name=${consultant.user.name}&background=random`" :alt="consultant.user.name" class="w-full h-full object-cover" >
-            </div>
-            <div class="flex-1 min-w-0">
-              <div class="flex justify-between items-start">
-                <div>
-                  <NuxtLink :to="`/consultants/${consultant.slug}`" class="font-headline-md text-on-surface truncate group-hover:text-primary transition-colors">{{ consultant.user.name }}</NuxtLink>
-                  <p class="font-body-sm text-on-surface-variant truncate">{{ consultant.title }}</p>
-                </div>
-                <div class="text-right flex-shrink-0">
-                  <p class="font-headline-md text-on-surface">${{ consultant.hourly_rate }}<span class="font-body-sm text-on-surface-variant font-normal">/hr</span></p>
-                </div>
-              </div>
-              <div class="flex items-center gap-xs mt-1">
-                <span class="material-symbols-outlined text-amber-500 text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                <span class="font-label-sm text-on-surface">{{ Number(consultant.rating).toFixed(1) }}</span>
-                <span class="font-body-sm text-on-surface-variant">({{ consultant.reviews_count }} reviews)</span>
-              </div>
-            </div>
-          </div>
-          <div class="mb-md">
-            <div class="flex flex-wrap gap-xs">
-              <span v-for="tag in consultant.tags" :key="tag" class="bg-surface-container-low text-on-surface-variant font-label-sm px-2 py-1 rounded-full">{{ tag }}</span>
-            </div>
-          </div>
-          <div class="flex gap-sm mt-auto pt-sm border-t border-outline-variant">
-            <NuxtLink :to="`/consultants/${consultant.slug}`" class="flex-1 text-center font-label-md text-on-surface bg-surface-container-lowest border border-outline-variant py-2 rounded-lg hover:bg-surface-variant transition-colors">View Profile</NuxtLink>
-            <NuxtLink :to="`/checkout?consultant=${consultant.slug}`" class="flex-1 text-center font-label-md text-on-primary bg-primary py-2 rounded-lg hover:bg-surface-tint hover:shadow-md transition-all">Quick Book</NuxtLink>
-          </div>
-        </div>
+        <!-- Consultant Card Component -->
+        <DomainConsultantProfileCard 
+          v-for="consultant in consultants" 
+          :key="consultant.id"
+          :consultant="{
+            id: consultant.id,
+            name: consultant.user.name,
+            title: consultant.title,
+            avatar: consultant.user.avatar_url || `https://ui-avatars.com/api/?name=${consultant.user.name}&background=random`,
+            rating: Number(consultant.rating),
+            reviews: consultant.reviews_count,
+            price: Number(consultant.hourly_rate),
+            tags: consultant.tags ? consultant.tags.map((t: any) => t.name) : []
+          }"
+          @book="$router.push(`/consultants/${consultant.slug}`)"
+        />
       </div>
 
       <!-- Pagination -->

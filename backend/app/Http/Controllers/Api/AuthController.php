@@ -56,4 +56,23 @@ class AuthController extends Controller
             'message' => 'Đăng xuất thành công.'
         ]);
     }
+
+    public function redirectToGoogle()
+    {
+        return \Laravel\Socialite\Facades\Socialite::driver('google')->stateless()->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = \Laravel\Socialite\Facades\Socialite::driver('google')->stateless()->user();
+            $data = $this->authService->handleGoogleCallback($googleUser);
+
+            $frontendUrl = env('FRONTEND_URL', 'http://localhost:3000');
+            return redirect()->away($frontendUrl . '/auth/callback?token=' . $data['token']);
+        } catch (\Exception $e) {
+            $frontendUrl = env('FRONTEND_URL', 'http://localhost:3000');
+            return redirect()->away($frontendUrl . '/login?error=google_auth_failed');
+        }
+    }
 }
