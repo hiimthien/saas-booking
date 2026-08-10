@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+
 interface Props {
   padding?: 'none' | 'sm' | 'md' | 'lg';
   hasShadow?: boolean;
@@ -19,16 +21,18 @@ const paddingClasses = {
   md: 'p-6',
   lg: 'p-8',
 };
+
+const currentPaddingClass = computed(() => paddingClasses[props.padding]);
 </script>
 
 <template>
   <div
     :class="[
       'bg-white rounded-xl transition-all duration-200',
-      paddingClasses[padding],
-      hasShadow ? 'shadow-sm' : '',
-      isHoverable ? 'hover:shadow-md hover:-translate-y-0.5 cursor-pointer' : '',
-      border ? 'border border-slate-100' : ''
+      currentPaddingClass,
+      props.hasShadow ? 'shadow-sm' : '',
+      props.isHoverable ? 'hover:shadow-md hover:-translate-y-0.5 cursor-pointer' : '',
+      props.border ? 'border border-slate-100' : ''
     ]"
   >
     <div v-if="$slots.header" class="mb-4">

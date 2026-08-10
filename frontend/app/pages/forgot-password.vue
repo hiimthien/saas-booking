@@ -25,14 +25,18 @@
               <h2 class="font-headline-md text-on-surface mb-sm">Forgot Password?</h2>
               <p class="font-body-md text-on-surface-variant mb-xl">Enter the email address associated with your account, and we'll send you a 6-digit recovery code.</p>
               <form class="space-y-lg flex-1" @submit.prevent="sendOtp">
-                <div>
-                  <label class="block font-label-md text-on-surface mb-xs" for="email">Email Address</label>
-                  <input id="email" v-model="email" type="email" placeholder="name@company.com" required class="w-full px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" >
-                </div>
+                <UiBaseInput
+                  id="email"
+                  v-model="email"
+                  type="email"
+                  label="Email Address"
+                  placeholder="name@company.com"
+                  required
+                />
                 <div v-if="errorMsg" class="text-error font-body-sm">{{ errorMsg }}</div>
-                <button type="submit" :disabled="isSubmitting" class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-surface-tint transition-all shadow-sm disabled:opacity-50">
-                  {{ isSubmitting ? 'Sending...' : 'Send Recovery Code' }}
-                </button>
+                <UiBaseButton type="submit" :disabled="isSubmitting" :loading="isSubmitting" block>
+                  Send Recovery Code
+                </UiBaseButton>
               </form>
               <div class="mt-lg text-center">
                 <NuxtLink to="/login" class="font-body-sm text-secondary hover:text-on-secondary-fixed-variant transition-colors flex items-center justify-center gap-xs">
@@ -54,14 +58,12 @@
               </div>
               <p class="font-body-md text-on-surface-variant mb-xl">We sent a 6-digit code to <strong>{{ email || 'user@company.com' }}</strong>. Please enter it below.</p>
               <form class="space-y-xl flex-1" @submit.prevent="verifyOtp">
-                <div class="flex justify-between gap-sm">
-                  <input v-for="i in 6" :key="i" v-model="otpDigits[i-1]" type="text" maxlength="1" class="w-12 h-14 text-center text-headline-lg bg-surface-container-lowest border border-outline-variant rounded-lg focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" >
-                </div>
+                <UiOtpInput v-model="otpCode" :length="6" />
                 <div class="space-y-md">
                   <div v-if="errorMsg" class="text-error font-body-sm text-center">{{ errorMsg }}</div>
-                  <button type="submit" :disabled="isSubmitting" class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-surface-tint transition-all shadow-sm disabled:opacity-50">
-                    {{ isSubmitting ? 'Verifying...' : 'Verify Code' }}
-                  </button>
+                  <UiBaseButton type="submit" :disabled="isSubmitting" :loading="isSubmitting" block>
+                    Verify Code
+                  </UiBaseButton>
                   <p class="text-center font-body-sm text-on-surface-variant">
                     Didn't receive code? <button type="button" @click="sendOtp" class="text-secondary font-label-md hover:underline ml-1">Resend</button>
                   </p>
@@ -76,21 +78,27 @@
               <h2 class="font-headline-md text-on-surface mb-sm">Create New Password</h2>
               <p class="font-body-md text-on-surface-variant mb-xl">Your identity has been verified. Please set a new, strong password.</p>
               <form class="space-y-lg flex-1" @submit.prevent="resetPassword">
-                <div class="space-y-xs">
-                  <label class="block font-label-md text-on-surface" for="new-password">New Password</label>
-                  <div class="relative">
-                    <input id="new-password" v-model="newPassword" type="password" placeholder="••••••••" required class="w-full px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" >
-                  </div>
-                </div>
-                <div>
-                  <label class="block font-label-md text-on-surface mb-xs" for="confirm-password">Confirm Password</label>
-                  <input id="confirm-password" v-model="confirmPassword" type="password" placeholder="••••••••" required class="w-full px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-lg font-body-md text-on-surface focus:border-secondary focus:ring-1 focus:ring-secondary outline-none transition-shadow" >
-                </div>
+                <UiBaseInput
+                  id="new-password"
+                  v-model="newPassword"
+                  type="password"
+                  label="New Password"
+                  placeholder="••••••••"
+                  required
+                />
+                <UiBaseInput
+                  id="confirm-password"
+                  v-model="confirmPassword"
+                  type="password"
+                  label="Confirm Password"
+                  placeholder="••••••••"
+                  required
+                />
                 <div class="pt-sm space-y-md">
                   <div v-if="errorMsg" class="text-error font-body-sm text-center">{{ errorMsg }}</div>
-                  <button type="submit" :disabled="isSubmitting" class="w-full py-sm px-md bg-primary text-on-primary rounded-lg font-label-md hover:bg-surface-tint transition-all shadow-sm disabled:opacity-50">
-                    {{ isSubmitting ? 'Resetting...' : 'Reset Password' }}
-                  </button>
+                  <UiBaseButton type="submit" :disabled="isSubmitting" :loading="isSubmitting" block>
+                    Reset Password
+                  </UiBaseButton>
                 </div>
               </form>
             </div>
@@ -119,14 +127,12 @@ const step = ref<'email' | 'otp' | 'new-password'>('email')
 const email = ref('')
 const newPassword = ref('')
 const confirmPassword = ref('')
-const otpDigits = ref(['', '', '', '', '', ''])
+const otpCode = ref('')
 const errorMsg = ref('')
 const isSubmitting = ref(false)
 
 const router = useRouter()
 const config = useRuntimeConfig()
-
-const otpCode = computed(() => otpDigits.value.join(''))
 
 const sendOtp = async () => {
   if (!email.value) return

@@ -28,10 +28,12 @@
             <span class="material-symbols-outlined">search</span>
           </div>
           <input type="text" placeholder="What kind of consultant do you need?" class="flex-grow bg-transparent border-none focus:ring-0 font-body-md text-on-surface px-md placeholder:text-on-surface-variant/60 outline-none" >
-          <button class="bg-primary text-on-primary font-label-md px-lg py-sm rounded-full hover:brightness-90 transition-all flex items-center gap-sm shadow-sm whitespace-nowrap" @click="$router.push('/search')">
+          <UiBaseButton class="rounded-full shadow-sm whitespace-nowrap" @click="$router.push('/search')">
             Find Experts
-            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-          </button>
+            <template #icon-right>
+              <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+            </template>
+          </UiBaseButton>
         </div>
       </div>
       

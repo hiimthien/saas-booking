@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { cn } from '~/utils/cn';
+
+defineOptions({ inheritAttrs: false });
 
 interface Props {
   variant?: 'primary' | 'outline' | 'ghost' | 'danger';
@@ -50,9 +53,10 @@ const handleClick = (event: MouseEvent) => {
 
 <template>
   <button
+    v-bind="$attrs"
     :type="type"
     :disabled="disabled || loading"
-    :class="variantClasses"
+    :class="cn(variantClasses, $attrs.class as any)"
     @click="handleClick"
   >
     <span v-if="loading" class="mr-2 animate-spin">

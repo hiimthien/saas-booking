@@ -3,10 +3,10 @@
     <!-- Mobile Filter Toggle -->
     <div class="md:hidden mb-4 flex justify-between items-center w-full">
       <h1 class="font-headline-lg-mobile text-on-surface">Explore Consultants</h1>
-      <button class="flex items-center gap-xs text-primary font-label-md px-3 py-2 border border-outline-variant rounded-lg bg-surface-container-low">
-        <span class="material-symbols-outlined text-sm">tune</span>
+      <UiBaseButton variant="outline" class="flex items-center gap-xs">
+        <template #icon-left><span class="material-symbols-outlined text-sm">tune</span></template>
         Filters
-      </button>
+      </UiBaseButton>
     </div>
 
     <!-- Sidebar Filters -->
@@ -14,7 +14,7 @@
       <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm sticky top-24">
         <div class="flex justify-between items-center mb-md border-b border-outline-variant pb-sm">
           <h2 class="font-headline-md text-on-surface">Filters</h2>
-          <button @click="clearFilters" class="text-body-sm text-primary hover:underline">Clear all</button>
+          <UiBaseButton variant="ghost" size="sm" @click="clearFilters">Clear all</UiBaseButton>
         </div>
 
         <!-- Price Range Filter -->
@@ -22,13 +22,13 @@
           <h3 class="font-label-md text-on-surface mb-sm">Hourly Rate</h3>
           <div class="flex items-center gap-sm mt-4">
             <div class="flex-1 relative">
-              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-body-sm">$</span>
-              <input v-model.lazy="minRate" type="number" placeholder="Min" class="w-full pl-6 pr-2 py-1.5 bg-surface-container-low border border-outline-variant rounded-lg text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" >
+              <span class="absolute left-2 top-[38%] -translate-y-1/2 text-on-surface-variant text-body-sm z-10">$</span>
+              <UiBaseInput v-model.lazy="minRate" type="number" placeholder="Min" class="pl-6" />
             </div>
             <span class="text-on-surface-variant">-</span>
             <div class="flex-1 relative">
-              <span class="absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-body-sm">$</span>
-              <input v-model.lazy="maxRate" type="number" placeholder="Max" class="w-full pl-6 pr-2 py-1.5 bg-surface-container-low border border-outline-variant rounded-lg text-body-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" >
+              <span class="absolute left-2 top-[38%] -translate-y-1/2 text-on-surface-variant text-body-sm z-10">$</span>
+              <UiBaseInput v-model.lazy="maxRate" type="number" placeholder="Max" class="pl-6" />
             </div>
           </div>
         </div>
@@ -84,12 +84,15 @@
         </div>
         <div class="flex items-center gap-sm">
           <span class="font-label-sm text-on-surface-variant uppercase tracking-wider">Sort by:</span>
-          <select v-model="sort" class="bg-surface-container-lowest border border-outline-variant rounded-lg text-body-sm text-on-surface py-1.5 pl-3 pr-8 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary cursor-pointer">
-            <option value="recommended">Recommended</option>
-            <option value="highest_rated">Highest Rated</option>
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-          </select>
+          <UiBaseSelect
+            v-model="sort"
+            :options="[
+              { label: 'Recommended', value: 'recommended' },
+              { label: 'Highest Rated', value: 'highest_rated' },
+              { label: 'Price: Low to High', value: 'price_asc' },
+              { label: 'Price: High to Low', value: 'price_desc' }
+            ]"
+          />
         </div>
       </div>
 

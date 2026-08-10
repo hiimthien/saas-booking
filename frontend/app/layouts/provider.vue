@@ -1,12 +1,18 @@
 <template>
   <div class="bg-background text-on-background font-body-lg min-h-screen flex antialiased">
+    <!-- Mobile Overlay -->
+    <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-black/50 z-30 md:hidden transition-opacity"></div>
+
     <!-- SideNavBar -->
-    <aside class="hidden md:flex bg-surface-container-low dark:bg-surface-container-highest border-r border-outline-variant flex-col h-screen w-64 fixed left-0 top-0 p-md gap-sm z-40 transition-transform duration-200 ease-in-out">
+    <aside class="bg-surface-container-low dark:bg-surface-container-highest border-r border-outline-variant flex-col h-screen w-64 fixed left-0 top-0 p-md gap-sm z-40 transition-transform duration-300 ease-in-out md:translate-x-0 flex" :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'">
       <div class="flex items-center gap-sm mb-lg px-sm">
-        <img alt="Provider Workspace" class="w-10 h-10 rounded-full object-cover shadow-sm" src="https://ui-avatars.com/api/?name=Provider&background=random" >
+        <img v-if="authStore.user?.avatar_url" :src="backendUrl(authStore.user.avatar_url)" class="w-10 h-10 rounded-full object-cover shadow-sm" >
+        <div v-else class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-headline-sm shadow-sm">
+          {{ authStore.user?.name?.charAt(0).toUpperCase() }}
+        </div>
         <div>
-          <h1 class="font-headline-md text-headline-md text-primary">Provider Hub</h1>
-          <p class="font-body-sm text-body-sm text-on-surface-variant">Manage Consultations</p>
+          <h1 class="font-headline-md text-headline-md text-primary truncate max-w-[150px]">{{ authStore.user?.name }}</h1>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">Provider Hub</p>
         </div>
       </div>
       <nav class="flex flex-col gap-xs flex-1 overflow-y-auto">
@@ -18,8 +24,12 @@
           <span class="material-symbols-outlined">calendar_month</span>
           <span>Calendar</span>
         </NuxtLink>
-        <NuxtLink to="/provider/profile-setup" class="flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md transition-all" :class="[ $route.path === '/provider/profile-setup' ? 'bg-secondary-container text-on-secondary-container font-bold' : 'text-on-surface-variant hover:bg-surface-variant' ]">
-          <span class="material-symbols-outlined">settings</span>
+        <NuxtLink to="/provider/bookings" class="flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md transition-all" :class="[ $route.path === '/provider/bookings' ? 'bg-secondary-container text-on-secondary-container font-bold' : 'text-on-surface-variant hover:bg-surface-variant' ]">
+          <span class="material-symbols-outlined">event_upcoming</span>
+          <span>Bookings</span>
+        </NuxtLink>
+        <NuxtLink to="/provider/profile" class="flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md transition-all" :class="[ $route.path === '/provider/profile' ? 'bg-secondary-container text-on-secondary-container font-bold' : 'text-on-surface-variant hover:bg-surface-variant' ]">
+          <span class="material-symbols-outlined">badge</span>
           <span>Profile Setup</span>
         </NuxtLink>
         <NuxtLink to="/provider/earnings" class="flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md transition-all" :class="[ $route.path === '/provider/earnings' ? 'bg-secondary-container text-on-secondary-container font-bold' : 'text-on-surface-variant hover:bg-surface-variant' ]">
@@ -44,7 +54,7 @@
       <!-- TopAppBar -->
       <header class="sticky top-0 z-30 bg-surface dark:bg-inverse-surface border-b border-outline-variant shadow-sm flex justify-between items-center w-full px-lg py-sm">
         <div class="flex items-center gap-md lg:hidden">
-          <button class="text-on-surface-variant p-sm rounded-full hover:bg-surface-variant transition-colors">
+          <button @click="isSidebarOpen = !isSidebarOpen" class="text-on-surface-variant p-sm rounded-full hover:bg-surface-variant transition-colors">
             <span class="material-symbols-outlined">menu</span>
           </button>
           <span class="font-headline-md text-headline-md text-primary font-bold">ConsultFlow</span>
@@ -69,7 +79,10 @@
               <span class="absolute top-xs right-xs w-2 h-2 bg-error rounded-full"/>
             </button>
             <button class="flex items-center gap-sm p-xs rounded-full hover:bg-surface-variant transition-colors">
-              <img src="https://ui-avatars.com/api/?name=Provider&background=random" alt="User" class="w-8 h-8 rounded-full object-cover border border-outline-variant" >
+              <img v-if="authStore.user?.avatar_url" :src="backendUrl(authStore.user.avatar_url)" class="w-8 h-8 rounded-full object-cover border border-outline-variant" >
+              <div v-else class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md">
+                {{ authStore.user?.name?.charAt(0).toUpperCase() }}
+              </div>
               <span class="material-symbols-outlined text-on-surface-variant">arrow_drop_down</span>
             </button>
           </div>
@@ -83,11 +96,32 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useAuthStore } from '~/stores/auth'
+import { useRuntimeConfig } from '#app'
+import { useRouter, useRoute } from 'vue-router'
 
 const authStore = useAuthStore()
+const config = useRuntimeConfig()
+const router = useRouter()
+const route = useRoute()
+
+const isSidebarOpen = ref(false)
+
+// Close sidebar on route change (for mobile)
+watch(() => route.path, () => {
+  isSidebarOpen.value = false
+})
+
+const backendUrl = (path: string | undefined) => {
+  if (!path) return ''
+  if (path.startsWith('http')) return path
+  const base = (config.public.apiBase as string).replace('/api', '')
+  return `${base}${path}`
+}
 
 const handleLogout = async () => {
   await authStore.logout()
+  router.push('/login')
 }
 </script>

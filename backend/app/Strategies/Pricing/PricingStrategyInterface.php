@@ -9,7 +9,7 @@ interface PricingStrategyInterface
      *
      * @param float $hourlyRate
      * @param int $durationMinutes
-     * @return float
+     * @return array
      */
-    public function calculatePrice(float $hourlyRate, int $durationMinutes): float;
+    public function calculatePrice(float $hourlyRate, int $durationMinutes): array;
 }

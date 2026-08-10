@@ -64,10 +64,12 @@
             <!-- Actions Row -->
             <div>
               <div class="flex items-center mt-sm mb-lg">
-                <input id="terms" v-model="terms" v-bind="termsProps" name="terms" type="checkbox" class="h-4 w-4 rounded border-outline-variant text-primary focus:ring-secondary bg-surface-container-lowest transition-colors cursor-pointer" >
-                <label for="terms" class="ml-sm block font-body-sm text-body-sm text-on-surface-variant cursor-pointer">
-                  I agree to the <a href="#" class="text-secondary hover:underline">Terms of Service</a> and <a href="#" class="text-secondary hover:underline">Privacy Policy</a>
-                </label>
+                <UiBaseCheckbox
+                  id="terms"
+                  v-model="terms"
+                  v-bind="termsProps"
+                  label="I agree to the Terms of Service and Privacy Policy"
+                />
               </div>
               <span v-if="errors.terms" class="text-error font-body-sm mt-1 inline-block">{{ errors.terms }}</span>
             </div>

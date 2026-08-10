@@ -10,7 +10,7 @@
     <div class="lg:col-span-8 flex flex-col gap-xl">
       <!-- Consultant Profile Bento -->
       <section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg shadow-sm flex flex-col md:flex-row gap-lg items-start">
-        <img :src="consultant.user.avatar_url || `https://ui-avatars.com/api/?name=${consultant.user.name}&background=random`" :alt="consultant.user.name" class="w-32 h-32 md:w-48 md:h-48 rounded-xl object-cover border-4 border-surface-container" >
+        <UiUserAvatar :src="consultant.user.avatar_url || `https://ui-avatars.com/api/?name=${consultant.user.name}&background=random`" :name="consultant.user.name" size="2xl" class="border-4 border-surface-container" />
         
         <div class="flex flex-col gap-sm flex-grow">
           <div class="flex justify-between items-start w-full">
@@ -65,7 +65,7 @@
           <div v-for="review in consultant.reviews" :key="review.id" class="flex flex-col gap-sm p-4 bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm">
             <div class="flex justify-between items-center">
               <div class="flex items-center gap-3">
-                <img :src="review.customer?.avatar_url || `https://ui-avatars.com/api/?name=${review.customer?.name}&background=random`" class="w-10 h-10 rounded-full" alt="avatar">
+                <UiUserAvatar :src="review.customer?.avatar_url || `https://ui-avatars.com/api/?name=${review.customer?.name}&background=random`" :name="review.customer?.name || 'Anonymous'" size="md" />
                 <span class="font-label-md text-on-surface">{{ review.customer?.name || 'Anonymous' }}</span>
               </div>
               <div class="flex text-amber-500 text-sm">
@@ -136,13 +136,14 @@
 
         <!-- CTA & Badges -->
         <div class="flex flex-col gap-md pt-sm">
-          <button 
+          <UiBaseButton 
             :disabled="!selectedTime"
-            class="w-full bg-primary text-on-primary font-label-md py-md rounded-lg hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm focus:ring-2 focus:ring-secondary focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed" 
+            class="w-full shadow-sm" 
             @click="proceedToPayment"
+            size="lg"
           >
             Proceed to Payment
-          </button>
+          </UiBaseButton>
           <div class="flex justify-center gap-lg text-on-surface-variant font-label-sm">
             <span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]">lock</span> Secure</span>
             <span class="flex items-center gap-xs"><span class="material-symbols-outlined text-[16px]">verified_user</span> Verified</span>

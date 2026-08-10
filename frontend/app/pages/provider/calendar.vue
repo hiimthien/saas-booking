@@ -1,134 +1,163 @@
 <template>
-  <div class="p-margin-mobile md:p-lg xl:p-xl flex flex-col gap-lg flex-1">
-    <!-- Page Header & Controls -->
+  <div class="p-margin-mobile md:p-lg xl:p-xl flex-1 w-full max-w-7xl mx-auto flex flex-col gap-lg">
+    <!-- Header -->
     <header class="flex flex-col md:flex-row md:items-center justify-between gap-md">
       <div>
-        <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-xs">Calendar Management</h1>
-        <p class="font-body-md text-body-md text-on-surface-variant">Review your weekly schedule, manage bookings, and block time slots.</p>
+        <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Calendar & Availability</h1>
+        <p class="font-body-sm text-on-surface-variant mt-xs">Manage your working hours and view upcoming consultations.</p>
       </div>
       <div class="flex items-center gap-sm">
-        <!-- View Toggle -->
-        <div class="flex bg-surface-container-low rounded-lg p-xs border border-outline-variant shadow-sm">
-          <button class="px-sm py-xs text-on-surface-variant font-label-sm text-label-sm rounded hover:bg-surface-variant transition-colors">Month</button>
-          <button class="px-sm py-xs bg-surface-container-lowest text-on-surface font-label-sm text-label-sm rounded shadow-sm">Week</button>
-          <button class="px-sm py-xs text-on-surface-variant font-label-sm text-label-sm rounded hover:bg-surface-variant transition-colors">Day</button>
-        </div>
-        <button class="p-sm text-on-surface-variant border border-outline-variant rounded-lg hover:bg-surface-variant transition-colors shadow-sm flex items-center justify-center bg-surface-container-lowest">
-          <span class="material-symbols-outlined text-[20px]">filter_list</span>
-        </button>
+        <UiBaseButton variant="outline" @click="fetchData">
+          <span class="material-symbols-outlined mr-2" :class="{ 'animate-spin': isFetching }">refresh</span>
+          Refresh
+        </UiBaseButton>
+        <UiBaseButton variant="primary" @click="showAvailabilityModal = true">
+          <span class="material-symbols-outlined mr-2">edit_calendar</span>
+          Edit Weekly Hours
+        </UiBaseButton>
       </div>
     </header>
 
-    <!-- Interactive Calendar Wrapper -->
-    <div class="flex-1 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm flex flex-col overflow-hidden relative min-h-[600px]">
-      <!-- Calendar Toolbar -->
-      <div class="flex items-center justify-between p-md border-b border-outline-variant bg-surface-bright">
-        <div class="flex items-center gap-md">
-          <h2 class="font-headline-md text-headline-md text-on-surface">October 2023</h2>
-          <div class="flex gap-xs">
-            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-variant text-on-surface-variant transition-colors">
-              <span class="material-symbols-outlined">chevron_left</span>
-            </button>
-            <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-variant text-on-surface-variant transition-colors">
-              <span class="material-symbols-outlined">chevron_right</span>
-            </button>
-          </div>
-        </div>
-        <button class="text-primary font-label-md text-label-md hover:text-primary-container transition-colors">Today</button>
+    <div v-if="successMsg" class="p-sm bg-primary-container text-on-primary-container rounded-lg font-body-sm flex items-center gap-sm">
+      <span class="material-symbols-outlined">check_circle</span>
+      {{ successMsg }}
+    </div>
+    <div v-if="errorMsg" class="p-sm bg-error-container text-on-error-container rounded-lg font-body-sm flex items-center gap-sm">
+      <span class="material-symbols-outlined">error</span>
+      {{ errorMsg }}
+    </div>
+
+    <!-- Calendar View -->
+    <div class="bg-surface-container-lowest border border-outline-variant rounded-2xl shadow-sm overflow-hidden flex flex-col">
+      <div class="p-md border-b border-outline-variant bg-surface-container/30 flex justify-between items-center">
+        <h2 class="font-headline-md">Upcoming Consultations (List View)</h2>
       </div>
-
-      <!-- Calendar Grid Area (Bento-ish structural approach for week view) -->
-      <div class="flex-1 flex overflow-auto relative bg-surface-bright">
-        <!-- Time Column -->
-        <div class="w-16 flex-shrink-0 border-r border-outline-variant bg-surface sticky left-0 z-20 flex flex-col pt-3xl">
-          <div v-for="time in ['9 AM', '10 AM', '11 AM', '12 PM', '1 PM', '2 PM', '3 PM']" :key="time" class="h-2xl flex items-start justify-end pr-sm relative group">
-            <span class="font-label-sm text-label-sm text-on-surface-variant -mt-2 group-hover:text-primary transition-colors">{{ time }}</span>
-          </div>
+      <div class="p-md">
+        <div v-if="isFetching" class="py-xl flex justify-center">
+          <span class="material-symbols-outlined animate-spin text-primary text-[32px]">progress_activity</span>
         </div>
-
-        <!-- Days Grid -->
-        <div class="flex-1 min-w-[800px] flex flex-col relative">
-          <!-- Day Headers (Sticky) -->
-          <div class="flex border-b border-outline-variant sticky top-0 z-10 bg-surface-bright/90 backdrop-blur-sm h-3xl">
-            <div v-for="day in [{name: 'Mon', num: 16}, {name: 'Tue', num: 17}]" :key="day.name" class="flex-1 flex flex-col items-center justify-center border-r border-outline-variant/50 p-xs">
-              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase">{{ day.name }}</span>
-              <span class="font-headline-md text-headline-md text-on-surface">{{ day.num }}</span>
-            </div>
-            <div class="flex-1 flex flex-col items-center justify-center border-r border-outline-variant/50 p-xs bg-primary/5 rounded-t-lg border-b-2 border-b-primary relative">
-              <span class="font-label-sm text-label-sm text-primary uppercase font-bold">Wed</span>
-              <span class="font-headline-md text-headline-md text-primary font-bold">18</span>
-            </div>
-            <div v-for="day in [{name: 'Thu', num: 19}, {name: 'Fri', num: 20}]" :key="day.name" class="flex-1 flex flex-col items-center justify-center border-r border-outline-variant/50 p-xs">
-              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase">{{ day.name }}</span>
-              <span class="font-headline-md text-headline-md text-on-surface">{{ day.num }}</span>
-            </div>
+        <div v-else-if="bookings.length === 0" class="py-2xl flex flex-col items-center justify-center text-on-surface-variant">
+          <div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center mb-md">
+             <span class="material-symbols-outlined text-[32px]">event_busy</span>
           </div>
-
-          <!-- Grid Columns & Events -->
-          <div class="flex-1 flex relative">
-            <!-- Background Grid Lines -->
-            <div class="absolute inset-0 flex flex-col pointer-events-none">
-              <div v-for="i in 7" :key="i" class="h-2xl border-b border-outline-variant/30 w-full"/>
-            </div>
-
-            <!-- Day Columns -->
-            <div class="flex-1 border-r border-outline-variant/30 relative hover:bg-surface-container-low/30 transition-colors group"/>
-            <div class="flex-1 border-r border-outline-variant/30 relative hover:bg-surface-container-low/30 transition-colors group">
-              <!-- Confirmed Booking -->
-              <div class="absolute top-[48px] left-[4px] right-[4px] h-[92px] bg-secondary-fixed/50 border border-secondary/20 rounded-lg p-sm shadow-sm hover:shadow-md transition-shadow cursor-pointer group/event z-10">
-                <div class="flex justify-between items-start mb-1">
-                  <h3 class="font-label-md text-label-md text-on-secondary-fixed truncate">Tech Sync</h3>
-                  <span class="material-symbols-outlined text-[16px] text-secondary opacity-0 group-hover/event:opacity-100 transition-opacity">more_vert</span>
-                </div>
-                <p class="font-label-sm text-label-sm text-on-secondary-fixed/80">10:00 AM - 12:00 PM</p>
-                <p class="font-body-sm text-[11px] text-on-secondary-fixed/70 truncate mt-1">Acme Corp</p>
-              </div>
-            </div>
-            
-            <!-- Today Column -->
-            <div class="flex-1 border-r border-outline-variant/30 relative bg-primary/5 hover:bg-primary/10 transition-colors group">
-              <!-- Current Time Indicator -->
-              <div class="absolute top-[120px] left-0 right-0 h-px bg-error z-20 flex items-center">
-                <div class="w-2 h-2 rounded-full bg-error -ml-1"/>
-              </div>
-              <!-- Blocked Time -->
-              <div class="absolute top-0 left-[4px] right-[4px] h-[44px] bg-surface-variant border border-outline-variant border-dashed rounded-lg p-sm flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity cursor-not-allowed z-10">
-                <span class="material-symbols-outlined text-on-surface-variant text-[18px] mr-1">block</span>
-                <span class="font-label-sm text-label-sm text-on-surface-variant">Blocked</span>
-              </div>
-              <!-- Conflict Alert Booking -->
-              <div class="absolute top-[144px] left-[4px] right-[4px] h-[44px] bg-error-container border border-error/30 rounded-lg p-sm shadow-sm cursor-pointer overflow-hidden group/event z-10">
-                <div class="flex items-center gap-xs">
-                  <span class="material-symbols-outlined text-error text-[16px]">warning</span>
-                  <h3 class="font-label-md text-label-md text-on-error-container truncate">Double Booked</h3>
-                </div>
-              </div>
-            </div>
-            
-            <div class="flex-1 border-r border-outline-variant/30 relative hover:bg-surface-container-low/30 transition-colors group">
-              <!-- Another Booking -->
-              <div class="absolute top-[240px] left-[4px] right-[4px] h-[44px] bg-primary-fixed/30 border border-primary/20 rounded-lg p-sm shadow-sm hover:shadow-md transition-shadow cursor-pointer z-10">
-                <h3 class="font-label-md text-label-md text-on-primary-fixed-variant truncate">Strategy Review</h3>
-                <p class="font-label-sm text-label-sm text-on-primary-fixed-variant/80">2:00 PM - 3:00 PM</p>
-              </div>
-            </div>
-            <div class="flex-1 border-r border-outline-variant/30 relative hover:bg-surface-container-low/30 transition-colors group"/>
-          </div>
+          <p class="font-body-lg">No bookings found</p>
+          <p class="font-body-sm mt-xs">You don't have any consultations scheduled yet.</p>
         </div>
-      </div>
-
-      <!-- Floating Quick Action Area -->
-      <div class="absolute bottom-md right-md flex gap-sm z-30">
-        <button aria-label="Block Time" class="bg-surface-container-lowest text-on-surface border border-outline-variant p-sm rounded-full shadow-sm hover:bg-surface-variant transition-colors flex items-center justify-center">
-          <span class="material-symbols-outlined text-[20px]">event_busy</span>
-        </button>
+        <div v-else class="space-y-md">
+          <SharedBookingList :bookings="bookings" role="provider" />
+        </div>
       </div>
     </div>
+
+    <!-- Availability Modal (Custom inline form for now) -->
+    <div v-if="showAvailabilityModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+      <div class="bg-surface-container-lowest rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-xl">
+        <div class="p-lg border-b border-outline-variant flex justify-between items-center">
+          <h2 class="font-headline-md">Edit Weekly Hours</h2>
+          <button @click="showAvailabilityModal = false" class="p-sm hover:bg-surface-variant rounded-full text-on-surface-variant">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+        </div>
+        <div class="p-lg overflow-y-auto flex-1">
+          <form @submit.prevent="saveAvailabilities" class="space-y-md">
+            <div v-for="(day, index) in workingHours" :key="day.day_of_week" class="flex flex-col md:flex-row md:items-center justify-between p-md border border-outline-variant rounded-xl hover:bg-surface-container-low transition-colors">
+              <div class="flex items-center gap-md w-1/3 mb-sm md:mb-0">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" v-model="day.is_closed" class="sr-only peer" :true-value="false" :false-value="true">
+                  <div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
+                <span class="font-label-md" :class="day.is_closed ? 'text-on-surface-variant' : 'text-on-surface'">
+                  {{ daysOfWeek[day.day_of_week] }}
+                </span>
+              </div>
+
+              <div v-if="!day.is_closed" class="flex items-center gap-sm flex-1 justify-end">
+                <input v-model="day.start_time" type="time" class="w-32 px-sm py-xs rounded-lg border border-outline-variant bg-surface-container-lowest outline-none focus:border-primary text-on-surface">
+                <span class="text-on-surface-variant font-label-sm">to</span>
+                <input v-model="day.end_time" type="time" class="w-32 px-sm py-xs rounded-lg border border-outline-variant bg-surface-container-lowest outline-none focus:border-primary text-on-surface">
+              </div>
+              <div v-else class="flex-1 text-right text-on-surface-variant italic font-body-sm">
+                Closed
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="p-lg border-t border-outline-variant flex justify-end gap-md">
+          <UiBaseButton variant="outline" @click="showAvailabilityModal = false">Cancel</UiBaseButton>
+          <UiBaseButton variant="primary" @click="saveAvailabilities" :disabled="isSaving">
+            <span v-if="isSaving" class="material-symbols-outlined animate-spin mr-2">progress_activity</span>
+            Save Schedule
+          </UiBaseButton>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'provider'
+import { ref, onMounted } from 'vue'
+import { useAuthStore } from '~/stores/auth'
+import SharedBookingList from '~/components/shared/BookingList.vue'
+
+definePageMeta({ layout: 'provider', middleware: ['auth'] })
+
+const authStore = useAuthStore()
+
+const isFetching = ref(false)
+const isSaving = ref(false)
+const successMsg = ref('')
+const errorMsg = ref('')
+const showAvailabilityModal = ref(false)
+
+const bookings = ref<any[]>([])
+const workingHours = ref<any[]>([])
+const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+const fetchData = async () => {
+  isFetching.value = true
+  errorMsg.value = ''
+  try {
+    const availRes: any = await authStore.apiFetch('/provider/availabilities')
+    workingHours.value = availRes.data.map((h: any) => ({
+      ...h,
+      start_time: h.start_time ? h.start_time.substring(0,5) : null,
+      end_time: h.end_time ? h.end_time.substring(0,5) : null
+    }))
+
+    const bookRes: any = await authStore.apiFetch('/bookings')
+    bookings.value = bookRes.data
+  } catch (e: any) {
+    console.error(e)
+    errorMsg.value = e.data?.message || 'Failed to load calendar data.'
+  } finally {
+    isFetching.value = false
+  }
+}
+
+const saveAvailabilities = async () => {
+  isSaving.value = true
+  successMsg.value = ''
+  errorMsg.value = ''
+  try {
+    const formattedHours = workingHours.value.map(h => ({
+      ...h,
+      start_time: h.start_time ? h.start_time.substring(0,5) : null,
+      end_time: h.end_time ? h.end_time.substring(0,5) : null
+    }))
+    await authStore.apiFetch('/provider/availabilities', { method: 'POST', body: { working_hours: formattedHours } })
+    successMsg.value = 'Working hours updated successfully!'
+    showAvailabilityModal.value = false
+    setTimeout(() => successMsg.value = '', 4000)
+  } catch (e: any) {
+    console.error(e)
+    errorMsg.value = e.data?.message || 'Failed to update working hours.'
+  } finally {
+    isSaving.value = false
+  }
+}
+
+onMounted(() => {
+  fetchData()
 })
 </script>

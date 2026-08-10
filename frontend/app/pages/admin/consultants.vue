@@ -1,98 +1,125 @@
 <template>
-  <div class="p-margin-mobile md:p-lg xl:p-xl w-full flex-1">
-    <!-- Header -->
-    <header class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md mb-lg">
+  <div class="p-margin-mobile md:p-lg xl:p-xl flex-1 w-full max-w-7xl mx-auto">
+    <header class="mb-lg flex justify-between items-center">
       <div>
-        <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface">Consultant Approvals</h1>
-        <p class="font-body-sm text-body-sm text-on-surface-variant mt-xs">Review and approve new consultant applications to maintain quality.</p>
+        <h1 class="font-headline-lg text-headline-lg text-on-surface">Consultant Approvals</h1>
+        <p class="font-body-md text-on-surface-variant mt-xs">Review and approve new consultant registrations.</p>
       </div>
-      <div class="flex gap-sm">
-        <!-- Status Tabs -->
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-1 flex">
-          <button class="px-sm py-xs bg-primary-container text-on-primary-container rounded-md font-label-sm text-label-sm font-bold shadow-sm">Pending (12)</button>
-          <button class="px-sm py-xs text-on-surface-variant hover:bg-surface-variant rounded-md font-label-sm text-label-sm transition-colors">Approved</button>
-          <button class="px-sm py-xs text-on-surface-variant hover:bg-surface-variant rounded-md font-label-sm text-label-sm transition-colors">Rejected</button>
-        </div>
-      </div>
+      <UiBaseButton variant="outline" @click="fetchConsultants">
+        <span class="material-symbols-outlined mr-2" :class="{ 'animate-spin': isFetching }">refresh</span>
+        Refresh
+      </UiBaseButton>
     </header>
 
-    <!-- Grid of Pending Applications -->
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-lg">
-      
-      <!-- Application Card 1 -->
-      <UiBaseCard class="p-lg flex flex-col">
-        <div class="flex justify-between items-start mb-md">
-          <div class="flex gap-md">
-            <img src="https://ui-avatars.com/api/?name=Sarah+Jenkins&background=random" class="w-12 h-12 rounded-full object-cover border border-outline-variant" >
-            <div>
-              <h3 class="font-headline-md text-headline-md text-on-surface font-bold">Sarah Jenkins</h3>
-              <p class="font-body-sm text-body-sm text-primary">Senior UX Designer</p>
-            </div>
-          </div>
-          <UiStatusBadge variant="warning">In Review</UiStatusBadge>
-        </div>
-        
-        <div class="space-y-sm mb-md flex-1">
-          <div class="flex justify-between items-center text-sm">
-            <span class="text-on-surface-variant">Applied Date</span>
-            <span class="text-on-surface font-medium">Nov 2, 2023</span>
-          </div>
-          <div class="flex justify-between items-center text-sm">
-            <span class="text-on-surface-variant">Experience</span>
-            <span class="text-on-surface font-medium">8+ Years</span>
-          </div>
-          <div class="flex justify-between items-center text-sm">
-            <span class="text-on-surface-variant">LinkedIn</span>
-            <a href="#" class="text-primary hover:underline font-medium flex items-center gap-1">Verified <span class="material-symbols-outlined text-[14px]">check_circle</span></a>
-          </div>
-        </div>
-        
-        <div class="border-t border-outline-variant pt-md flex gap-sm mt-auto">
-          <UiBaseButton variant="outline" class="flex-1 hover:bg-error-container hover:text-on-error-container hover:border-error">Reject</UiBaseButton>
-          <UiBaseButton variant="primary" class="flex-1">Approve</UiBaseButton>
-        </div>
-      </UiBaseCard>
-
-      <!-- Application Card 2 -->
-      <UiBaseCard class="p-lg flex flex-col">
-        <div class="flex justify-between items-start mb-md">
-          <div class="flex gap-md">
-            <img src="https://ui-avatars.com/api/?name=Michael+Chang&background=random" class="w-12 h-12 rounded-full object-cover border border-outline-variant" >
-            <div>
-              <h3 class="font-headline-md text-headline-md text-on-surface font-bold">Michael Chang</h3>
-              <p class="font-body-sm text-body-sm text-primary">Financial Advisor</p>
-            </div>
-          </div>
-          <UiStatusBadge variant="warning">In Review</UiStatusBadge>
-        </div>
-        
-        <div class="space-y-sm mb-md flex-1">
-          <div class="flex justify-between items-center text-sm">
-            <span class="text-on-surface-variant">Applied Date</span>
-            <span class="text-on-surface font-medium">Nov 1, 2023</span>
-          </div>
-          <div class="flex justify-between items-center text-sm">
-            <span class="text-on-surface-variant">Experience</span>
-            <span class="text-on-surface font-medium">12+ Years</span>
-          </div>
-          <div class="flex justify-between items-center text-sm">
-            <span class="text-on-surface-variant">Credentials</span>
-            <span class="text-on-surface font-medium">CFA Pending</span>
-          </div>
-        </div>
-        
-        <div class="border-t border-outline-variant pt-md flex gap-sm mt-auto">
-          <UiBaseButton variant="outline" class="flex-1 hover:bg-error-container hover:text-on-error-container hover:border-error">Reject</UiBaseButton>
-          <UiBaseButton variant="primary" class="flex-1">Approve</UiBaseButton>
-        </div>
-      </UiBaseCard>
-
+    <div v-if="successMsg" class="mb-lg p-sm bg-primary-container text-on-primary-container rounded-lg font-body-sm flex items-center gap-sm">
+      <span class="material-symbols-outlined">check_circle</span>
+      {{ successMsg }}
     </div>
+    <div v-if="errorMsg" class="mb-lg p-sm bg-error-container text-on-error-container rounded-lg font-body-sm flex items-center gap-sm">
+      <span class="material-symbols-outlined">error</span>
+      {{ errorMsg }}
+    </div>
+
+    <div class="mb-lg p-md border-b border-outline-variant bg-surface-container/30 rounded-t-2xl">
+      <h2 class="font-headline-md">Pending & Active Consultants</h2>
+    </div>
+
+    <UiBaseTable :columns="columns" :items="consultants" :loading="isFetching" empty-text="No consultants found.">
+      <template #cell-consultant="{ item }">
+        <div class="flex items-center gap-sm">
+          <div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold">
+            {{ item.user?.name?.charAt(0).toUpperCase() || 'C' }}
+          </div>
+          <div>
+            <div class="font-medium text-on-surface">{{ item.user?.name || 'Unknown' }}</div>
+            <div class="text-xs text-on-surface-variant">{{ item.user?.email || '' }}</div>
+          </div>
+        </div>
+      </template>
+      <template #cell-title_bio="{ item }">
+        <div class="font-medium text-on-surface">{{ item.title || 'No Title' }}</div>
+        <div class="text-xs text-on-surface-variant truncate max-w-[200px]" :title="item.bio">{{ item.bio || 'No bio provided.' }}</div>
+      </template>
+      <template #cell-hourly_rate="{ item }">
+        <div class="font-medium">${{ item.hourly_rate }}</div>
+      </template>
+      <template #cell-actions="{ item }">
+        <div class="flex items-center justify-end gap-sm">
+          <button @click="approve(item.id)" class="px-sm py-xs bg-primary text-on-primary text-xs rounded-lg font-bold hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm">
+            Approve
+          </button>
+          <button @click="reject(item.id)" class="px-sm py-xs border border-error text-error text-xs rounded-lg font-bold hover:bg-error-container hover:text-on-error-container transition-colors">
+            Reject
+          </button>
+        </div>
+      </template>
+    </UiBaseTable>
   </div>
 </template>
 
 <script setup lang="ts">
-definePageMeta({
-  layout: 'admin'
+import { ref, onMounted } from 'vue'
+import { useAuthStore } from '~/stores/auth'
+
+definePageMeta({ layout: 'admin', middleware: ['auth'] })
+
+const authStore = useAuthStore()
+
+const isFetching = ref(false)
+const consultants = ref<any[]>([])
+const successMsg = ref('')
+const errorMsg = ref('')
+
+const columns = [
+  { key: 'consultant', label: 'Consultant' },
+  { key: 'title_bio', label: 'Title & Bio' },
+  { key: 'hourly_rate', label: 'Hourly Rate' },
+  { key: 'actions', label: 'Actions' }
+]
+
+const fetchConsultants = async () => {
+  isFetching.value = true
+  errorMsg.value = ''
+  try {
+    const res: any = await authStore.apiFetch('/admin/consultants/pending')
+    consultants.value = res.data
+  } catch (e: any) {
+    console.error(e)
+    errorMsg.value = e.data?.message || 'Failed to fetch consultants.'
+  } finally {
+    isFetching.value = false
+  }
+}
+
+const approve = async (id: number) => {
+  errorMsg.value = ''
+  successMsg.value = ''
+  try {
+    const res: any = await authStore.apiFetch(`/admin/consultants/${id}/approve`, { method: 'POST' })
+    successMsg.value = res.message
+    setTimeout(() => { successMsg.value = '' }, 3000)
+    // Conceptually we'd update UI here
+  } catch (e: any) {
+    console.error(e)
+    errorMsg.value = e.data?.message || 'Failed to approve.'
+  }
+}
+
+const reject = async (id: number) => {
+  errorMsg.value = ''
+  successMsg.value = ''
+  try {
+    const res: any = await authStore.apiFetch(`/admin/consultants/${id}/reject`, { method: 'POST' })
+    successMsg.value = res.message
+    setTimeout(() => { successMsg.value = '' }, 3000)
+    // Conceptually we'd update UI here
+  } catch (e: any) {
+    console.error(e)
+    errorMsg.value = e.data?.message || 'Failed to reject.'
+  }
+}
+
+onMounted(() => {
+  fetchConsultants()
 })
 </script>

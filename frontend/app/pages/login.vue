@@ -56,10 +56,11 @@
             <!-- Actions Row -->
             <div class="flex items-center justify-between mt-sm mb-lg">
               <div class="flex items-center">
-                <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-outline-variant text-primary focus:ring-secondary bg-surface-container-lowest transition-colors cursor-pointer" >
-                <label for="remember-me" class="ml-sm block font-body-sm text-body-sm text-on-surface-variant cursor-pointer">
-                  Remember me
-                </label>
+                <UiBaseCheckbox
+                  id="remember-me"
+                  v-model="rememberMe"
+                  label="Remember me"
+                />
               </div>
               <div class="text-sm">
                 <NuxtLink to="/forgot-password" class="font-label-md text-label-md text-secondary hover:text-on-secondary-fixed-variant transition-colors">
@@ -181,6 +182,7 @@ const { handleSubmit, errors, defineField } = useForm({
 
 const [email, emailProps] = defineField('email')
 const [password, passwordProps] = defineField('password')
+const rememberMe = ref(false)
 
 const onSubmit = handleSubmit(async (values) => {
   errorMsg.value = ''

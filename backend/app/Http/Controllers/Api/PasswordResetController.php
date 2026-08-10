@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Mail\SendOtpMail;
+use App\Http\Requests\SendResetLinkEmailRequest;
+use App\Http\Requests\VerifyResetCodeRequest;
+use App\Http\Requests\ResetPasswordRequest;
 
 class PasswordResetController extends Controller
 {
-    public function sendOtp(Request $request)
+    public function sendResetLinkEmail(SendResetLinkEmailRequest $request)
     {
-        $request->validate(['email' => 'required|email']);
+        $validated = $request->validated();
 
         $user = User::where('email', $request->email)->first();
 
@@ -31,12 +34,9 @@ class PasswordResetController extends Controller
         return response()->json(['message' => 'OTP sent successfully']);
     }
 
-    public function verifyOtp(Request $request)
+    public function verifyResetCode(VerifyResetCodeRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'otp' => 'required|numeric'
-        ]);
+        $validated = $request->validated();
 
         $cacheKey = 'otp_' . $request->email;
         $cachedOtp = Cache::get($cacheKey);
@@ -48,13 +48,9 @@ class PasswordResetController extends Controller
         return response()->json(['message' => 'Invalid or expired OTP'], 400);
     }
 
-    public function resetPassword(Request $request)
+    public function resetPassword(ResetPasswordRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'otp' => 'required|numeric',
-            'password' => 'required|min:8|confirmed'
-        ]);
+        $validated = $request->validated();
 
         $cacheKey = 'otp_' . $request->email;
         $cachedOtp = Cache::get($cacheKey);

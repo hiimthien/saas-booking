@@ -1,18 +1,21 @@
 <template>
   <div class="bg-surface text-on-surface font-body-md min-h-screen flex antialiased">
+    <!-- Mobile Overlay -->
+    <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-black/50 z-30 md:hidden transition-opacity"></div>
+    
     <!-- Admin Sidebar -->
-    <aside class="hidden md:flex bg-surface-container-low dark:bg-surface-container-highest border-r border-outline-variant flex-col h-screen w-64 fixed left-0 top-0 p-md gap-sm z-40 transition-transform duration-200 ease-in-out">
+    <aside class="bg-surface-container-low dark:bg-surface-container-highest border-r border-outline-variant flex-col h-screen w-64 fixed left-0 top-0 p-md gap-sm z-40 transition-transform duration-300 ease-in-out md:translate-x-0 flex" :class="isSidebarOpen ? 'translate-x-0' : '-translate-x-full'">
       <div class="flex items-center gap-sm mb-lg px-sm">
         <div class="w-10 h-10 rounded-lg bg-primary text-on-primary flex items-center justify-center font-bold text-headline-md shadow-sm">
           A
         </div>
         <div>
-          <h1 class="font-headline-md text-headline-md text-on-surface">Admin Portal</h1>
+          <h1 class="font-headline-md text-headline-md text-on-surface truncate max-w-[150px]">{{ authStore.user?.name || 'Admin' }}</h1>
           <p class="font-body-sm text-body-sm text-on-surface-variant">Platform Management</p>
         </div>
       </div>
       <nav class="flex flex-col gap-xs flex-1 overflow-y-auto">
-        <NuxtLink to="/admin/dashboard" class="flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:bg-surface-variant">
+        <NuxtLink to="/admin/dashboard" class="flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md transition-all" :class="[ $route.path === '/admin/dashboard' ? 'bg-primary-container text-on-primary-container font-bold' : 'text-on-surface-variant hover:bg-surface-variant' ]">
           <span class="material-symbols-outlined">dashboard</span>
           <span>Overview</span>
         </NuxtLink>
@@ -24,13 +27,13 @@
           <span class="material-symbols-outlined">badge</span>
           <span>Consultants</span>
         </NuxtLink>
-        <NuxtLink to="/admin/settings" class="flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md transition-all" :class="[ $route.path === '/admin/settings' ? 'bg-primary-container text-on-primary-container font-bold' : 'text-on-surface-variant hover:bg-surface-variant' ]">
-          <span class="material-symbols-outlined">settings</span>
-          <span>Settings</span>
+        <NuxtLink to="/admin/transactions" class="flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md transition-all" :class="[ $route.path === '/admin/transactions' ? 'bg-primary-container text-on-primary-container font-bold' : 'text-on-surface-variant hover:bg-surface-variant' ]">
+          <span class="material-symbols-outlined">receipt_long</span>
+          <span>Transactions</span>
         </NuxtLink>
       </nav>
       <div class="mt-auto pt-md border-t border-outline-variant">
-        <button @click="handleLogout" class="w-full flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md text-error hover:bg-error-container hover:text-on-error-container transition-colors">
+        <button @click="handleLogout" class="w-full flex items-center justify-center gap-md px-md py-sm rounded-lg font-label-md text-label-md text-error hover:bg-error-container hover:text-on-error-container transition-colors">
           <span class="material-symbols-outlined">logout</span>
           Logout
         </button>
@@ -42,7 +45,7 @@
       <!-- Admin TopBar -->
       <header class="sticky top-0 z-30 bg-surface/90 backdrop-blur-md border-b border-outline-variant shadow-sm flex justify-between items-center w-full px-lg py-sm">
         <div class="flex items-center gap-md lg:hidden">
-          <button class="text-on-surface-variant p-sm rounded-full hover:bg-surface-variant transition-colors">
+          <button @click="isSidebarOpen = !isSidebarOpen" class="text-on-surface-variant p-sm rounded-full hover:bg-surface-variant transition-colors">
             <span class="material-symbols-outlined">menu</span>
           </button>
           <span class="font-headline-md text-headline-md text-primary font-bold">Admin</span>
@@ -59,7 +62,9 @@
             <span class="absolute top-xs right-xs w-2 h-2 bg-error rounded-full"/>
           </button>
           <button class="flex items-center gap-sm p-xs rounded-full hover:bg-surface-variant transition-colors">
-            <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin" class="w-8 h-8 rounded-full object-cover border border-outline-variant" >
+            <div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold">
+              {{ authStore.user?.name?.charAt(0).toUpperCase() || 'A' }}
+            </div>
             <span class="material-symbols-outlined text-on-surface-variant">arrow_drop_down</span>
           </button>
         </div>
@@ -72,11 +77,23 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useAuthStore } from '~/stores/auth'
+import { useRouter, useRoute } from 'vue-router'
 
 const authStore = useAuthStore()
+const router = useRouter()
+const route = useRoute()
+
+const isSidebarOpen = ref(false)
+
+// Close sidebar on route change (for mobile)
+watch(() => route.path, () => {
+  isSidebarOpen.value = false
+})
 
 const handleLogout = async () => {
   await authStore.logout()
+  router.push('/login')
 }
 </script>

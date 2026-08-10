@@ -14,7 +14,7 @@
       <div v-if="consultant" class="w-full bg-surface-container border border-outline-variant p-md rounded-xl text-left flex flex-col gap-sm">
         <h3 class="font-label-md text-on-surface-variant uppercase tracking-wider mb-xs">Booking Details</h3>
         <div class="flex items-center gap-md">
-          <img :src="consultant.avatar" class="w-12 h-12 rounded object-cover" >
+          <UiUserAvatar :src="consultant.avatar" :name="consultant.name" size="lg" class="rounded object-cover" />
           <div>
             <div class="font-headline-md text-on-surface">{{ selectedService?.name || 'Consultation' }}</div>
             <div class="font-body-sm text-on-surface-variant">with {{ consultant.name }}</div>

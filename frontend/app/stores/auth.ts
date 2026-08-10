@@ -70,5 +70,17 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { user, token, login, register, logout, apiFetch }
+  const fetchUser = async () => {
+    if (!token.value) return null
+    try {
+      const response: any = await apiFetch('/user')
+      user.value = response
+      return user.value
+    } catch (e) {
+      console.error('Failed to fetch user', e)
+      return null
+    }
+  }
+
+  return { user, token, login, register, logout, fetchUser, apiFetch }
 })

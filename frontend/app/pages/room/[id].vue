@@ -74,8 +74,8 @@
           </div>
 
           <div class="flex gap-sm items-start">
-            <div class="w-8 h-8 rounded-full bg-slate-700 flex-shrink-0 overflow-hidden">
-              <img src="https://ui-avatars.com/api/?name=Mercer" class="w-full h-full object-cover" >
+            <div class="w-8 h-8 rounded-full flex-shrink-0">
+              <UiUserAvatar src="https://ui-avatars.com/api/?name=Mercer" name="Mercer" size="sm" class="w-full h-full object-cover" />
             </div>
             <div>
               <div class="flex items-baseline gap-2 mb-1">
@@ -94,8 +94,8 @@
             <button class="absolute left-2 text-slate-400 hover:text-white p-1 rounded transition-colors">
               <span class="material-symbols-outlined text-[20px]">attach_file</span>
             </button>
-            <input type="text" class="w-full bg-slate-800 border border-slate-700 text-white text-body-sm rounded-lg pl-10 pr-10 py-2 focus:ring-1 focus:ring-primary focus:border-primary outline-none" placeholder="Type a message..." >
-            <button class="absolute right-2 text-primary hover:text-primary-container p-1 rounded transition-colors">
+            <UiBaseInput class="w-full bg-slate-800 border border-slate-700 text-white text-body-sm pl-10 pr-10 focus:ring-1 focus:ring-primary focus:border-primary outline-none" placeholder="Type a message..." />
+            <button class="absolute right-2 text-primary hover:text-primary-container p-1 rounded transition-colors z-10 top-1">
               <span class="material-symbols-outlined text-[20px]">send</span>
             </button>
           </div>

@@ -20,6 +20,37 @@ class BookingController extends Controller
     }
 
     /**
+     * Display a listing of the user's bookings.
+     */
+    public function index()
+    {
+        $user = auth()->user();
+        
+        $query = \App\Models\Consultation::with('consultantProfile.user')
+            ->orderBy('start_time', 'desc');
+            
+        if ($user->role === 'consultant') {
+            // Get bookings for this consultant
+            $profile = \App\Models\ConsultantProfile::where('user_id', $user->id)->first();
+            if ($profile) {
+                $query->where('consultant_profile_id', $profile->id);
+            } else {
+                $query->where('customer_id', $user->id); // fallback
+            }
+        } else {
+            // Get bookings for this customer
+            $query->where('customer_id', $user->id);
+        }
+        
+        $consultations = $query->get();
+        
+        return response()->json([
+            'success' => true,
+            'data' => ConsultationResource::collection($consultations)
+        ]);
+    }
+
+    /**
      * Store a newly created consultation in storage.
      *
      * @param StoreBookingRequest $request

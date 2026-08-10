@@ -17,7 +17,7 @@
           <Component :is="Bell" class="w-6 h-6" />
         </button>
         <NuxtLink :to="authStore.user.role === 'admin' ? '/admin/dashboard' : (authStore.user.role === 'consultant' ? '/provider/dashboard' : '/client/dashboard')">
-          <img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant ml-sm hover:ring-2 hover:ring-primary transition-all" :src="authStore.user.avatar_url || 'https://ui-avatars.com/api/?name=' + authStore.user.name" >
+          <img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant ml-sm hover:ring-2 hover:ring-primary transition-all" :src="authStore.user.avatar_url ? backendUrl(authStore.user.avatar_url) : 'https://ui-avatars.com/api/?name=' + authStore.user.name" >
         </NuxtLink>
         <button @click="handleLogout" class="p-xs text-on-surface-variant hover:text-error transition-colors ml-sm" title="Logout">
           <Component :is="LogOut" class="w-5 h-5" />
@@ -30,8 +30,17 @@
 <script setup lang="ts">
 import { Bell, LogOut } from 'lucide-vue-next'
 import { useAuthStore } from '~/stores/auth'
+import { useRuntimeConfig } from '#app'
 
 const authStore = useAuthStore()
+const config = useRuntimeConfig()
+
+const backendUrl = (path: string | undefined) => {
+  if (!path) return ''
+  if (path.startsWith('http')) return path
+  const base = (config.public.apiBase as string).replace('/api', '')
+  return `${base}${path.startsWith('/') ? '' : '/'}${path}`
+}
 
 const handleLogout = async () => {
   await authStore.logout()
