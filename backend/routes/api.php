@@ -1,83 +1,79 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Api\BookingController;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\ConsultantController;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::prefix('')->namespace('App\Http\Controllers\Api\Public')->group(function () {
+    Route::post('/register', 'AuthController@register')->middleware('throttle:auth');
+    Route::post('/login', 'AuthController@login')->middleware('throttle:auth');
+    
+    // Auth Google
+    Route::get('/auth/google', 'AuthController@redirectToGoogle');
+    Route::get('/auth/google/callback', 'AuthController@handleGoogleCallback');
 
-Route::get('/auth/google/redirect', [AuthController::class, 'redirectToGoogle']);
-Route::get('/auth/google/callback', [AuthController::class, 'handleGoogleCallback']);
+    // Xem danh sách chuyên gia & đặt lịch rảnh
+    Route::get('/consultants', 'ConsultantController@index');
+    Route::get('/consultants/{slug}', 'ConsultantController@show');
+    Route::get('/consultants/{id}/available-slots', 'ConsultantController@availableSlots');
 
-Route::post('/forgot-password/send-otp', [App\Http\Controllers\Api\PasswordResetController::class, 'sendResetLinkEmail']);
-Route::post('/forgot-password/verify-otp', [App\Http\Controllers\Api\PasswordResetController::class, 'verifyResetCode']);
-Route::post('/forgot-password/reset', [App\Http\Controllers\Api\PasswordResetController::class, 'resetPassword']);
-
-Route::prefix('consultants')->group(function () {
-    Route::get('/', [ConsultantController::class, 'index']);
-    Route::get('/{slug}', [ConsultantController::class, 'show']);
+    // Webhook thanh toán
+    Route::post('/webhooks/stripe', 'StripeWebhookController@handle');
 });
 
-// Webhooks
-Route::post('/webhooks/stripe', [App\Http\Controllers\Api\StripeWebhookController::class, 'handle']);
-
-// Protected Routes
+// Authenticated Routes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
     
-    // Profiles
-    Route::post('/profile/client', [App\Http\Controllers\Api\ProfileController::class, 'updateClientProfile']);
-    Route::post('/profile/consultant', [App\Http\Controllers\Api\ProfileController::class, 'updateConsultantProfile']);
+    // API đăng xuất chung
+    Route::post('/logout', 'App\Http\Controllers\Api\Public\AuthController@logout');
 
-    // Extended Client Dashboard
-    Route::get('/client/payments', [App\Http\Controllers\Api\ClientDashboardController::class, 'getPayments']);
-    Route::get('/client/reviews', [App\Http\Controllers\Api\ClientDashboardController::class, 'getReviews']);
-    Route::get('/client/favorites', [App\Http\Controllers\Api\ClientDashboardController::class, 'getFavorites']);
-    Route::post('/client/favorites/toggle', [App\Http\Controllers\Api\ClientDashboardController::class, 'toggleFavorite']);
-    Route::post('/client/notifications/settings', [App\Http\Controllers\Api\ClientDashboardController::class, 'updateNotificationSettings']);
+    // Admin Routes
+    Route::middleware('is_admin')->prefix('admin')->namespace('App\Http\Controllers\Api\Admin')->group(function () {
+        Route::get('/stats', 'AdminController@stats');
+        Route::get('/consultants/pending', 'AdminController@pendingConsultants');
+        Route::post('/consultants/{id}/toggle-status', 'AdminController@toggleConsultantStatus');
+    });
 
-    // Extended Provider Dashboard
-    Route::get('/provider/availabilities', [App\Http\Controllers\Api\AvailabilityController::class, 'index']);
-    Route::post('/provider/availabilities', [App\Http\Controllers\Api\AvailabilityController::class, 'update']);
-    Route::get('/provider/earnings', [App\Http\Controllers\Api\EarningsController::class, 'index']);
+    // Customer Routes
+    Route::middleware('is_customer')->namespace('App\Http\Controllers\Api\Customer')->group(function () {
+        Route::post('/profile/client', 'CustomerProfileController@updateClientProfile');
+        Route::post('/become-consultant', 'CustomerProfileController@becomeConsultant');
 
-    // Wallets & Transactions (Unified)
-    Route::get('/wallet/balance', [App\Http\Controllers\Api\WalletController::class, 'getBalance']);
-    Route::get('/wallet/transactions', [App\Http\Controllers\Api\WalletController::class, 'getTransactions']);
-    Route::get('/wallet/chart', [App\Http\Controllers\Api\WalletController::class, 'getChartData']);
-    Route::post('/wallet/topup', [App\Http\Controllers\Api\WalletController::class, 'topup']);
-    Route::post('/wallet/withdraw', [App\Http\Controllers\Api\WalletController::class, 'withdraw']);
+        Route::prefix('customer')->group(function () {
+            Route::get('/dashboard/stats', 'ClientDashboardController@getStats');
+            Route::get('/bookings', 'ClientDashboardController@getBookings');
+        });
 
-    // Bookings
-    Route::get('/bookings', [BookingController::class, 'index']);
-    Route::post('/bookings', [BookingController::class, 'store']);
-    Route::get('/bookings/{id}', [BookingController::class, 'show']);
-    Route::post('/payments', [App\Http\Controllers\Api\PaymentController::class, 'process']);
+        Route::post('/bookings', 'BookingController@store')->middleware('throttle:booking');
+        Route::post('/bookings/{id}/cancel', 'BookingController@cancel');
+        Route::post('/bookings/{id}/report', 'BookingController@report');
+        
+        Route::post('/bookings/{id}/reviews', 'ReviewController@store');
+        Route::put('/reviews/{id}', 'ReviewController@update');
+        Route::delete('/reviews/{id}', 'ReviewController@destroy');
+        
+        Route::post('/payments', 'PaymentController@process');
+    });
 
+    // Consultant Routes
+    Route::middleware('is_consultant')->namespace('App\Http\Controllers\Api\Consultant')->group(function () {
+        Route::post('/profile/consultant', 'ConsultantProfileController@updateConsultantProfile');
+        
+        Route::prefix('consultant')->group(function () {
+            Route::post('/working-hours', 'WorkingHourController@store');
+            Route::get('/working-hours', 'WorkingHourController@index');
+            Route::delete('/working-hours/{id}', 'WorkingHourController@destroy');
+
+            Route::get('/dashboard/stats', 'ConsultantDashboardController@getStats');
+            Route::get('/bookings', 'ConsultantDashboardController@getBookings');
+
+            Route::get('/wallet', 'WalletController@balance');
+            Route::post('/wallet/payout', 'WalletController@requestPayout');
+        });
+    });
+
+    // Profile chung
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-});
-
-// Admin Routes
-Route::middleware(['auth:sanctum', 'is_admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [App\Http\Controllers\Api\AdminDashboardController::class, 'index']);
-    
-    Route::get('/users', [App\Http\Controllers\Api\AdminUserController::class, 'index']);
-    Route::post('/users/{id}/toggle-ban', [App\Http\Controllers\Api\AdminUserController::class, 'toggleBan']);
-    
-    Route::get('/consultants/pending', [App\Http\Controllers\Api\AdminConsultantController::class, 'pending']);
-    Route::post('/consultants/{id}/approve', [App\Http\Controllers\Api\AdminConsultantController::class, 'approve']);
-    Route::post('/consultants/{id}/reject', [App\Http\Controllers\Api\AdminConsultantController::class, 'reject']);
-    
-    Route::get('/transactions', [App\Http\Controllers\Api\AdminTransactionController::class, 'index']);
-    Route::post('/transactions/{id}/approve', [App\Http\Controllers\Api\AdminTransactionController::class, 'approve']);
-});
-
-Route::get('/health', function () {
-    return response()->json(['status' => 'healthy', 'timestamp' => now()]);
 });

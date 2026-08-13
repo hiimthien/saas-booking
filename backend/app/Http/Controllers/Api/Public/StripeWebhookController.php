@@ -60,13 +60,25 @@ class StripeWebhookController extends Controller
         if (isset($metadata->type) && $metadata->type === 'topup') {
             $userId = $metadata->user_id;
             $amount = $metadata->amount;
+            $sessionId = $session->id;
+
+            // Idempotency check: Đảm bảo chưa từng nạp tiền cho session này
+            $transactionExists = \App\Models\Transaction::where('type', 'top_up')
+                ->where('reference', $sessionId)
+                ->exists();
+
+            if ($transactionExists) {
+                Log::info("Webhook idempotency: Đã nạp tiền cho session {$sessionId} rồi, bỏ qua.");
+                return;
+            }
 
             try {
                 $this->walletService->deposit(
                     $userId,
                     $amount,
                     'top_up',
-                    'Top up via Stripe (Session: ' . $session->id . ')'
+                    'Top up via Stripe (Session: ' . $sessionId . ')',
+                    $sessionId // Lưu session ID vào cột reference để chống duplicate
                 );
                 Log::info("Successfully credited wallet for User ID {$userId} with amount {$amount}.");
             } catch (\Exception $e) {

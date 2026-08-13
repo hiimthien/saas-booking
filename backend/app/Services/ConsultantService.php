@@ -4,21 +4,60 @@ namespace App\Services;
 
 use App\Models\ConsultantProfile;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
 class ConsultantService
 {
     /**
-     * Get a paginated list of active consultants with their relationships.
+     * Get a paginated list of active consultants with filters.
      * Prevents N+1 query problem by eager loading.
      *
      * @param int $perPage
+     * @param array $filters
      * @return LengthAwarePaginator
      */
-    public function getActiveConsultants(int $perPage = 15): LengthAwarePaginator
+    public function getActiveConsultants(int $perPage = 15, array $filters = []): LengthAwarePaginator
     {
-        return ConsultantProfile::with(['user', 'tags'])
-            ->where('is_active', true)
-            ->paginate($perPage);
+        $page = request()->get('page', 1);
+        $cacheKey = 'consultants.active.' . md5(json_encode(array_merge($filters, ['page' => $page, 'perPage' => $perPage])));
+        
+        return Cache::remember($cacheKey, 3600, function () use ($perPage, $filters) {
+            $query = ConsultantProfile::with(['user', 'tags'])->withAvg('reviews', 'rating')->where('is_active', true);
+
+            // 1. Search by title or user name
+            if (!empty($filters['search'])) {
+                $search = $filters['search'];
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'ilike', '%' . $search . '%')
+                      ->orWhereHas('user', function ($uQ) use ($search) {
+                          $uQ->where('name', 'ilike', '%' . $search . '%');
+                      });
+                });
+            }
+
+            // 2. Filter by tags
+            if (!empty($filters['tags'])) {
+                $tags = explode(',', $filters['tags']);
+                $query->whereHas('tags', function ($q) use ($tags) {
+                    $q->whereIn('tags.id', $tags);
+                });
+            }
+
+            // 3. Filter by price range
+            if (isset($filters['min_price'])) {
+                $query->where('hourly_rate', '>=', $filters['min_price']);
+            }
+            if (isset($filters['max_price'])) {
+                $query->where('hourly_rate', '<=', $filters['max_price']);
+            }
+
+            // 4. Filter by rating
+            if (isset($filters['rating'])) {
+                $query->having('reviews_avg_rating', '>=', $filters['rating']);
+            }
+
+            return $query->paginate($perPage);
+        });
     }
 
     /**
@@ -29,9 +68,11 @@ class ConsultantService
      */
     public function getConsultantBySlug(string $slug): ConsultantProfile
     {
-        return ConsultantProfile::with(['user', 'tags', 'workingHours', 'reviews.customer'])
-            ->where('slug', $slug)
-            ->where('is_active', true)
-            ->firstOrFail();
+        return Cache::remember('consultant.profile.' . $slug, 3600, function () use ($slug) {
+            return ConsultantProfile::with(['user', 'tags', 'workingHours', 'reviews.customer'])
+                ->where('slug', $slug)
+                ->where('is_active', true)
+                ->firstOrFail();
+        });
     }
 }

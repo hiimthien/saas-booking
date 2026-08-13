@@ -34,9 +34,34 @@ services:
       - DB_PASSWORD=laravel
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - QUEUE_CONNECTION=redis
+      - CACHE_STORE=redis
+      - SESSION_DRIVER=redis
     depends_on:
       - postgres
       - redis
+
+  queue-worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/var/www/html
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=laravel
+      - DB_USERNAME=laravel
+      - DB_PASSWORD=laravel
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - QUEUE_CONNECTION=redis
+    depends_on:
+      - postgres
+      - redis
+      - backend
+    command: php artisan queue:work redis --sleep=3 --tries=3 --timeout=90
 
   postgres:
     image: postgres:14-alpine

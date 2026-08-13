@@ -1,47 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Consultant;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateClientProfileRequest;
 use App\Http\Requests\UpdateConsultantProfileRequest;
+use App\Http\Requests\BecomeConsultantRequest;
 use App\Models\ConsultantProfile;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Storage;
 
-class ProfileController extends Controller
+class ConsultantProfileController extends Controller
 {
-    public function updateClientProfile(UpdateClientProfileRequest $request)
-    {
-        $user = $request->user();
-
-        $validated = $request->validated();
-
-        $user->name = $validated['name'];
-        if (array_key_exists('phone', $validated)) {
-            $user->phone = $validated['phone'];
-        }
-
-        if ($request->hasFile('avatar')) {
-            if ($user->avatar_url && str_starts_with($user->avatar_url, '/storage/')) {
-                $oldPath = str_replace('/storage/', '', $user->avatar_url);
-                Storage::disk('public')->delete($oldPath);
-            }
-
-            $path = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar_url = '/storage/' . $path;
-        }
-
-        $user->save();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Profile updated successfully',
-            'data' => new UserResource($user)
-        ]);
-    }
-
     public function updateConsultantProfile(UpdateConsultantProfileRequest $request)
     {
         $user = $request->user();
@@ -63,6 +34,9 @@ class ProfileController extends Controller
         }
 
         $profile->load('tags', 'user');
+
+        // Clear the cache for this consultant profile
+        \Illuminate\Support\Facades\Cache::forget('consultant.profile.' . $profile->slug);
 
         return response()->json([
             'success' => true,

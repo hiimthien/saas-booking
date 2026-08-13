@@ -46,3 +46,9 @@ AGENTS.md
 # Binaries
 frankenphp
 backend/frankenphp
+
+# Ignore markdown files
+*.md
+README.md
+AGENTS.md
+PROJECT_REPORT.md
