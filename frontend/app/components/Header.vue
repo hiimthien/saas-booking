@@ -13,9 +13,12 @@
         <NuxtLink to="/register" class="bg-primary text-on-primary rounded px-md py-sm font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors">Sign Up</NuxtLink>
       </template>
       <template v-else>
-        <button class="p-xs text-on-surface-variant hover:text-primary transition-colors">
+        <NuxtLink to="/notifications" class="p-xs text-on-surface-variant hover:text-primary transition-colors relative" title="Notifications">
           <Component :is="Bell" class="w-6 h-6" />
-        </button>
+        </NuxtLink>
+        <NuxtLink to="/messages" class="p-xs text-on-surface-variant hover:text-primary transition-colors relative" title="Messages">
+          <span class="material-symbols-outlined text-[24px]">chat</span>
+        </NuxtLink>
         <NuxtLink :to="authStore.user.role === 'admin' ? '/admin/dashboard' : (authStore.user.role === 'consultant' ? '/provider/dashboard' : '/client/dashboard')">
           <img alt="User profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant ml-sm hover:ring-2 hover:ring-primary transition-all" :src="authStore.user.avatar_url ? backendUrl(authStore.user.avatar_url) : 'https://ui-avatars.com/api/?name=' + authStore.user.name" >
         </NuxtLink>

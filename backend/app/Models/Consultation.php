@@ -37,8 +37,23 @@ class Consultation extends Model
         return $this->belongsTo(ConsultantProfile::class);
     }
 
+    public function provider()
+    {
+        return $this->belongsTo(ConsultantProfile::class, 'consultant_profile_id');
+    }
+
     public function customer()
     {
         return $this->belongsTo(User::class, 'customer_id');
+    }
+
+    public function client()
+    {
+        return $this->belongsTo(User::class, 'customer_id');
+    }
+
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
     }
 }

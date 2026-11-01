@@ -24,6 +24,14 @@
           <span class="material-symbols-outlined">bookmarks</span>
           Favorites
         </NuxtLink>
+        <NuxtLink to="/messages" class="flex items-center gap-sm px-sm py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all font-label-md" active-class="bg-secondary-container text-on-secondary-container font-bold">
+          <span class="material-symbols-outlined">chat</span>
+          Messages
+        </NuxtLink>
+        <NuxtLink to="/notifications" class="flex items-center gap-sm px-sm py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all font-label-md" active-class="bg-secondary-container text-on-secondary-container font-bold">
+          <span class="material-symbols-outlined">notifications</span>
+          Notifications
+        </NuxtLink>
         <NuxtLink to="/client/profile" class="flex items-center gap-sm px-sm py-sm text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all font-label-md" active-class="bg-secondary-container text-on-secondary-container font-bold">
           <span class="material-symbols-outlined">settings</span>
           Profile & Billing

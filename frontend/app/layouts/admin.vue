@@ -31,6 +31,10 @@
           <span class="material-symbols-outlined">receipt_long</span>
           <span>Transactions</span>
         </NuxtLink>
+        <NuxtLink to="/admin/settings" class="flex items-center gap-md px-md py-sm rounded-lg font-label-md text-label-md transition-all" :class="[ $route.path === '/admin/settings' ? 'bg-primary-container text-on-primary-container font-bold' : 'text-on-surface-variant hover:bg-surface-variant' ]">
+          <span class="material-symbols-outlined">settings</span>
+          <span>Settings</span>
+        </NuxtLink>
       </nav>
       <div class="mt-auto pt-md border-t border-outline-variant">
         <button @click="handleLogout" class="w-full flex items-center justify-center gap-md px-md py-sm rounded-lg font-label-md text-label-md text-error hover:bg-error-container hover:text-on-error-container transition-colors">

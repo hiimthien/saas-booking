@@ -21,43 +21,54 @@ class ConsultantService
         $page = request()->get('page', 1);
         $cacheKey = 'consultants.active.' . md5(json_encode(array_merge($filters, ['page' => $page, 'perPage' => $perPage])));
         
-        return Cache::remember($cacheKey, 3600, function () use ($perPage, $filters) {
-            $query = ConsultantProfile::with(['user', 'tags'])->withAvg('reviews', 'rating')->where('is_active', true);
+        $cached = Cache::get($cacheKey);
+        if ($cached instanceof LengthAwarePaginator) {
+            return $cached;
+        }
 
-            // 1. Search by title or user name
-            if (!empty($filters['search'])) {
-                $search = $filters['search'];
-                $query->where(function ($q) use ($search) {
-                    $q->where('title', 'ilike', '%' . $search . '%')
-                      ->orWhereHas('user', function ($uQ) use ($search) {
-                          $uQ->where('name', 'ilike', '%' . $search . '%');
-                      });
-                });
-            }
+        $query = ConsultantProfile::with(['user', 'tags'])->withAvg('reviews', 'rating')->where('is_active', true);
 
-            // 2. Filter by tags
-            if (!empty($filters['tags'])) {
-                $tags = explode(',', $filters['tags']);
-                $query->whereHas('tags', function ($q) use ($tags) {
-                    $q->whereIn('tags.id', $tags);
-                });
-            }
+        // 1. Search by title or user name
+        if (!empty($filters['search'])) {
+            $search = $filters['search'];
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'ilike', '%' . $search . '%')
+                  ->orWhereHas('user', function ($uQ) use ($search) {
+                      $uQ->where('name', 'ilike', '%' . $search . '%');
+                  });
+            });
+        }
 
-            // 3. Filter by price range
-            if (isset($filters['min_price'])) {
-                $query->where('hourly_rate', '>=', $filters['min_price']);
-            }
-            if (isset($filters['max_price'])) {
-                $query->where('hourly_rate', '<=', $filters['max_price']);
-            }
+        // 2. Filter by tags
+        if (!empty($filters['tags'])) {
+            $tags = explode(',', $filters['tags']);
+            $query->whereHas('tags', function ($q) use ($tags) {
+                $q->whereIn('tags.id', $tags);
+            });
+        }
 
-            // 4. Filter by rating
-            if (isset($filters['rating'])) {
-                $query->having('reviews_avg_rating', '>=', $filters['rating']);
-            }
+        // 3. Filter by price range
+        if (isset($filters['min_price'])) {
+            $query->where('hourly_rate', '>=', $filters['min_price']);
+        }
+        if (isset($filters['max_price'])) {
+            $query->where('hourly_rate', '<=', $filters['max_price']);
+        }
 
-            return $query->paginate($perPage);
-        });
+        // 4. Filter by rating
+        if (isset($filters['rating'])) {
+            $query->having('reviews_avg_rating', '>=', $filters['rating']);
+        }
+
+        $paginator = $query->paginate($perPage);
+
+        try {
+            Cache::put($cacheKey, $paginator, 3600);
+        } catch (\Throwable $e) {
+            // Ignore cache failure if serialization fails
+        }
+
+        return $paginator;
     }
 
     /**
@@ -68,11 +79,23 @@ class ConsultantService
      */
     public function getConsultantBySlug(string $slug): ConsultantProfile
     {
-        return Cache::remember('consultant.profile.' . $slug, 3600, function () use ($slug) {
-            return ConsultantProfile::with(['user', 'tags', 'workingHours', 'reviews.customer'])
-                ->where('slug', $slug)
-                ->where('is_active', true)
-                ->firstOrFail();
-        });
+        $cacheKey = 'consultant.profile.' . $slug;
+        $cached = Cache::get($cacheKey);
+        if ($cached instanceof ConsultantProfile) {
+            return $cached;
+        }
+
+        $consultant = ConsultantProfile::with(['user', 'tags', 'workingHours', 'reviews.customer'])
+            ->where('slug', $slug)
+            ->where('is_active', true)
+            ->firstOrFail();
+
+        try {
+            Cache::put($cacheKey, $consultant, 3600);
+        } catch (\Throwable $e) {
+            // Ignore cache failure if serialization fails
+        }
+
+        return $consultant;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Consultant;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,6 +10,19 @@ use App\Http\Requests\TopupWalletRequest;
 
 class WalletController extends Controller
 {
+    /**
+     * Get the authenticated user's wallet balance.
+     */
+    public function balance(Request $request)
+    {
+        return $this->getBalance($request);
+    }
+
+    public function requestPayout(Request $request)
+    {
+        return $this->withdraw($request);
+    }
+
     /**
      * Get the authenticated user's wallet balance.
      */
@@ -89,7 +102,8 @@ class WalletController extends Controller
         $user = $request->user();
         
         // If Stripe is configured, use it
-        if (env('STRIPE_SECRET')) {
+        $stripeKey = config('services.stripe.secret') ?? env('STRIPE_SECRET');
+        if ($stripeKey) {
             $stripeService = app(\App\Services\StripePaymentService::class);
             $session = $stripeService->createTopupSession($user, $validated['amount']);
             
@@ -121,30 +135,42 @@ class WalletController extends Controller
             'bank_account' => 'required|string',
         ]);
 
-        $wallet = Wallet::firstOrCreate(['user_id' => $request->user()->id]);
-        $amount = $request->amount;
+        $userId = $request->user()->id;
+        $amount = (float) $request->amount;
 
-        if ($wallet->balance < $amount) {
-            return response()->json(['success' => false, 'message' => 'Insufficient funds.'], 422);
-        }
+        try {
+            $updatedBalance = \Illuminate\Support\Facades\DB::transaction(function () use ($userId, $amount, $request) {
+                // Ensure wallet exists and lock the row to prevent concurrent race conditions
+                $wallet = Wallet::firstOrCreate(['user_id' => $userId]);
+                $wallet = Wallet::where('id', $wallet->id)->lockForUpdate()->firstOrFail();
 
-        \Illuminate\Support\Facades\DB::transaction(function () use ($wallet, $amount, $request) {
-            $wallet->balance -= $amount;
-            $wallet->save();
+                if ($wallet->balance < $amount) {
+                    throw new \Exception('Insufficient funds.');
+                }
 
-            \App\Models\Transaction::create([
-                'wallet_id' => $wallet->id,
-                'amount' => -$amount,
-                'type' => 'withdrawal',
-                'status' => 'pending', // Requires admin approval
-                'description' => 'Withdrawal to ' . $request->bank_account
+                $wallet->decrement('balance', $amount);
+
+                \App\Models\Transaction::create([
+                    'wallet_id' => $wallet->id,
+                    'amount' => -$amount,
+                    'type' => 'withdrawal',
+                    'status' => 'pending', // Requires admin approval
+                    'description' => 'Withdrawal to ' . $request->bank_account
+                ]);
+
+                return $wallet->fresh()->balance;
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Withdrawal request submitted successfully.',
+                'balance' => $updatedBalance
             ]);
-        });
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Withdrawal request submitted successfully.',
-            'balance' => $wallet->balance
-        ]);
+        } catch (\Exception $e) {
+            if ($e->getMessage() === 'Insufficient funds.') {
+                return response()->json(['success' => false, 'message' => 'Insufficient funds.'], 422);
+            }
+            return response()->json(['success' => false, 'message' => 'Withdrawal processing failed.'], 500);
+        }
     }
 }

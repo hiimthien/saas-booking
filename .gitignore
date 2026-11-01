@@ -47,8 +47,8 @@ AGENTS.md
 frankenphp
 backend/frankenphp
 
-# Ignore markdown files
+# Ignore internal markdown files
 *.md
-README.md
+!README.md
 AGENTS.md
 PROJECT_REPORT.md

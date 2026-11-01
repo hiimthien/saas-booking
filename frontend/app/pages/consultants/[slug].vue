@@ -18,10 +18,18 @@
               <h1 class="font-headline-lg text-on-surface">{{ consultant.user.name }}</h1>
               <p class="font-body-lg text-on-surface-variant">{{ consultant.title }}</p>
             </div>
-            <div class="flex gap-xs">
+            <div class="flex items-center gap-sm">
               <span class="bg-secondary-container text-on-secondary-container px-sm py-xs rounded font-label-sm flex items-center gap-xs">
                 <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span> Top Rated
               </span>
+              <NuxtLink 
+                v-if="consultant?.user?.id" 
+                :to="`/messages?user_id=${consultant.user.id}`"
+                class="px-md py-xs bg-surface-container-lowest border border-outline-variant text-on-surface hover:bg-surface-variant font-label-sm rounded-lg transition-colors inline-flex items-center gap-xs shadow-sm"
+              >
+                <span class="material-symbols-outlined text-[16px]">chat</span>
+                <span>Message</span>
+              </NuxtLink>
             </div>
           </div>
           

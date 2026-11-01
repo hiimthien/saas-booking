@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Public;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ConsultantProfileResource;
@@ -51,14 +51,17 @@ class ConsultantController extends Controller
         }
 
         $carbonDate = \Carbon\Carbon::parse($date);
-        $dayOfWeek = strtolower($carbonDate->format('l')); // e.g., 'monday'
+        $isoDay = $carbonDate->dayOfWeekIso; // 1 (Mon) .. 7 (Sun)
+        $carbonDay = $carbonDate->dayOfWeek; // 0 (Sun) .. 6 (Sat)
 
         // 1. Get working hours for this consultant on this day
         $workingHour = \App\Models\WorkingHour::where('consultant_profile_id', $id)
-            ->where('day_of_week', $dayOfWeek)
+            ->where(function ($q) use ($isoDay, $carbonDay) {
+                $q->where('day_of_week', $isoDay)->orWhere('day_of_week', $carbonDay);
+            })
             ->first();
 
-        if (!$workingHour || !$workingHour->is_working) {
+        if (!$workingHour || $workingHour->is_closed || empty($workingHour->start_time) || empty($workingHour->end_time)) {
             return response()->json(['success' => true, 'data' => []]); // No slots
         }
 

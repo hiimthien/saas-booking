@@ -46,13 +46,23 @@ class BookingService
     public function createBooking(int $customerId, ConsultantProfile $consultant, string $startTime, int $durationMinutes, ?string $notes = null)
     {
         return DB::transaction(function () use ($customerId, $consultant, $startTime, $durationMinutes, $notes) {
+            // 0. Prevent consultant from booking themselves
+            if ($consultant->user_id === $customerId) {
+                throw new Exception('Bạn không thể tự đặt lịch tư vấn với chính mình.');
+            }
+
             // 1. Calculate start and end times
             $start = Carbon::parse($startTime);
             $end = (clone $start)->addMinutes($durationMinutes);
 
-            // 2. Lock the consultant's WorkingHour for the selected time
+            // 2. Lock the consultant's WorkingHour for the selected time (resilient to 0-6 or 1-7 day convention)
+            $isoDay = $start->dayOfWeekIso; // 1 (Mon) .. 7 (Sun)
+            $carbonDay = $start->dayOfWeek; // 0 (Sun) .. 6 (Sat)
+
             $workingHour = WorkingHour::where('consultant_profile_id', $consultant->id)
-                ->where('day_of_week', $start->dayOfWeek)
+                ->where(function ($q) use ($isoDay, $carbonDay) {
+                    $q->where('day_of_week', $isoDay)->orWhere('day_of_week', $carbonDay);
+                })
                 ->where('start_time', '<=', $start->format('H:i:s'))
                 ->where('end_time', '>=', $end->format('H:i:s'))
                 ->where('is_closed', false)
@@ -67,7 +77,7 @@ class BookingService
             $existingBooking = Consultation::where('consultant_profile_id', $consultant->id)
                 ->where(function ($query) use ($start, $end) {
                     $query->where('start_time', '<', $end)
-                          ->where('end_time', '>', $start);
+                        ->where('end_time', '>', $start);
                 })
                 ->whereIn('status', ['pending', 'confirmed'])
                 ->lockForUpdate()
@@ -96,7 +106,7 @@ class BookingService
                 'total_price' => $pricing['total_price'],
                 'status' => 'pending',
                 'notes' => $notes,
-                'meeting_url' => $meetingUrl, // Sử dụng trường meeting_url mới
+                'meeting_link' => $meetingUrl,
             ]);
 
             // 6. Giao tác vụ gửi Email cho Background Job (Redis Queue)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,6 +12,28 @@ use App\Models\ConsultantProfile;
 
 class ClientDashboardController extends Controller
 {
+    public function getStats(Request $request)
+    {
+        $userId = $request->user()->id;
+        $totalBookings = \App\Models\Consultation::where('customer_id', $userId)->count();
+        $completed = \App\Models\Consultation::where('customer_id', $userId)->where('status', 'completed')->count();
+        $upcoming = \App\Models\Consultation::where('customer_id', $userId)->whereIn('status', ['confirmed', 'pending'])->count();
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'total_bookings' => $totalBookings,
+                'completed_bookings' => $completed,
+                'upcoming_bookings' => $upcoming,
+            ]
+        ]);
+    }
+
+    public function getBookings(Request $request)
+    {
+        return app(\App\Http\Controllers\Api\Customer\BookingController::class)->index();
+    }
+
     public function getPayments(Request $request)
     {
         $payments = Payment::whereHas('consultation', function ($q) use ($request) {

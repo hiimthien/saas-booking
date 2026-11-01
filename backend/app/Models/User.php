@@ -48,4 +48,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Consultation::class, 'customer_id');
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isConsultant(): bool
+    {
+        return $this->role === 'consultant';
+    }
+
+    public function isCustomer(): bool
+    {
+        return $this->role === 'customer' || $this->role === 'client';
+    }
 }

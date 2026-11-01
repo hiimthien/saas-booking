@@ -10,7 +10,10 @@ class StripePaymentService
 {
     public function __construct()
     {
-        Stripe::setApiKey(env('STRIPE_SECRET'));
+        $apiKey = config('services.stripe.secret') ?? env('STRIPE_SECRET');
+        if ($apiKey) {
+            Stripe::setApiKey($apiKey);
+        }
     }
 
     /**

@@ -3,76 +3,42 @@
     <!-- Mobile Filter Toggle -->
     <div class="md:hidden mb-4 flex justify-between items-center w-full">
       <h1 class="font-headline-lg-mobile text-on-surface">Explore Consultants</h1>
-      <UiBaseButton variant="outline" class="flex items-center gap-xs">
+      <UiBaseButton variant="outline" class="flex items-center gap-xs" @click="showMobileFilters = true">
         <template #icon-left><span class="material-symbols-outlined text-sm">tune</span></template>
         Filters
       </UiBaseButton>
     </div>
 
-    <!-- Sidebar Filters -->
+    <!-- Sidebar Filters (Desktop) -->
     <aside class="hidden md:block w-full md:w-64 lg:w-72 flex-shrink-0">
-      <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm sticky top-24">
-        <div class="flex justify-between items-center mb-md border-b border-outline-variant pb-sm">
-          <h2 class="font-headline-md text-on-surface">Filters</h2>
-          <UiBaseButton variant="ghost" size="sm" @click="clearFilters">Clear all</UiBaseButton>
-        </div>
-
-        <!-- Price Range Filter -->
-        <div class="mb-lg border-b border-outline-variant pb-md">
-          <h3 class="font-label-md text-on-surface mb-sm">Hourly Rate</h3>
-          <div class="flex items-center gap-sm mt-4">
-            <div class="flex-1 relative">
-              <span class="absolute left-2 top-[38%] -translate-y-1/2 text-on-surface-variant text-body-sm z-10">$</span>
-              <UiBaseInput v-model.lazy="minRate" type="number" placeholder="Min" class="pl-6" />
-            </div>
-            <span class="text-on-surface-variant">-</span>
-            <div class="flex-1 relative">
-              <span class="absolute left-2 top-[38%] -translate-y-1/2 text-on-surface-variant text-body-sm z-10">$</span>
-              <UiBaseInput v-model.lazy="maxRate" type="number" placeholder="Max" class="pl-6" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Rating Filter -->
-        <div class="mb-md">
-          <h3 class="font-label-md text-on-surface mb-sm">Minimum Rating</h3>
-          <div class="space-y-2">
-            <label class="flex items-center justify-between cursor-pointer group">
-              <div class="flex items-center gap-sm">
-                <input type="radio" v-model="minRating" name="rating" :value="5.0" class="border-outline-variant text-primary focus:ring-primary w-4 h-4" >
-                <div class="flex text-amber-500">
-                  <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                </div>
-              </div>
-              <span class="font-body-sm text-on-surface-variant">5.0</span>
-            </label>
-            <label class="flex items-center justify-between cursor-pointer group">
-              <div class="flex items-center gap-sm">
-                <input type="radio" v-model="minRating" name="rating" :value="4.0" class="border-outline-variant text-primary focus:ring-primary w-4 h-4" >
-                <div class="flex text-amber-500">
-                  <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
-                  <span class="material-symbols-outlined text-sm text-outline-variant">star_border</span>
-                </div>
-              </div>
-              <span class="font-body-sm text-on-surface-variant">4.0 & Up</span>
-            </label>
-            <label class="flex items-center justify-between cursor-pointer group">
-              <div class="flex items-center gap-sm">
-                <input type="radio" v-model="minRating" name="rating" :value="''" class="border-outline-variant text-primary focus:ring-primary w-4 h-4" >
-                <span class="font-body-sm text-on-surface-variant">Any Rating</span>
-              </div>
-            </label>
-          </div>
-        </div>
+      <div class="sticky top-24">
+        <DomainSearchFilterSidebar
+          :min-rate="minRate"
+          :max-rate="maxRate"
+          :min-rating="minRating"
+          @update:min-rate="val => minRate = (val ? Number(val) : '')"
+          @update:max-rate="val => maxRate = (val ? Number(val) : '')"
+          @update:min-rating="val => minRating = (val ? Number(val) : '')"
+          @clear="clearFilters"
+        />
       </div>
     </aside>
+
+    <!-- Mobile Filters Modal -->
+    <UiBaseModal :is-open="showMobileFilters" title="Filters" @close="showMobileFilters = false">
+      <DomainSearchFilterSidebar
+        :min-rate="minRate"
+        :max-rate="maxRate"
+        :min-rating="minRating"
+        @update:min-rate="val => minRate = (val ? Number(val) : '')"
+        @update:max-rate="val => maxRate = (val ? Number(val) : '')"
+        @update:min-rating="val => minRating = (val ? Number(val) : '')"
+        @clear="clearFilters"
+      />
+      <div class="mt-md flex justify-end">
+        <UiBaseButton variant="primary" @click="showMobileFilters = false">Apply Filters</UiBaseButton>
+      </div>
+    </UiBaseModal>
 
     <!-- Search Results & Sorting -->
     <div class="flex-1 flex flex-col">
@@ -164,6 +130,7 @@
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useConsultantService } from '~/services/consultant.service'
+import DomainSearchFilterSidebar from '~/components/domain/SearchFilterSidebar.vue'
 
 useHead({
   title: 'Explore Consultants | ConsultFlow'
@@ -173,6 +140,7 @@ const route = useRoute()
 const router = useRouter()
 const { getConsultants } = useConsultantService()
 
+const showMobileFilters = ref(false)
 const page = ref(Number(route.query.page) || 1)
 const sort = ref(route.query.sort as string || 'recommended')
 const minRate = ref<number | ''>(route.query.min_rate ? Number(route.query.min_rate) : '')

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Customer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBookingRequest;
@@ -8,10 +8,12 @@ use App\Http\Resources\ConsultationResource;
 use App\Models\ConsultantProfile;
 use App\Services\BookingService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
-    protected $bookingService;
+    protected BookingService $bookingService;
 
     // Inject the BookingService via the constructor
     public function __construct(BookingService $bookingService)
@@ -22,22 +24,23 @@ class BookingController extends Controller
     /**
      * Display a listing of the user's bookings.
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
         
         $query = \App\Models\Consultation::with('consultantProfile.user')
             ->orderBy('start_time', 'desc');
             
-        if ($user->role === 'consultant') {
+        if ($user && $user->role === 'consultant') {
             // Get bookings for this consultant
-            $profile = \App\Models\ConsultantProfile::where('user_id', $user->id)->first();
+            $profile = ConsultantProfile::where('user_id', $user->id)->first();
             if ($profile) {
                 $query->where('consultant_profile_id', $profile->id);
             } else {
                 $query->where('customer_id', $user->id); // fallback
             }
-        } else {
+        } elseif ($user) {
             // Get bookings for this customer
             $query->where('customer_id', $user->id);
         }
@@ -63,7 +66,7 @@ class BookingController extends Controller
         $consultant = ConsultantProfile::findOrFail($validated['consultant_profile_id']);
         
         // Get the authenticated user's ID
-        $customerId = auth()->id(); 
+        $customerId = (int) Auth::id(); 
 
         try {
             $consultation = $this->bookingService->createBooking(
@@ -88,12 +91,12 @@ class BookingController extends Controller
         }
     }
 
-    public function show($id): JsonResponse
+    public function show(int|string $id): JsonResponse
     {
         $consultation = \App\Models\Consultation::with('consultantProfile.user')->findOrFail($id);
         
         // Ensure user can only see their own booking (simplified auth check for demo)
-        if ($consultation->customer_id !== auth()->id()) {
+        if ($consultation->customer_id !== Auth::id()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
         }
 
@@ -106,10 +109,10 @@ class BookingController extends Controller
     /**
      * Cancel a booking.
      */
-    public function cancel($id): JsonResponse
+    public function cancel(int|string $id): JsonResponse
     {
         try {
-            $this->bookingService->cancelBooking((int)$id, auth()->id());
+            $this->bookingService->cancelBooking((int)$id, (int) Auth::id());
             
             return response()->json([
                 'success' => true,
@@ -126,7 +129,7 @@ class BookingController extends Controller
     /**
      * Dispute/Report a booking.
      */
-    public function report($id, Request $request): JsonResponse
+    public function report(int|string $id, Request $request): JsonResponse
     {
         $request->validate([
             'reason' => 'required|string|max:1000'
@@ -134,7 +137,7 @@ class BookingController extends Controller
 
         $consultation = \App\Models\Consultation::findOrFail($id);
 
-        if ($consultation->customer_id !== auth()->id()) {
+        if ($consultation->customer_id !== Auth::id()) {
             return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
         }
 

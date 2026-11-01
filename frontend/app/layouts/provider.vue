@@ -74,10 +74,13 @@
             </label>
           </div>
           <div class="flex items-center gap-sm">
-            <button class="text-on-surface-variant p-xs rounded-full hover:bg-surface-variant transition-colors relative">
+            <NuxtLink to="/messages" class="text-on-surface-variant p-xs rounded-full hover:bg-surface-variant transition-colors relative" title="Messages">
+              <span class="material-symbols-outlined">chat</span>
+            </NuxtLink>
+            <NuxtLink to="/notifications" class="text-on-surface-variant p-xs rounded-full hover:bg-surface-variant transition-colors relative" title="Notifications">
               <span class="material-symbols-outlined">notifications</span>
               <span class="absolute top-xs right-xs w-2 h-2 bg-error rounded-full"/>
-            </button>
+            </NuxtLink>
             <button class="flex items-center gap-sm p-xs rounded-full hover:bg-surface-variant transition-colors">
               <img v-if="authStore.user?.avatar_url" :src="backendUrl(authStore.user.avatar_url)" class="w-8 h-8 rounded-full object-cover border border-outline-variant" >
               <div v-else class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-md">

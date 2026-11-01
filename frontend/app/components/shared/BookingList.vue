@@ -22,20 +22,60 @@
             <span class="material-symbols-outlined text-[16px]">calendar_today</span>
             {{ new Date(booking.start_time).toLocaleString() }}
           </div>
-          <span class="font-body-sm" :class="getStatusClass(booking.status)">
+          <span class="font-body-sm font-semibold" :class="getStatusClass(booking.status)">
             {{ booking.status.toUpperCase() }}
           </span>
-          <a v-if="booking.meeting_link" :href="booking.meeting_link" target="_blank" class="mt-xs inline-flex items-center gap-xs px-sm py-xs bg-primary text-on-primary rounded font-label-sm hover:bg-primary/90 transition-colors">
-            <span class="material-symbols-outlined text-[16px]">videocam</span>
-            Join Meeting
-          </a>
+          <div class="flex items-center gap-xs mt-xs">
+            <a 
+              v-if="booking.meeting_link && ['confirmed', 'pending'].includes(booking.status)" 
+              :href="`/room/${booking.id}`" 
+              class="inline-flex items-center gap-xs px-sm py-xs bg-primary text-on-primary rounded font-label-sm hover:bg-primary/90 transition-colors shadow-sm"
+            >
+              <span class="material-symbols-outlined text-[16px]">videocam</span>
+              Join Room
+            </a>
+            <button
+              v-if="role === 'client' && booking.status === 'completed'"
+              @click="openReview(booking)"
+              class="inline-flex items-center gap-xs px-sm py-xs bg-amber-500/10 text-amber-600 border border-amber-500/20 rounded font-label-sm hover:bg-amber-500/20 transition-colors"
+            >
+              <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              Rate & Review
+            </button>
+          </div>
         </div>
     </div>
+
+    <!-- Review Modal -->
+    <SharedReviewModal
+      v-if="selectedBooking"
+      :is-open="isReviewOpen"
+      :booking-id="selectedBooking.id"
+      :consultant-name="getName(selectedBooking)"
+      @close="isReviewOpen = false"
+      @reviewed="handleReviewed"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRuntimeConfig } from '#app'
+import SharedReviewModal from '~/components/shared/ReviewModal.vue'
+
+const isReviewOpen = ref(false)
+const selectedBooking = ref<any>(null)
+
+const openReview = (booking: any) => {
+  selectedBooking.value = booking
+  isReviewOpen.value = true
+}
+
+const emit = defineEmits(['bookingUpdated'])
+
+const handleReviewed = () => {
+  emit('bookingUpdated')
+}
 
 const config = useRuntimeConfig()
 const backendUrl = (path: string | undefined) => {
