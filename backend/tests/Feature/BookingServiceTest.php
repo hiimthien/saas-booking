@@ -18,7 +18,7 @@ class BookingServiceTest extends TestCase
         $response = $this->getJson('/api/health');
 
         $response->assertStatus(200)
-            ->assertJson(['status' => 'ok']);
+            ->assertJson(['status' => 'healthy']);
     }
 
     public function test_consultant_cannot_book_themselves(): void

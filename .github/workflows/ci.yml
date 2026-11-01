@@ -25,9 +25,7 @@ jobs:
         
       - name: Type Check & Lint (Optional)
         working-directory: ./frontend
-        run: |
-          if npm run | grep -q 'lint'; then npm run lint; fi
-        continue-on-error: true
+        run: npm run lint || true
         
       - name: Build Project
         working-directory: ./frontend
